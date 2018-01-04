@@ -1,12 +1,12 @@
 import unittest
-import src.FileLoader as fLoader
+import src.DataManager as fLoader
 import sys
 
 
 class Tests(unittest.TestCase):
     f = fLoader.JsonLoader()
 
-    series, dataframes = f.get_dataframes()
+    series, A, dataframes = f.get_dataframes()
 
     idword_dataword_mapping = f.idword_dataword_mapping
     iduser_datauser_mapping = f.iduser_datauser_mapping

@@ -1,11 +1,11 @@
-import src.FileLoader as fLoader
+import src.DataManager as fLoader
 from tsfresh import extract_features
 from tsfresh import select_features
 from tsfresh.utilities.dataframe_functions import impute
 import pandas
 
 f = fLoader.JsonLoader(fLoader.BIOTOUCH_FOLDER)
-a, b = f.get_dataframes()
+a, b = f._initialize_dataframes()
 print(a)
 print(b[fLoader.TOUCH_UP_POINTS])
 # print(a)
