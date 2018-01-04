@@ -1,0 +1,19 @@
+import time
+
+
+class Chrono:
+    def __init__(self, initial_message, final_message="done"):
+        self.initial_message = initial_message
+        self.final_message = final_message
+        self.current_milli_time = lambda: int(round(time.time() * 1000))
+        self.start_time = self.current_milli_time()
+
+        print(initial_message, end='', flush=True)
+
+    def end(self, message=None):
+        if not message:
+            message = self.final_message
+        print("\t{} (in {} millis)".format(message, self.current_milli_time() - self.start_time))
+
+
+
