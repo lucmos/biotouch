@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
-
 import os
 import json
 import pandas
 from src.Chronometer import Chrono
+import src.Utils as Utils
 
-RES_FOLDER = "../res/Biotouch"
+BIOTOUCH_FOLDER = "../res/Biotouch"
 FILE_EXTENSION = ".json"
-
+WORD_ID = "word_id"
 # ***************** json fields ***************** #
 
 
@@ -82,97 +82,113 @@ POINTS = [
 
 TIMED_POINTS = POINTS + [TIME]
 
+# Utils
+WORD_ID_POINTS = POINTS + [WORD_ID]
+WORD_ID_TIMED_POINTS = TIMED_POINTS + [WORD_ID]
+
 
 # *********************************************** #
 
-# todo implementa singleton
-class FileLoader:
-    def __init__(self, base_folder=RES_FOLDER):
+
+class JsonLoader:
+    def __init__(self, base_folder=BIOTOUCH_FOLDER):
+        assert os.path.isdir(base_folder)
+
         self.base_folder = base_folder
-        self.jsons_data = []
-        self.id_mapping = {}
-        self.data_frames = None
+        self._jsons_data = JsonLoader._load_jsons(base_folder)
+
+        self.idword_dataword_mapping = {}
+        self.iduser_datauser_mapping = {}
+        self.idword_iduser_mapping = {}
+
+        self.data_dicts = {MOVEMENT_POINTS: {x: [] for x in WORD_ID_TIMED_POINTS},
+                           TOUCH_UP_POINTS: {x: [] for x in WORD_ID_TIMED_POINTS},
+                           TOUCH_DOWN_POINTS: {x: [] for x in WORD_ID_TIMED_POINTS},
+                           SAMPLED_POINTS: {x: [] for x in WORD_ID_POINTS}}
+        self.data_frames = {}
+        self.idword_iduser_series = None
 
     @staticmethod
-    def decode(json_file):
-        return json.load(json_file)
-
-    def load_data(self):
-        if self.jsons_data:
-            return self.jsons_data
-
-        chrono = Chrono("Reading json files... ")
-        # todo togli
-        # for i in range(10):
-        for root, dirs, files in os.walk(self.base_folder, True, None, False):
-            for json_file in files:
+    def _load_jsons(base_folder):
+        chrono = Chrono("Reading json files...")
+        jsons_data = []
+        files_counter = 0
+        for root, dirs, files in os.walk(base_folder, True, None, False):
+            for json_file in sorted(files, key=Utils.natural_keys):
                 if json_file and json_file.endswith(FILE_EXTENSION):
                     json_path = os.path.realpath(os.path.join(root, json_file))
                     with open(json_path, 'r') as f:
-                        self.jsons_data.append(self.decode(f))
-        chrono.end()
-        return self.jsons_data
+                        jsons_data.append(json.load(f))
+                    files_counter += 1
+        chrono.end("read {} files".format(files_counter))
+        return jsons_data
+
+    @staticmethod
+    def generate_user_identifier(data):
+        return "{}_{}_{}_{}".format(data[SESSION_DATA][NAME], data[SESSION_DATA][SURNAME],
+                                    data[SESSION_DATA][ID], data[SESSION_DATA][HANDWRITING])
+
+    def _update_mappings(self, idword, single_word_data):
+        assert idword not in self.idword_iduser_mapping
+        assert idword not in self.idword_dataword_mapping
+
+        self.idword_dataword_mapping[idword] = single_word_data
+
+        iduser = self.generate_user_identifier(single_word_data)
+        self.idword_iduser_mapping[idword] = iduser
+
+        if iduser not in self.iduser_datauser_mapping:
+            self.iduser_datauser_mapping[iduser] = single_word_data[SESSION_DATA]
 
     def get_dataframes(self):
-        if self.data_frames and self.id_mapping:
-            return self.id_mapping, self.data_frames
-        self.load_data()
+        if self.data_frames and self.idword_iduser_series:
+            return self.idword_iduser_series, self.data_frames
 
         chrono = Chrono("Creating dataframes...")
 
-        mov_dataframes = {}
-        up_dataframes = {}
-        down_dataframes = {}
-        sample_dataframes = {}
+        for word_id, single_word_data in enumerate(self._jsons_data):
+            # print("{} {} {} ".format(single_word_data[SESSION_DATA][NAME], single_word_data[SESSION_DATA][HANDWRITING], single_word_data[WORD_NUMBER]))
+            self._update_mappings(word_id, single_word_data)
 
-        for word_id, single_word_data in enumerate(self.jsons_data):
-            self.id_mapping[word_id] = single_word_data
+            for label, d in self.data_dicts.items():
+                create_dict = self._from_untimed_points if label == SAMPLED_POINTS else self._from_timed_points
+                self._merge_dicts(d, create_dict(word_id, single_word_data[label]))
 
-            movements_points_dict = self._from_timed_points(word_id, single_word_data[MOVEMENT_POINTS])
-            touch_up_points_dict = self._from_timed_points(word_id, single_word_data[TOUCH_UP_POINTS])
-            touch_down_point_dict = self._from_timed_points(word_id, single_word_data[TOUCH_DOWN_POINTS])
-            sampled_points_dict = self._from_untimed_points(word_id, single_word_data[SAMPLED_POINTS])
+        for label, d in self.data_dicts.items():
+            self.data_frames[label] = pandas.DataFrame(d)
 
-            assert movements_points_dict
-            assert touch_down_point_dict
-            assert touch_up_points_dict
-            assert sampled_points_dict
-
-            mov_dataframes[word_id] = pandas.DataFrame(movements_points_dict)
-            up_dataframes[word_id] = pandas.DataFrame(touch_up_points_dict)
-            down_dataframes[word_id] = pandas.DataFrame(touch_down_point_dict)
-            sample_dataframes[word_id] = pandas.DataFrame(sampled_points_dict)
-
-        self.data_frames = {MOVEMENT_POINTS: mov_dataframes, TOUCH_UP_POINTS: up_dataframes,
-                            TOUCH_DOWN_POINTS: down_dataframes, SAMPLED_POINTS: sample_dataframes}
+        self.idword_iduser_series = pandas.Series(self.idword_iduser_mapping)
 
         chrono.end()
-        return self.id_mapping, self.data_frames
+        return self.idword_iduser_series, self.data_frames
+
+    @staticmethod
+    def _merge_dicts(dict1: dict, dict2: dict):
+        assert set(dict1.keys()) == set(dict2.keys())
+        for key in dict1.keys():
+            dict1[key] += dict2[key]
+
+    @staticmethod
+    def _init_dict(labels, length):
+        return {x: [None] * length for x in labels}
 
     @staticmethod
     def _from_timed_points(word_id, points_data):
-        init_len = len(points_data)
-        points_dict = {ID: [None] * init_len, TIME: [None] * init_len,
-                       X: [None] * init_len, Y: [None] * init_len, COMPONENT: [None] * init_len}
+        points_dict = JsonLoader._init_dict(WORD_ID_TIMED_POINTS, len(points_data))
         for i, point in enumerate(points_data):
-            points_dict[ID][i] = word_id
-            points_dict[TIME][i] = point[TIME]
-            points_dict[X][i] = point[X]
-            points_dict[Y][i] = point[Y]
-            points_dict[COMPONENT][i] = point[COMPONENT]
+            points_dict[WORD_ID][i] = word_id
+            for label in TIMED_POINTS:
+                points_dict[label][i] = point[label]
         return points_dict
 
     @staticmethod
     def _from_untimed_points(word_id, points_data):
-        init_len = sum((len(x) for x in points_data))
-        points_dict = {ID: [None] * init_len, X: [None] * init_len, Y: [None] * init_len, COMPONENT: [None] * init_len}
+        points_dict = JsonLoader._init_dict(WORD_ID_POINTS, sum((len(x) for x in points_data)))
         counter = 0
         for current_component, points in enumerate(points_data):
             for point in points:
-                points_dict[ID][counter] = word_id
-                points_dict[X][counter] = point[X]
-                points_dict[Y][counter] = point[Y]
-                points_dict[COMPONENT][counter] = current_component
+                points_dict[WORD_ID][counter] = word_id
+                for label in POINTS:
+                    points_dict[label][counter] = point[label] if label is not COMPONENT else current_component
                 counter += 1
-
         return points_dict

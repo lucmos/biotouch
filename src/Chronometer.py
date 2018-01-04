@@ -11,9 +11,10 @@ class Chrono:
         print(initial_message, end='', flush=True)
 
     def end(self, message=None):
-        if not message:
-            message = self.final_message
-        print("\t{} (in {} millis)".format(message, self.current_milli_time() - self.start_time))
+        if message:
+            print("\t{}, {} (in {} millis)".format(self.final_message, message, self.current_milli_time() - self.start_time))
+        else:
+            print("\t{} (in {} millis)".format(self.final_message, self.current_milli_time() - self.start_time))
 
 
 
