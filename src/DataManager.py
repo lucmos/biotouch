@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import os
-import sys
 import json
 import pandas
 from src.Chronometer import Chrono
@@ -86,15 +85,23 @@ BASE_FOLDER = "../res/"
 BASE_GENERATED_FOLDER = "../res/generated"
 BIOTOUCH_FOLDER = BASE_FOLDER + "Biotouch"
 
-_dataframe_csv = "_dataframe.csv"
+# _dataframe_csv = "_dataframe.csv"
+_dataframe_pickle = "_dataframe.pickle"
 _path_build = lambda s: os.path.join(BASE_GENERATED_FOLDER, s)
 
-WORDID_USERID_CSV_FILE = _path_build("wordid_userd_id" + _dataframe_csv)
-USERID_USERDATA_CSV_FILE = _path_build("userid_userdata" + _dataframe_csv)
-TOUCH_UP_POINTS_CSV_FILE = _path_build(TOUCH_UP_POINTS + _dataframe_csv)
-TOUCH_DOWN_POINTS_CSV_FILE = _path_build(TOUCH_DOWN_POINTS + _dataframe_csv)
-MOVEMENT_POINTS_CSV_FILE = _path_build(MOVEMENT_POINTS + _dataframe_csv)
-SAMPLED_POINTS_CSV_FILE = _path_build(SAMPLED_POINTS + _dataframe_csv)
+# WORDID_USERID_CSV_FILE = _path_build("wordid_userd_id" + _dataframe_csv)
+# USERID_USERDATA_CSV_FILE = _path_build("userid_userdata" + _dataframe_csv)
+# TOUCH_UP_POINTS_CSV_FILE = _path_build(TOUCH_UP_POINTS + _dataframe_csv)
+# TOUCH_DOWN_POINTS_CSV_FILE = _path_build(TOUCH_DOWN_POINTS + _dataframe_csv)
+# MOVEMENT_POINTS_CSV_FILE = _path_build(MOVEMENT_POINTS + _dataframe_csv)
+# SAMPLED_POINTS_CSV_FILE = _path_build(SAMPLED_POINTS + _dataframe_csv)
+
+WORDID_USERID_PICKLE_FILE = _path_build("wordid_userd_id" + _dataframe_pickle)
+USERID_USERDATA_PICKLE_FILE = _path_build("userid_userdata" + _dataframe_pickle)
+TOUCH_UP_POINTS_PICKLE_FILE = _path_build(TOUCH_UP_POINTS + _dataframe_pickle)
+TOUCH_DOWN_POINTS_PICKLE_FILE = _path_build(TOUCH_DOWN_POINTS + _dataframe_pickle)
+MOVEMENT_POINTS_PICKLE_FILE = _path_build(MOVEMENT_POINTS + _dataframe_pickle)
+SAMPLED_POINTS_PICKLE_FILE = _path_build(SAMPLED_POINTS + _dataframe_pickle)
 
 FILE_EXTENSION = ".json"
 WORD_ID = "word_id"
@@ -176,7 +183,7 @@ class JsonLoader:
 
     def _get_iduser_datauser_dataframe(self):
         d = {}
-        for key, value in self.iduser_datauser_mapping.items():
+        for key, value in sorted(self.iduser_datauser_mapping.items()):
             assert isinstance(value, dict)
             temp_dict = Utils.flat_nested_dict(value)
             temp_dict[USER_ID] = [key]
@@ -222,13 +229,12 @@ class JsonLoader:
         if not os.path.isdir(BASE_GENERATED_FOLDER):
             os.makedirs(BASE_GENERATED_FOLDER)
 
-
-        wordid_userid.to_csv(WORDID_USERID_CSV_FILE)
-        userid_userdata.to_csv(USERID_USERDATA_CSV_FILE)
-        frames[MOVEMENT_POINTS].to_csv(MOVEMENT_POINTS_CSV_FILE)
-        frames[TOUCH_UP_POINTS].to_csv(TOUCH_UP_POINTS_CSV_FILE)
-        frames[TOUCH_DOWN_POINTS].to_csv(TOUCH_DOWN_POINTS_CSV_FILE)
-        frames[SAMPLED_POINTS].to_csv(SAMPLED_POINTS_CSV_FILE)
+        wordid_userid.to_pickle(WORDID_USERID_PICKLE_FILE)
+        userid_userdata.to_pickle(USERID_USERDATA_PICKLE_FILE)
+        frames[MOVEMENT_POINTS].to_pickle(MOVEMENT_POINTS_PICKLE_FILE)
+        frames[TOUCH_UP_POINTS].to_pickle(TOUCH_UP_POINTS_PICKLE_FILE)
+        frames[TOUCH_DOWN_POINTS].to_pickle(TOUCH_DOWN_POINTS_PICKLE_FILE)
+        frames[SAMPLED_POINTS].to_pickle(SAMPLED_POINTS_PICKLE_FILE)
 
         chrono.end()
 

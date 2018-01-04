@@ -1,23 +1,59 @@
-import src.DataManager as fLoader
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
+
+import src.DataManager as dm
+from src.Chronometer import Chrono
+import os
 from tsfresh import extract_features
 from tsfresh import select_features
 from tsfresh.utilities.dataframe_functions import impute
 import pandas
 
-f = fLoader.JsonLoader(fLoader.BIOTOUCH_FOLDER)
-a, b = f._initialize_dataframes()
-print(a)
-print(b[fLoader.TOUCH_UP_POINTS])
-# print(a)
 
-# extracted_features = extract_features(b[fLoader.TOUCH_UP_POINTS], column_id=fLoader.WORD_ID, column_sort="time")
-#
-# # print(extracted_features)
-#
-# impute(extracted_features)
-# features_filtered = select_features(extracted_features, a)
-# print(features_filtered)
-# print(len(features_filtered))
-# d= features_filtered.join(pandas.DataFrame(a).set_index(fLoader.WORD_ID), on=fLoader.WORD_ID)
-#
-# d.to_csv("../res/touchup.csv", sep='\t', encoding='utf-8')
+class FeaturesExtractor():
+
+    @staticmethod
+    def _read_pickles():
+        chrono = Chrono("Reading dataframes...")
+        a = pandas.read_pickle(dm.WORDID_USERID_PICKLE_FILE)
+        b = pandas.read_pickle(dm.USERID_USERDATA_PICKLE_FILE)
+        c = pandas.read_pickle(dm.TOUCH_UP_POINTS_PICKLE_FILE)
+        d = pandas.read_pickle(dm.TOUCH_DOWN_POINTS_PICKLE_FILE)
+        e = pandas.read_pickle(dm.MOVEMENT_POINTS_PICKLE_FILE)
+        f = pandas.read_pickle(dm.SAMPLED_POINTS_PICKLE_FILE)
+        chrono.end()
+        return a, b, c, d, e, f
+
+    @staticmethod
+    def _regen_dataframes():
+        loader = dm.JsonLoader()
+        loader.save_dataframes()
+        a, b, frames = loader.get_dataframes()
+        c = frames[dm.TOUCH_UP_POINTS]
+        d = frames[dm.TOUCH_DOWN_POINTS]
+        e = frames[dm.MOVEMENT_POINTS]
+        f = frames[dm.SAMPLED_POINTS]
+        return a, b, c, d, e, f
+
+    def __init__(self, update=False):
+        if (not update
+                and os.path.isfile(dm.WORDID_USERID_PICKLE_FILE)
+                and os.path.isfile(dm.USERID_USERDATA_PICKLE_FILE)
+                and os.path.isfile(dm.TOUCH_UP_POINTS_PICKLE_FILE)
+                and os.path.isfile(dm.TOUCH_DOWN_POINTS_PICKLE_FILE)
+                and os.path.isfile(dm.MOVEMENT_POINTS_PICKLE_FILE)
+                and os.path.isfile(dm.SAMPLED_POINTS_PICKLE_FILE)):
+            a, b, c, d, e, f = FeaturesExtractor._read_pickles()
+        else:
+            a, b, c, d, e, f = FeaturesExtractor._regen_dataframes()
+
+        self.newly_wordid_useri = a
+        self.newly_userid_userdata = b
+        self.newly_touch_up_points = c
+        self.newly_touch_down_points = d
+        self.newly_movement_points = e
+        self.newly_sampled_points = f
+
+
+if __name__ == '__main__':
+    FeaturesExtractor(False)

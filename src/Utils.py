@@ -8,11 +8,13 @@ def atoi(text):
 def natural_keys(text):
     return [atoi(c) for c in re.split('(\d+)', text)]
 
+
 def merge_dicts(dict1: dict, dict2: dict):
     assert set(dict1.keys()) == set(dict2.keys())
     for key in dict1.keys():
         dict1[key] += dict2[key]
     return dict1
+
 
 def flat_nested_dict(dict_to_flat: dict):
     d = {}
@@ -22,6 +24,7 @@ def flat_nested_dict(dict_to_flat: dict):
         else:
             d.update(flat_nested_dict(v))
     return d
+
 
 def make_lists_values(d: dict):
     for k, v in d.items():
