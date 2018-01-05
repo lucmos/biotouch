@@ -12,6 +12,8 @@ def natural_keys(text):
 def merge_dicts(dict1: dict, dict2: dict):
     assert set(dict1.keys()) == set(dict2.keys())
     for key in dict1.keys():
+        assert isinstance(dict1[key], list)
+        assert isinstance(dict2[key], list)
         dict1[key] += dict2[key]
     return dict1
 

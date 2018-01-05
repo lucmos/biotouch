@@ -85,9 +85,14 @@ BASE_FOLDER = "../res/"
 BASE_GENERATED_FOLDER = "../res/generated"
 BIOTOUCH_FOLDER = BASE_FOLDER + "Biotouch"
 
-# _dataframe_csv = "_dataframe.csv"
-_dataframe_pickle = "_dataframe.pickle"
-_path_build = lambda s: os.path.join(BASE_GENERATED_FOLDER, s)
+JSON_EXTENSION = ".json"
+CSV_EXTENSION = ".CSV"
+PICKLE_EXTENSION = ".pickle"
+
+DATAFRAME_TYPE = "dataframe"
+FEATURE_TYPE = "features"
+
+BUILD_PATH = lambda base, file, desc, ext: os.path.join(base, file + "_" + desc + ext)
 
 # WORDID_USERID_CSV_FILE = _path_build("wordid_userd_id" + _dataframe_csv)
 # USERID_USERDATA_CSV_FILE = _path_build("userid_userdata" + _dataframe_csv)
@@ -96,14 +101,13 @@ _path_build = lambda s: os.path.join(BASE_GENERATED_FOLDER, s)
 # MOVEMENT_POINTS_CSV_FILE = _path_build(MOVEMENT_POINTS + _dataframe_csv)
 # SAMPLED_POINTS_CSV_FILE = _path_build(SAMPLED_POINTS + _dataframe_csv)
 
-WORDID_USERID_PICKLE_FILE = _path_build("wordid_userd_id" + _dataframe_pickle)
-USERID_USERDATA_PICKLE_FILE = _path_build("userid_userdata" + _dataframe_pickle)
-TOUCH_UP_POINTS_PICKLE_FILE = _path_build(TOUCH_UP_POINTS + _dataframe_pickle)
-TOUCH_DOWN_POINTS_PICKLE_FILE = _path_build(TOUCH_DOWN_POINTS + _dataframe_pickle)
-MOVEMENT_POINTS_PICKLE_FILE = _path_build(MOVEMENT_POINTS + _dataframe_pickle)
-SAMPLED_POINTS_PICKLE_FILE = _path_build(SAMPLED_POINTS + _dataframe_pickle)
+WORDID_USERID_PICKLE_FILE = BUILD_PATH(BASE_GENERATED_FOLDER, "wordid_userd_id", DATAFRAME_TYPE, PICKLE_EXTENSION)
+USERID_USERDATA_PICKLE_FILE = BUILD_PATH(BASE_GENERATED_FOLDER, "userid_userdata", DATAFRAME_TYPE, PICKLE_EXTENSION)
+TOUCH_UP_POINTS_PICKLE_FILE = BUILD_PATH(BASE_GENERATED_FOLDER, TOUCH_UP_POINTS, DATAFRAME_TYPE, PICKLE_EXTENSION)
+TOUCH_DOWN_POINTS_PICKLE_FILE = BUILD_PATH(BASE_GENERATED_FOLDER, TOUCH_DOWN_POINTS, DATAFRAME_TYPE, PICKLE_EXTENSION)
+MOVEMENT_POINTS_PICKLE_FILE = BUILD_PATH(BASE_GENERATED_FOLDER, MOVEMENT_POINTS, DATAFRAME_TYPE, PICKLE_EXTENSION)
+SAMPLED_POINTS_PICKLE_FILE = BUILD_PATH(BASE_GENERATED_FOLDER, SAMPLED_POINTS, DATAFRAME_TYPE, PICKLE_EXTENSION)
 
-FILE_EXTENSION = ".json"
 WORD_ID = "word_id"
 USER_ID = "user_id"
 
@@ -118,7 +122,7 @@ POINTS_SERIES_TYPE = [MOVEMENT_POINTS, TOUCH_DOWN_POINTS, TOUCH_UP_POINTS, SAMPL
 
 class JsonLoader:
     def __init__(self, base_folder=BIOTOUCH_FOLDER):
-        assert os.path.isdir(base_folder)
+        assert os.path.isdir(base_folder), "Insert dataset in " + base_folder
 
         self.base_folder = base_folder
         self._jsons_data = None
@@ -148,7 +152,7 @@ class JsonLoader:
         # for i in range(10):
         for root, dirs, files in os.walk(base_folder, True, None, False):
             for json_file in sorted(files, key=Utils.natural_keys):
-                if json_file and json_file.endswith(FILE_EXTENSION):
+                if json_file and json_file.endswith(JSON_EXTENSION):
                     json_path = os.path.realpath(os.path.join(root, json_file))
                     with open(json_path, 'r') as f:
                         jsons_data.append(json.load(f))

@@ -1,12 +1,11 @@
 import warnings
+
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
 import src.DataManager as dm
 from src.Chronometer import Chrono
 import os
-from tsfresh import extract_features
-from tsfresh import select_features
-from tsfresh.utilities.dataframe_functions import impute
+import tsfresh
 import pandas
 
 
@@ -47,13 +46,39 @@ class FeaturesExtractor():
         else:
             a, b, c, d, e, f = FeaturesExtractor._regen_dataframes()
 
-        self.newly_wordid_useri = a
-        self.newly_userid_userdata = b
-        self.newly_touch_up_points = c
-        self.newly_touch_down_points = d
-        self.newly_movement_points = e
-        self.newly_sampled_points = f
+        self.wordid_userid = a
+        self.userid_userdata = b
+
+        self.data_dataframes = {dm.TOUCH_UP_POINTS: c,
+                                dm.TOUCH_DOWN_POINTS: d,
+                                dm.MOVEMENT_POINTS: e,
+                                dm.SAMPLED_POINTS: f}
+        self.data_features = {}
+        self.extract_features_from_dataframes()
+
+    @staticmethod
+    def extract_features_from_dataframe(dataframe: pandas.DataFrame, wordid_userid_mapping):
+        return tsfresh.extract_relevant_features(dataframe, wordid_userid_mapping,
+                                                 column_id=dm.WORD_ID, column_sort=dm.TIME, n_jobs=8)
+
+    def extract_features_from_dataframes(self):
+        chrono = Chrono("Extracting features...")
+        for points_type, points in self.data_dataframes.items():
+            if points_type == dm.SAMPLED_POINTS:
+                continue
+            self.data_features[points_type] = self.extract_features_from_dataframe(points, self.wordid_userid)
+        chrono.end()
+
+    def save_features(self, save_csv=True):
+        chrono = Chrono("Saving features...")
+        for label, features in self.data_features.items():
+            features.to_pickle( dm.BUILD_PATH(dm.BASE_GENERATED_FOLDER, label, dm.FEATURE_TYPE, dm.PICKLE_EXTENSION))
+            features_id = features.copy()
+            features_id[dm.USER_ID] = self.wordid_userid
+            features_id.to_csv( dm.BUILD_PATH(dm.BASE_GENERATED_FOLDER, label, dm.FEATURE_TYPE, dm.CSV_EXTENSION), decimal=",", sep=";")
+        chrono.end()
+
 
 
 if __name__ == '__main__':
-    FeaturesExtractor(False)
+    FeaturesExtractor(False).save_features()
