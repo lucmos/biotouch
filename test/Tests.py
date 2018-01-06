@@ -1,17 +1,13 @@
 import unittest
 import src.DataManager as dm
-import src.FeatureManager as fm
-import sys
 
 
 class Tests(unittest.TestCase):
-    f = dm.JsonLoader()
+    f = dm.DataManager(True)
 
-    series, A, dataframes = f.get_dataframes()
-
+    datadicts = f.get_datadicts()
+    dataframes = f.get_dataframes()
     idword_dataword_mapping = f.idword_dataword_mapping
-    iduser_datauser_mapping = f.iduser_datauser_mapping
-    idword_iduser_mapping = f.idword_iduser_mapping
 
     def test_timed_points_in_dataframe(self):
         for label in [dm.MOVEMENT_POINTS, dm.TOUCH_DOWN_POINTS, dm.TOUCH_UP_POINTS]:
@@ -42,35 +38,35 @@ class Tests(unittest.TestCase):
             print("Checked {} {}".format(counter, label))
 
     def test_dataframes_lenght(self):
-        aspected_number_of_words = sum(x[dm.TOTAL_WORD_NUMBER] for x in self.iduser_datauser_mapping.values())
+        # number of points
+        len_fun = lambda label: sum(len(word[label]) for word in self.f._jsons_data)
+        number = {
+            dm.MOVEMENT_POINTS: len_fun(dm.MOVEMENT_POINTS),
+            dm.TOUCH_UP_POINTS: len_fun(dm.TOUCH_UP_POINTS),
+            dm.TOUCH_DOWN_POINTS: len_fun(dm.TOUCH_DOWN_POINTS),
+            dm.SAMPLED_POINTS: sum(len(component) for word in self.f._jsons_data for component in word[dm.SAMPLED_POINTS])
+        }
+        for label in dm.POINTS_SERIES_TYPE:
+            self.assertTrue(number[label] == len(self.dataframes[label]))
+        self.assertTrue(number[dm.TOUCH_DOWN_POINTS] == number[dm.TOUCH_UP_POINTS])
+
+        # number of words
+        aspected_number_of_words = sum(x[dm.TOTAL_WORD_NUMBER] for x in self.datadicts[dm.USERID_USERDATA_MAP].values())
         number_word = len(self.f._jsons_data)
-        mov_total_number = sum(len(word[dm.MOVEMENT_POINTS]) for word in self.f._jsons_data)
-        up_total_number = sum(len(word[dm.TOUCH_UP_POINTS]) for word in self.f._jsons_data)
-        down_total_number = sum(len(word[dm.TOUCH_DOWN_POINTS]) for word in self.f._jsons_data)
-        sampled_total_number = sum(len(component) for word in self.f._jsons_data
-                                   for component in word[dm.SAMPLED_POINTS])
-        string = "Asp word number: {}\nWord number: {}\nMovs number: {}\n" \
-                 "Ups number: {}\nDowns number: {}\nSampled number: {}".format(aspected_number_of_words, number_word,
-                                                                               mov_total_number, up_total_number,
-                                                                               down_total_number, sampled_total_number)
-        print(string)
-
         self.assertTrue(aspected_number_of_words == number_word ==
-                        len(self.idword_dataword_mapping) == len(self.idword_iduser_mapping))
+                        len(self.idword_dataword_mapping) == len(self.datadicts[dm.WORDID_USERID_MAP]))
 
-        self.assertTrue(up_total_number == down_total_number)
-        self.assertTrue(mov_total_number == len(self.dataframes[dm.MOVEMENT_POINTS]))
-        self.assertTrue(up_total_number == len(self.dataframes[dm.TOUCH_UP_POINTS]))
-        self.assertTrue(down_total_number == len(self.dataframes[dm.TOUCH_DOWN_POINTS]))
-        self.assertTrue(sampled_total_number == len(self.dataframes[dm.SAMPLED_POINTS]))
+        # check that the words have the same ids
+        self.assertTrue(set(self.datadicts[dm.WORDID_USERID_MAP].keys()) == set(self.idword_dataword_mapping.keys()))
 
-        self.assertTrue(set(self.iduser_datauser_mapping.keys()) == set(self.idword_iduser_mapping.values()))
-        self.assertTrue(set(self.idword_iduser_mapping.keys()) == set(self.idword_dataword_mapping.keys()))
+        # number of user
+        self.assertTrue(set(self.datadicts[dm.USERID_USERDATA_MAP].keys()) == set(self.datadicts[dm.WORDID_USERID_MAP].values()))
 
     def test_dataframes_pickle_saving(self):
-        dm.JsonLoader().save_dataframes()
-        for read, gen in zip(fm.FeaturesExtractor._read_pickles(), fm.FeaturesExtractor._regen_dataframes()):
-            self.assertTrue(read.equals(gen))
+        dm.DataManager(update_data=True)._save_dataframes()
+        for (_, read_value), (_, gen_value) in zip(sorted(dm.DataManager(update_data=False).get_dataframes().items()),
+                                                   sorted(dm.DataManager(update_data=True).get_dataframes().items())):
+            self.assertTrue(read_value.equals(gen_value))
 
 
 if __name__ == '__main__':
