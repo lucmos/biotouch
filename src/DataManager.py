@@ -4,130 +4,7 @@ import json
 import pandas
 from src.Chronometer import Chrono
 import src.Utils as Utils
-
-WORDID_USERID_MAP = "wordid_userid_map"
-USERID_USERDATA_MAP = "userid_userdata_map"
-# ***************** json fields ***************** #
-DATE = "date"
-
-MOVEMENT_POINTS = "movementPoints"
-TOUCH_DOWN_POINTS = "touchDownPoints"
-TOUCH_UP_POINTS = "touchUpPoints"
-SAMPLED_POINTS = "sampledPoints"
-
-WORD_NUMBER = "wordNumber"
-
-TIME = "time"
-COMPONENT = "component"
-X = "x"
-Y = "y"
-
-SESSION_DATA = "sessionData"
-NAME = "name"
-SURNAME = "surname"
-AGE = "age"
-
-GENDER = "gender"
-HANDWRITING = "handwriting"
-ID = "id"
-TOTAL_WORD_NUMBER = "totalWordNumber"
-
-DEVICE_DATA = "deviceData"
-DEVICE_FINGERPRINT = "deviceFingerPrint"
-DEVICE_MODEL = "deviceModel"
-HEIGHT_PIXELS = "heigthPixels"
-WIDTH_PIXELS = "widthPixels"
-XDPI = "xdpi"
-YDPI = "ydpi"
-
-# Json structure
-
-JSON_FIELDS = [
-    DATE,
-    MOVEMENT_POINTS,
-    TOUCH_DOWN_POINTS,
-    TOUCH_UP_POINTS,
-    SAMPLED_POINTS,
-    WORD_NUMBER,
-    SESSION_DATA,
-]
-
-SESSION_DATA_FIELDS = [
-    NAME,
-    SURNAME,
-    AGE,
-    GENDER,
-    HANDWRITING,
-    ID,
-    TOTAL_WORD_NUMBER,
-    DEVICE_DATA,
-]
-
-DEVICE_DATA_FIELDS = [
-    DEVICE_FINGERPRINT,
-    DEVICE_MODEL,
-    HEIGHT_PIXELS,
-    WIDTH_PIXELS,
-    XDPI,
-    YDPI,
-]
-
-POINTS = [
-    COMPONENT,
-    X,
-    Y,
-]
-
-TIMED_POINTS = POINTS + [TIME]
-
-# *********************************************** #
-
-
-BASE_FOLDER = "../res/"
-BASE_GENERATED_FOLDER = "../res/generated"
-BIOTOUCH_FOLDER = BASE_FOLDER + "Biotouch"
-
-JSON_EXTENSION = ".json"
-CSV_EXTENSION = ".csv"
-PICKLE_EXTENSION = ".pickle"
-
-DATAFRAME_TYPE = "dataframe"
-FEATURE_TYPE = "features"
-
-BUILD_PATH = lambda base, file, desc, ext: os.path.join(base, file + "_" + desc + ext)
-
-BUILD_DATAFRAME_PICKLE_PATH = lambda file: os.path.join(BASE_GENERATED_FOLDER, file + "_" + DATAFRAME_TYPE + PICKLE_EXTENSION)
-BUILD_DATAFRAME_CSV_PATH = lambda file: os.path.join(BASE_GENERATED_FOLDER, file + "_" + DATAFRAME_TYPE + CSV_EXTENSION)
-
-BUILD_FEATURE_PICKLE_PATH = lambda file: os.path.join(BASE_GENERATED_FOLDER, file + "_" + FEATURE_TYPE + PICKLE_EXTENSION)
-BUILD_FEATURE_CSV_PATH = lambda file: os.path.join(BASE_GENERATED_FOLDER, file + "_" + FEATURE_TYPE + CSV_EXTENSION)
-# WORDID_USERID_CSV_FILE = _path_build("wordid_userd_id" + _dataframe_csv)
-# USERID_USERDATA_CSV_FILE = _path_build("userid_userdata" + _dataframe_csv)
-# TOUCH_UP_POINTS_CSV_FILE = _path_build(TOUCH_UP_POINTS + _dataframe_csv)
-# TOUCH_DOWN_POINTS_CSV_FILE = _path_build(TOUCH_DOWN_POINTS + _dataframe_csv)
-# MOVEMENT_POINTS_CSV_FILE = _path_build(MOVEMENT_POINTS + _dataframe_csv)
-# SAMPLED_POINTS_CSV_FILE = _path_build(SAMPLED_POINTS + _dataframe_csv)
-
-WORDID_USERID_PICKLE_FILE = BUILD_PATH(BASE_GENERATED_FOLDER, "wordid_userd_id", DATAFRAME_TYPE, PICKLE_EXTENSION)
-USERID_USERDATA_PICKLE_FILE = BUILD_PATH(BASE_GENERATED_FOLDER, "userid_userdata", DATAFRAME_TYPE, PICKLE_EXTENSION)
-TOUCH_UP_POINTS_PICKLE_FILE = BUILD_PATH(BASE_GENERATED_FOLDER, TOUCH_UP_POINTS, DATAFRAME_TYPE, PICKLE_EXTENSION)
-TOUCH_DOWN_POINTS_PICKLE_FILE = BUILD_PATH(BASE_GENERATED_FOLDER, TOUCH_DOWN_POINTS, DATAFRAME_TYPE, PICKLE_EXTENSION)
-MOVEMENT_POINTS_PICKLE_FILE = BUILD_PATH(BASE_GENERATED_FOLDER, MOVEMENT_POINTS, DATAFRAME_TYPE, PICKLE_EXTENSION)
-SAMPLED_POINTS_PICKLE_FILE = BUILD_PATH(BASE_GENERATED_FOLDER, SAMPLED_POINTS, DATAFRAME_TYPE, PICKLE_EXTENSION)
-
-WORD_ID = "word_id"
-USER_ID = "user_id"
-
-# Utils
-WORD_ID_POINTS = POINTS + [WORD_ID]
-WORD_ID_TIMED_POINTS = TIMED_POINTS + [WORD_ID]
-POINTS_SERIES_TYPE = [MOVEMENT_POINTS, TOUCH_DOWN_POINTS, TOUCH_UP_POINTS, SAMPLED_POINTS]
-TIMED_POINTS_SERIES_TYPE = [MOVEMENT_POINTS, TOUCH_DOWN_POINTS, TOUCH_UP_POINTS]
-DATAFRAMES = [WORDID_USERID_MAP, USERID_USERDATA_MAP] + POINTS_SERIES_TYPE
-
-
-# *********************************************** #
-
+from src.Constants import *
 
 class DataManager:
     @staticmethod
@@ -204,7 +81,7 @@ class DataManager:
                                   TOUCH_DOWN_POINTS: DataManager._dict_of_list_from_timed_points,
                                   SAMPLED_POINTS: DataManager._dict_of_list_from_untimed_points}
 
-        self.dict_to_frames_funs = {WORDID_USERID_MAP: pandas.Series,
+        self.dict_to_frames_funs = {WORDID_USERID_MAP: lambda x: pandas.Series(x, name=USER_ID),
                                     USERID_USERDATA_MAP: DataManager._dataframe_from_nested_dict,
                                     MOVEMENT_POINTS: pandas.DataFrame,
                                     TOUCH_UP_POINTS: pandas.DataFrame,
@@ -226,15 +103,18 @@ class DataManager:
         return self.data_dicts
 
     def _save_dataframes(self, to_csv=True):
-        chrono = Chrono("Saving dataframes...")
         if not os.path.isdir(BASE_GENERATED_FOLDER):
             os.makedirs(BASE_GENERATED_FOLDER)
+        Utils.save_dataframes(self.get_dataframes(), DATAFRAME_TYPE, "Saving dataframes...",
+                              to_csv, POINTS_SERIES_TYPE, self.get_dataframes()[WORDID_USERID_MAP])
 
-        for label, v in self.get_dataframes().items():
-            v.to_pickle(BUILD_DATAFRAME_PICKLE_PATH(label))
-            if to_csv:
-                v.to_csv(BUILD_DATAFRAME_CSV_PATH(label), sep=";", decimal=",")
-        chrono.end()
+    def _load_dataframes(self, update):
+        if not update and DataManager._check_saved_pickles():
+            self._read_pickles()
+        else:
+            self._load_jsons()
+            self._create_dataframes()
+            self._save_dataframes()
 
     def _load_jsons(self):
         chrono = Chrono("Reading json files...")
@@ -248,13 +128,6 @@ class DataManager:
                     files_counter += 1
         chrono.end("read {} files".format(files_counter))
 
-    def _load_dataframes(self, update):
-        if not update and DataManager._check_saved_pickles():
-            self._read_pickles()
-        else:
-            self._load_jsons()
-            self._create_dataframes()
-            self._save_dataframes()
 
     def _read_pickles(self):
         chrono = Chrono("Reading dataframes...")

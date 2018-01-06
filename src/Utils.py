@@ -1,5 +1,6 @@
 import re
-
+from src.Chronometer import Chrono
+from src.Constants import *
 
 def atoi(text):
     return int(text) if text.isdigit() else text
@@ -33,6 +34,30 @@ def make_lists_values(d: dict):
         if not isinstance(v, list):
             d[k] = [v]
     return d
+
+
+def add_column(dataframe, column):
+    if WORD_ID in dataframe.columns:
+        return dataframe.join(column, on=WORD_ID)
+    else:
+        return dataframe.join(column)
+
+
+
+
+def dataframe_to_csv(dataframe, path):
+    dataframe.to_csv(path, decimal=",", sep=";")
+
+
+def save_dataframes(dataframes_dict, dataframe_type, message, to_csv, frames_to_add_column, csv_column):
+    chrono = Chrono(message)
+    for label, v in dataframes_dict.items():
+        v.to_pickle(PATHS_FUN[dataframe_type][PICKLE_EXTENSION](label))
+        if to_csv:
+            if frames_to_add_column and csv_column is not None and label in frames_to_add_column:
+                v = add_column(v, csv_column)
+            dataframe_to_csv(v, PATHS_FUN[dataframe_type][CSV_EXTENSION](label))
+    chrono.end()
 
 
 def init_dict(labels, length):
