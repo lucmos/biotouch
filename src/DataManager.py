@@ -9,7 +9,7 @@ from src.Constants import *
 class DataManager:
     @staticmethod
     def _dict_of_list_from_timed_points(word_id, _, points_data):
-        points_dict = Utils.init_dict(WORD_ID_TIMED_POINTS, len(points_data))
+        points_dict = Utils.init_dict(TIMED_POINTS_WITH_WORD_ID, len(points_data))
         for i, point in enumerate(points_data):
             points_dict[WORD_ID][i] = word_id
             for label in TIMED_POINTS:
@@ -18,7 +18,7 @@ class DataManager:
 
     @staticmethod
     def _dict_of_list_from_untimed_points(word_id, _, points_data):
-        points_dict = Utils.init_dict(WORD_ID_POINTS, sum((len(x) for x in points_data)))
+        points_dict = Utils.init_dict(POINTS_WITH_WORD_ID, sum((len(x) for x in points_data)))
         counter = 0
         for current_component, points in enumerate(points_data):
             for point in points:
@@ -40,7 +40,7 @@ class DataManager:
 
     @staticmethod
     def _check_saved_pickles():
-        for label in DATAFRAMES:
+        for label in ALL_DATAFRAMES:
             if not os.path.isfile(BUILD_DATAFRAME_PICKLE_PATH(label)):
                 return False
         return True
@@ -62,10 +62,10 @@ class DataManager:
 
         self.data_dicts = {WORDID_USERID_MAP: {},
                            USERID_USERDATA_MAP: {},
-                           MOVEMENT_POINTS: {x: [] for x in WORD_ID_TIMED_POINTS},
-                           TOUCH_UP_POINTS: {x: [] for x in WORD_ID_TIMED_POINTS},
-                           TOUCH_DOWN_POINTS: {x: [] for x in WORD_ID_TIMED_POINTS},
-                           SAMPLED_POINTS: {x: [] for x in WORD_ID_POINTS}}
+                           MOVEMENT_POINTS: {x: [] for x in TIMED_POINTS_WITH_WORD_ID},
+                           TOUCH_UP_POINTS: {x: [] for x in TIMED_POINTS_WITH_WORD_ID},
+                           TOUCH_DOWN_POINTS: {x: [] for x in TIMED_POINTS_WITH_WORD_ID},
+                           SAMPLED_POINTS: {x: [] for x in POINTS_WITH_WORD_ID}}
 
         self.data_frames = {WORDID_USERID_MAP: None,
                             USERID_USERDATA_MAP: None,
@@ -103,9 +103,7 @@ class DataManager:
         return self.data_dicts
 
     def _save_dataframes(self, to_csv=True):
-        if not os.path.isdir(BASE_GENERATED_FOLDER):
-            os.makedirs(BASE_GENERATED_FOLDER)
-        Utils.save_dataframes(self.get_dataframes(), DATAFRAME_TYPE, "Saving dataframes...",
+        Utils.save_dataframes(self.get_dataframes(), DATAFRAME, "Saving dataframes...",
                               to_csv, POINTS_SERIES_TYPE, self.get_dataframes()[WORDID_USERID_MAP])
 
     def _load_dataframes(self, update):
@@ -131,7 +129,7 @@ class DataManager:
 
     def _read_pickles(self):
         chrono = Chrono("Reading dataframes...")
-        for label in DATAFRAMES:
+        for label in ALL_DATAFRAMES:
             self.data_frames[label] = pandas.read_pickle(BUILD_DATAFRAME_PICKLE_PATH(label))
         chrono.end()
 

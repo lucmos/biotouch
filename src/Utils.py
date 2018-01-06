@@ -46,10 +46,14 @@ def add_column(dataframe, column):
 
 
 def dataframe_to_csv(dataframe, path):
+    if not os.path.isdir(BASE_GENERATED_CSV_FOLDER):
+        os.makedirs(BASE_GENERATED_CSV_FOLDER)
     dataframe.to_csv(path, decimal=",", sep=";")
 
 
 def save_dataframes(dataframes_dict, dataframe_type, message, to_csv, frames_to_add_column, csv_column):
+    if not os.path.isdir(BASE_GENERATED_FOLDER):
+        os.makedirs(BASE_GENERATED_FOLDER)
     chrono = Chrono(message)
     for label, v in dataframes_dict.items():
         v.to_pickle(PATHS_FUN[dataframe_type][PICKLE_EXTENSION](label))

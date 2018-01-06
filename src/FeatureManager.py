@@ -44,7 +44,7 @@ class FeaturesManager:
             self._save_features()
 
     def _read_pickles(self):
-        chrono = Chrono("Reading features...")
+        chrono = Chrono("Reading features...", True)
         for label in TIMED_POINTS_SERIES_TYPE:
             self.data_features[label] = pandas.read_pickle(BUILD_DATAFRAME_PICKLE_PATH(label))
         chrono.end()
@@ -57,7 +57,7 @@ class FeaturesManager:
         chrono.end()
 
     def _save_features(self, to_csv=True):
-        Utils.save_dataframes(self.data_features, FEATURE_TYPE, "Saving features...",
+        Utils.save_dataframes(self.data_features, FEATURE, "Saving features...",
                               to_csv, TIMED_POINTS_SERIES_TYPE, self.data_frames[WORDID_USERID_MAP])
 
 
