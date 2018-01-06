@@ -1,2 +1,3 @@
 tsfresh
 pandas
+matplotlib

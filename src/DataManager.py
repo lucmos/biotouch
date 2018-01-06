@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-import os
 import json
 import pandas
 from src.Chronometer import Chrono
 import src.Utils as Utils
 from src.Constants import *
+import matplotlib.pylab as plt
 
 class DataManager:
     @staticmethod
@@ -60,29 +60,29 @@ class DataManager:
         # useful for test purposes
         self.idword_dataword_mapping = {}
 
-        self.data_dicts = {WORDID_USERID_MAP: {},
-                           USERID_USERDATA_MAP: {},
+        self.data_dicts = {WORDID_USERID: {},
+                           USERID_USERDATA: {},
                            MOVEMENT_POINTS: {x: [] for x in TIMED_POINTS_WITH_WORD_ID},
                            TOUCH_UP_POINTS: {x: [] for x in TIMED_POINTS_WITH_WORD_ID},
                            TOUCH_DOWN_POINTS: {x: [] for x in TIMED_POINTS_WITH_WORD_ID},
                            SAMPLED_POINTS: {x: [] for x in POINTS_WITH_WORD_ID}}
 
-        self.data_frames = {WORDID_USERID_MAP: None,
-                            USERID_USERDATA_MAP: None,
+        self.data_frames = {WORDID_USERID: None,
+                            USERID_USERDATA: None,
                             MOVEMENT_POINTS: None,
                             TOUCH_UP_POINTS: None,
                             TOUCH_DOWN_POINTS: None,
                             SAMPLED_POINTS: None}
 
-        self.data_to_dict_funs = {WORDID_USERID_MAP: None,
-                                  USERID_USERDATA_MAP: None,
+        self.data_to_dict_funs = {WORDID_USERID: None,
+                                  USERID_USERDATA: None,
                                   MOVEMENT_POINTS: DataManager._dict_of_list_from_timed_points,
                                   TOUCH_UP_POINTS: DataManager._dict_of_list_from_timed_points,
                                   TOUCH_DOWN_POINTS: DataManager._dict_of_list_from_timed_points,
                                   SAMPLED_POINTS: DataManager._dict_of_list_from_untimed_points}
 
-        self.dict_to_frames_funs = {WORDID_USERID_MAP: lambda x: pandas.Series(x, name=USER_ID),
-                                    USERID_USERDATA_MAP: DataManager._dataframe_from_nested_dict,
+        self.dict_to_frames_funs = {WORDID_USERID: lambda x: pandas.Series(x, name=USER_ID),
+                                    USERID_USERDATA: DataManager._dataframe_from_nested_dict,
                                     MOVEMENT_POINTS: pandas.DataFrame,
                                     TOUCH_UP_POINTS: pandas.DataFrame,
                                     TOUCH_DOWN_POINTS: pandas.DataFrame,
@@ -104,7 +104,7 @@ class DataManager:
 
     def _save_dataframes(self, to_csv=True):
         Utils.save_dataframes(self.get_dataframes(), DATAFRAME, "Saving dataframes...",
-                              to_csv, POINTS_SERIES_TYPE, self.get_dataframes()[WORDID_USERID_MAP])
+                              to_csv, POINTS_SERIES_TYPE, self.get_dataframes()[WORDID_USERID])
 
     def _load_dataframes(self, update):
         if not update and DataManager._check_saved_pickles():
@@ -126,7 +126,6 @@ class DataManager:
                     files_counter += 1
         chrono.end("read {} files".format(files_counter))
 
-
     def _read_pickles(self):
         chrono = Chrono("Reading dataframes...")
         for label in ALL_DATAFRAMES:
@@ -140,9 +139,9 @@ class DataManager:
             self.idword_dataword_mapping[word_id] = single_word_data
 
             iduser = self.get_userid(single_word_data)
-            self.data_dicts[WORDID_USERID_MAP][word_id] = iduser
-            if iduser not in self.data_dicts[USERID_USERDATA_MAP]:
-                self.data_dicts[USERID_USERDATA_MAP][iduser] = single_word_data[SESSION_DATA]
+            self.data_dicts[WORDID_USERID][word_id] = iduser
+            if iduser not in self.data_dicts[USERID_USERDATA]:
+                self.data_dicts[USERID_USERDATA][iduser] = single_word_data[SESSION_DATA]
 
             for label in POINTS_SERIES_TYPE:
                 Utils.merge_dicts(self.data_dicts[label], self.data_to_dict_funs[label](word_id, iduser,
@@ -151,6 +150,16 @@ class DataManager:
         for label, d in self.data_dicts.items():
             self.data_frames[label] = self.dict_to_frames_funs[label](d)
         chrono.end()
+
+
+    # todo: implementa plotting
+    # def print(self):
+    #     plt.interactive(False)
+    #     d['y'] *= -1
+    #
+    #     d[d.word_id == 0][["x", "y"]].plot(x="x", y="y", kind="scatter")
+    #     plt.axes().set_aspect('equal', 'datalim')
+    #     plt.show()
 
 
 if __name__ == "__main__":

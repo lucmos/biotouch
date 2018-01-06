@@ -51,16 +51,16 @@ class Tests(unittest.TestCase):
         self.assertTrue(number[dm.TOUCH_DOWN_POINTS] == number[dm.TOUCH_UP_POINTS])
 
         # number of words
-        aspected_number_of_words = sum(x[dm.TOTAL_WORD_NUMBER] for x in self.datadicts[dm.USERID_USERDATA_MAP].values())
+        aspected_number_of_words = sum(x[dm.TOTAL_WORD_NUMBER] for x in self.datadicts[dm.USERID_USERDATA].values())
         number_word = len(self.f._jsons_data)
         self.assertTrue(aspected_number_of_words == number_word ==
-                        len(self.idword_dataword_mapping) == len(self.datadicts[dm.WORDID_USERID_MAP]))
+                        len(self.idword_dataword_mapping) == len(self.datadicts[dm.WORDID_USERID]))
 
         # check that the words have the same ids
-        self.assertTrue(set(self.datadicts[dm.WORDID_USERID_MAP].keys()) == set(self.idword_dataword_mapping.keys()))
+        self.assertTrue(set(self.datadicts[dm.WORDID_USERID].keys()) == set(self.idword_dataword_mapping.keys()))
 
         # number of user
-        self.assertTrue(set(self.datadicts[dm.USERID_USERDATA_MAP].keys()) == set(self.datadicts[dm.WORDID_USERID_MAP].values()))
+        self.assertTrue(set(self.datadicts[dm.USERID_USERDATA].keys()) == set(self.datadicts[dm.WORDID_USERID].values()))
 
     def test_dataframes_pickle_saving(self):
         dm.DataManager(update_data=True)._save_dataframes()
