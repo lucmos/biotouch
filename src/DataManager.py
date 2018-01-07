@@ -119,7 +119,7 @@ class DataManager:
                               to_csv, POINTS_SERIES_TYPE, self.get_dataframes()[WORDID_USERID])
 
     def _load_jsons(self):
-        assert os.path.isdir(BUILD_DATASET_FOLDER(dataset_name)), "Insert the dataset \"" + dataset_name + "\" in: " + BASE_FOLDER
+        assert os.path.isdir(BUILD_DATASET_FOLDER(self.dataset_name)), "Insert the dataset \"" + self.dataset_name + "\" in: " + BASE_FOLDER
 
         chrono = Chrono("Reading json files...")
         files_counter = 0
