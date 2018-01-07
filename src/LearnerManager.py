@@ -13,11 +13,12 @@ from sklearn import datasets
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.svm import LinearSVC
 from sklearn.metrics import confusion_matrix
+from sklearn.preprocessing import MinMaxScaler
 
 from sklearn.metrics import classification_report
 from sklearn.svm import SVC
 from collections import Counter
-
+from sklearn.preprocessing import StandardScaler
 # form sklearn.model_selection import GridSearchCV
 
 
@@ -76,7 +77,12 @@ if __name__ == '__main__':
         for label in TIMED_POINTS_SERIES_TYPE:
             x = f.get_features()[label]
             x, y = filter_by_handwriting(x, y, user_data, h)
-            X_train[label], X_test[label], y_train[label], y_test[label] = train_test_split(x, y, random_state=2, test_size=0.3)
+
+            X_train[label], X_test[label], y_train[label], y_test[label] = train_test_split(x, y, random_state=1, test_size=0.3)
+            scaler = StandardScaler()
+            x = scaler.fit(X_train[label])
+            X_train[label] = scaler.transform(X_train[label])
+            X_test[label] = scaler.transform(X_test[label])
             if a is not None:
                 assert a.equals(y_train[label])
                 a = y_train[label]
