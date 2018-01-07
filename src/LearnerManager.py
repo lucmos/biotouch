@@ -74,15 +74,14 @@ if __name__ == '__main__':
         r = random.randint(0, 100000)
 
         # Set the parameters by cross-validation
-        tuned_parameters = [{'kernel': ['rbf'], 'gamma': [1e-3, 1e-4], 'C': [1, 10, 100, 1000]},
-                            {'kernel': ['linear'], 'C': [1, 10, 100, 1000]},
-                            {'kernel': ['poly'], 'C': [1, 10, 100, 1000], 'degree':[2, 3, 4, 5, 6], 'gamma': [1e-3, 1e-4]}]
+        tuned_parameters = [{'kernel': ['rbf'], 'gamma': [1e-3, 1e-4, 1e-2, 1e-1, 1e-5], 'C': [0.1, 1, 10, 100, 500, 1000,  2500, 5000, 7500,10000]},
+                            {'kernel': ['linear'], 'C': [0.1, 1, 10, 100, 500, 1000, 2500, 5000, 7500,10000]}]
+                            #{'kernel': ['poly'], 'C': [1, 10, 100, 1000], 'degree':[2, 3, 4, 5, 6], 'gamma': [1e-3, 1e-4]}]
         scoring = ['precision_macro', 'recall_macro', 'f1_macro']
 
         for label in TIMED_POINTS_SERIES_TYPE:
             x = f.get_features()[label]
             x, y = filter_by_handwriting(x, y, user_data, h)
-            range(len(user_data))
             X_train[label], X_test[label], y_train[label], y_test[label] = train_test_split(x, y, random_state=r,
                                                                                             test_size=0.3)
             scaler = StandardScaler()
