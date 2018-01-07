@@ -11,6 +11,12 @@ from src.Constants import *
 
 import logging
 logging.basicConfig(level=logging.ERROR)
+import warnings
+import sklearn.exceptions
+
+warnings.filterwarnings("ignore",category=sklearn.exceptions.UndefinedMetricWarning)
+from sklearn.model_selection import GridSearchCV
+from pandas.util.testing import assert_series_equal
 
 
 # form sklearn.model_selection import GridSearchCV
@@ -49,8 +55,6 @@ def get_most_common_priority(list):
 
 
 
-from sklearn.model_selection import GridSearchCV
-from pandas.util.testing import assert_series_equal
 
 if __name__ == '__main__':
     f = fm.FeaturesManager(DATASET_NAME_0)
@@ -73,7 +77,7 @@ if __name__ == '__main__':
         tuned_parameters = [{'kernel': ['rbf'], 'gamma': [1e-3, 1e-4], 'C': [1, 10, 100, 1000]},
                             {'kernel': ['linear'], 'C': [1, 10, 100, 1000]},
                             {'kernel': ['poly'], 'C': [1, 10, 100, 1000], 'degree':[2, 3, 4, 5, 6], 'gamma': [1e-3, 1e-4]}]
-        scoring = ['precision_macro',]# 'precision_micro', 'precision_macro', 'recall_micro', 'recall_macro']
+        scoring = ['precision_macro', 'recall_macro', 'f1_macro']
 
         for label in TIMED_POINTS_SERIES_TYPE:
             x = f.get_features()[label]
@@ -91,7 +95,7 @@ if __name__ == '__main__':
 
         for label in TIMED_POINTS_SERIES_TYPE:
             print("Testing on: " + label)
-            classifier = GridSearchCV(SVC(), tuned_parameters, scoring=scoring, cv=5, refit='precision_macro', n_jobs=-1)
+            classifier = GridSearchCV(SVC(), tuned_parameters, scoring=scoring, cv=5, refit='f1_macro', n_jobs=-1)
             classifier = classifier.fit(X_train[label], y_train[label])
             predictions[label] = classifier.predict(X_test[label])
             print("Best parameters set found on development set:")
