@@ -41,7 +41,7 @@ class FeaturesManager:
     def get_classes(self):
         return self.data_frames[WORDID_USERID]
 
-    def get_userdata(self):
+    def get_classes_data(self):
         return self.data_frames[USERID_USERDATA]
 
     def _load_features(self, update_data, update_features):

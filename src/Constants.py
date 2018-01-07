@@ -78,6 +78,9 @@ TIMED_POINTS = POINTS + [TIME]
 # other useful labels #
 WORD_ID = "word_id"
 USER_ID = "user_id"
+BLOCK_LETTER = "BLOCK_LETTERS"
+ITALIC = "ITALIC"
+
 WORDID_USERID = "wordid_userid_map"
 USERID_USERDATA = "userid_userdata_map"
 
