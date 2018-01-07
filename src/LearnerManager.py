@@ -1,5 +1,5 @@
 import random
-
+import src.DataManager as dm
 import pandas
 from sklearn.metrics import *
 from sklearn.model_selection import train_test_split
@@ -52,12 +52,18 @@ def get_most_common_priority(list):
             return x
 
 
+def shift_x_value(dataframe):
+    pass
+
+
+
 
 
 
 
 if __name__ == '__main__':
-    f = fm.FeaturesManager(DATASET_NAME_0)
+    f = dm.DataManager(DATASET_NAME_0)
+    x = f.get_dataframes()[TOUCH_DOWN_POINTS]
 
     for h in [ITALIC, BLOCK_LETTER]:
 

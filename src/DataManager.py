@@ -6,6 +6,8 @@ import src.Utils as Utils
 from src.Constants import *
 import matplotlib.pylab as plt
 
+DATAFRAME_SAVED = [WORDID_USERID, USERID_USERDATA] + POINTS_SERIES_TYPE
+
 class DataManager:
     @staticmethod
     def _dict_of_list_from_timed_points(word_id, _, points_data):
@@ -40,7 +42,7 @@ class DataManager:
 
     @staticmethod
     def _check_saved_pickles(dataset_name):
-        for label in ALL_DATAFRAMES:
+        for label in DATAFRAME_SAVED:
             if not os.path.isfile(BUILD_DATAFRAME_PICKLE_PATH(dataset_name, label)):
                 return False
         return True
@@ -53,6 +55,20 @@ class DataManager:
                                        norm(data[SESSION_DATA][DEVICE_DATA][DEVICE_MODEL]),
                                        data[SESSION_DATA][ID],
                                        data[SESSION_DATA][HANDWRITING])
+
+    @staticmethod
+    def _get_min_value_on_word(dataframe, wordid, label):
+        return min(dataframe.loc[dataframe[WORD_ID] == wordid, label])
+
+    @staticmethod
+    def _shift_word(dataframe, wordid, label, value):
+        dataframe.loc[dataframe[WORD_ID] == wordid, label] -= value
+
+    @staticmethod
+    def _shift_all_word_xy(dataframe, wordid, minX, minY):
+        DataManager._shift_word(dataframe, wordid, X, minX)
+        DataManager._shift_word(dataframe, wordid, Y, minY)
+
 
     def __init__(self, dataset_name, update_data=False):
         self.dataset_name = dataset_name
@@ -76,7 +92,12 @@ class DataManager:
                             MOVEMENT_POINTS: None,
                             TOUCH_UP_POINTS: None,
                             TOUCH_DOWN_POINTS: None,
-                            SAMPLED_POINTS: None}
+                            SAMPLED_POINTS: None,
+                            SHIFTED_MOVEMENT_POINTS: None,
+                            SHIFTED_TOUCH_UP_POINTS: None,
+                            SHIFTED_TOUCH_DOWN_POINTS: None,
+                            SHIFTED_SAMPLED_POINTS: None
+                            }
 
         self.data_to_dict_funs = {WORDID_USERID: None,
                                   USERID_USERDATA: None,
@@ -91,6 +112,9 @@ class DataManager:
                                     TOUCH_UP_POINTS: pandas.DataFrame,
                                     TOUCH_DOWN_POINTS: pandas.DataFrame,
                                     SAMPLED_POINTS: pandas.DataFrame}
+
+        # {word_id: (minX, minY) }
+        self.wordid_offsets = {}
 
         self._load_dataframes(update_data)
 
@@ -112,6 +136,7 @@ class DataManager:
         else:
             self._load_jsons()
             self._create_dataframes()
+            self._shift()
             self._save_dataframes()
 
     def _save_dataframes(self, to_csv=True):
@@ -134,7 +159,7 @@ class DataManager:
 
     def _read_pickles(self):
         chrono = Chrono("Reading dataframes...")
-        for label in ALL_DATAFRAMES:
+        for label in DATAFRAME_SAVED:
             self.data_frames[label] = pandas.read_pickle(BUILD_DATAFRAME_PICKLE_PATH(self.dataset_name, label))
         chrono.end()
 
@@ -149,7 +174,7 @@ class DataManager:
             if iduser not in self.data_dicts[USERID_USERDATA]:
                 self.data_dicts[USERID_USERDATA][iduser] = single_word_data[SESSION_DATA]
 
-            for label in POINTS_SERIES_TYPE:
+            for label in INITIAL_POINTS_SERIES_TYPE:
                 Utils.merge_dicts(self.data_dicts[label], self.data_to_dict_funs[label](word_id, iduser,
                                                                                         single_word_data[label]))
 
@@ -157,6 +182,25 @@ class DataManager:
             self.data_frames[label] = self.dict_to_frames_funs[label](d)
         chrono.end()
 
+    def _shift_movements_point(self):
+        to_shift = self.data_frames[MOVEMENT_POINTS].copy()
+        for wordid in to_shift[WORD_ID]:
+            minX, minY = (DataManager._get_min_value_on_word(to_shift, wordid, X),
+                          DataManager._get_min_value_on_word(to_shift, wordid, Y))
+            DataManager._shift_all_word_xy(to_shift, wordid, minX, minY)
+            self.wordid_offsets[wordid] = (minX, minY)
+        self.data_frames[GET_SHIFTED_POINTS_NAME(MOVEMENT_POINTS)] = to_shift
+
+    def _shift(self):
+        chrono = Chrono("Shifting dataframes...")
+        self._shift_movements_point()
+        for label in [TOUCH_UP_POINTS, TOUCH_DOWN_POINTS, SAMPLED_POINTS]:
+            to_shift = self.data_frames[label].copy()
+            for wordid in to_shift[WORD_ID]:
+                minX, minY = self.wordid_offsets[wordid]
+                DataManager._shift_all_word_xy(to_shift, wordid, minX, minY)
+            self.data_frames[GET_SHIFTED_POINTS_NAME(label)] = to_shift
+        chrono.end()
 
     # todo: implementa plotting
     # def print(self):
