@@ -104,7 +104,7 @@ BASE_FOLDER = "../res/"
 _RES_SUFFIX = "_res/"
 
 DATASET_NAME_0 = "Biotouch"
-DATASET_NAME_1 = "Biotouch2"
+DATASET_NAME_1 = "Biotouch_sara"
 
 
 BUILD_DATASET_FOLDER = lambda dataset_name: os.path.join(BASE_FOLDER, dataset_name)
