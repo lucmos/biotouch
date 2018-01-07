@@ -39,22 +39,27 @@ class DataManager:
         return pandas.DataFrame(d).set_index(USER_ID)
 
     @staticmethod
-    def _check_saved_pickles():
+    def _check_saved_pickles(dataset_name):
         for label in ALL_DATAFRAMES:
-            if not os.path.isfile(BUILD_DATAFRAME_PICKLE_PATH(label)):
+            if not os.path.isfile(BUILD_DATAFRAME_PICKLE_PATH(dataset_name, label)):
                 return False
         return True
 
     @staticmethod
     def get_userid(data):
         norm = lambda t: "".join(t.lower().split())
-        return "{}_{}_{}_{}".format(norm(data[SESSION_DATA][NAME]), norm(data[SESSION_DATA][SURNAME]),
-                                    data[SESSION_DATA][ID], data[SESSION_DATA][HANDWRITING])
+        return "{}_{}_{}_{}_{}".format(norm(data[SESSION_DATA][NAME]),
+                                       norm(data[SESSION_DATA][SURNAME]),
+                                       norm(data[SESSION_DATA][DEVICE_DATA][DEVICE_MODEL]),
+                                       data[SESSION_DATA][ID],
+                                       data[SESSION_DATA][HANDWRITING])
 
-    def __init__(self, update_data=False, base_folder=BIOTOUCH_FOLDER):
-        assert os.path.isdir(base_folder), "Insert dataset in " + base_folder
+    def __init__(self, dataset_name, update_data=False):
+        self.dataset_name = dataset_name
 
-        self.base_folder = base_folder
+        assert os.path.isdir(BUILD_DATASET_FOLDER(dataset_name)), \
+            "Insert the dataset \"" + dataset_name + "\" in: " + BASE_FOLDER
+
         self._jsons_data = []
 
         # useful for test purposes
@@ -102,22 +107,22 @@ class DataManager:
             assert v, "Rember to force a regen first"
         return self.data_dicts
 
-    def _save_dataframes(self, to_csv=True):
-        Utils.save_dataframes(self.get_dataframes(), DATAFRAME, "Saving dataframes...",
-                              to_csv, POINTS_SERIES_TYPE, self.get_dataframes()[WORDID_USERID])
-
-    def _load_dataframes(self, update):
-        if not update and DataManager._check_saved_pickles():
+    def _load_dataframes(self,  update):
+        if not update and DataManager._check_saved_pickles(self.dataset_name):
             self._read_pickles()
         else:
             self._load_jsons()
             self._create_dataframes()
             self._save_dataframes()
 
+    def _save_dataframes(self, to_csv=True):
+        Utils.save_dataframes(self.dataset_name, self.get_dataframes(), DATAFRAME, "Saving dataframes...",
+                              to_csv, POINTS_SERIES_TYPE, self.get_dataframes()[WORDID_USERID])
+
     def _load_jsons(self):
         chrono = Chrono("Reading json files...")
         files_counter = 0
-        for root, dirs, files in os.walk(self.base_folder, True, None, False):
+        for root, dirs, files in os.walk(BUILD_DATASET_FOLDER(self.dataset_name), True, None, False):
             for json_file in sorted(files, key=Utils.natural_keys):
                 if json_file and json_file.endswith(JSON_EXTENSION):
                     json_path = os.path.realpath(os.path.join(root, json_file))
@@ -129,7 +134,7 @@ class DataManager:
     def _read_pickles(self):
         chrono = Chrono("Reading dataframes...")
         for label in ALL_DATAFRAMES:
-            self.data_frames[label] = pandas.read_pickle(BUILD_DATAFRAME_PICKLE_PATH(label))
+            self.data_frames[label] = pandas.read_pickle(BUILD_DATAFRAME_PICKLE_PATH(self.dataset_name, label))
         chrono.end()
 
     def _create_dataframes(self):
@@ -163,4 +168,4 @@ class DataManager:
 
 
 if __name__ == "__main__":
-    DataManager(update_data=True)
+    DataManager(DATASET_NAME_0, update_data=True)

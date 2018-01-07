@@ -18,7 +18,7 @@ from sklearn.metrics import confusion_matrix
 from sklearn.preprocessing import label_binarize
 
 if __name__ == '__main__':
-    f = fm.FeaturesManager()
+    f = fm.FeaturesManager(DATASET_NAME_0)
     x = f.get_features()[MOVEMENT_POINTS]
 
     # print(f.get_features()[TOUCH_DOWN_POINTS].equals(f.get_features()[TOUCH_DOWN_POINTS]))
@@ -26,7 +26,7 @@ if __name__ == '__main__':
     y = f.get_classes()
 
     # dividing X, y into train and test data
-    X_train, X_test, y_train, y_test = train_test_split(x, y, random_state=0)
+    X_train, X_test, y_train, y_test = train_test_split(x, y, random_state=0, test_size=0.3)
 
     # training a linear SVM classifier
     from sklearn.svm import SVC
@@ -37,6 +37,7 @@ if __name__ == '__main__':
     # model accuracy for X_test
     accuracy = svm_model_linear.score(X_test, y_test)
 
+    print(accuracy)
     # creating a confusion matrix
     cm = confusion_matrix(y_test, svm_predictions)
 

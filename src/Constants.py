@@ -98,18 +98,27 @@ ALL_DATAFRAMES = [WORDID_USERID, USERID_USERDATA] + POINTS_SERIES_TYPE
 
 # files constants
 BASE_FOLDER = "../res/"
-BIOTOUCH_FOLDER = os.path.join(BASE_FOLDER, "Biotouch")
+_RES_SUFFIX = "_res/"
 
-BASE_GENERATED_FOLDER = os.path.join(BASE_FOLDER, "generated/")
-BASE_GENERATED_CSV_FOLDER = os.path.join(BASE_GENERATED_FOLDER, "csv/")
+DATASET_NAME_0 = "Biotouch"
+DATASET_NAME_1 = "Biotouch2"
 
-BUILD_PATH = lambda base, file, desc, ext: os.path.join(base, file + "_" + desc + ext)
 
-BUILD_DATAFRAME_PICKLE_PATH = lambda file: os.path.join(BUILD_PATH(BASE_GENERATED_FOLDER, file, DATAFRAME, PICKLE_EXTENSION))
-BUILD_DATAFRAME_CSV_PATH = lambda file: os.path.join(BUILD_PATH(BASE_GENERATED_CSV_FOLDER, file, DATAFRAME, CSV_EXTENSION))
+BUILD_DATASET_FOLDER = lambda dataset_name: os.path.join(BASE_FOLDER, dataset_name)
+_BUILD_RES_FOLDER = lambda dataset_name: os.path.join(BASE_FOLDER, dataset_name + _RES_SUFFIX)
 
-BUILD_FEATURE_PICKLE_PATH = lambda file: os.path.join(BUILD_PATH(BASE_GENERATED_FOLDER, file, FEATURE, PICKLE_EXTENSION))
-BUILD_FEATURE_CSV_PATH = lambda file: os.path.join(BUILD_PATH(BASE_GENERATED_CSV_FOLDER, file, FEATURE, CSV_EXTENSION))
+
+BASE_GENERATED_FOLDER = lambda dataset_name: os.path.join(_BUILD_RES_FOLDER(dataset_name), "generated/")
+BASE_GENERATED_CSV_FOLDER = lambda dataset_name: os.path.join(_BUILD_RES_FOLDER(dataset_name), "csv/")
+
+
+BUILD_FILE_PATH = lambda base_path, file, desc, ext: os.path.join(base_path, file + "_" + desc + ext)
+
+BUILD_DATAFRAME_PICKLE_PATH = lambda dataset_name, file: BUILD_FILE_PATH(BASE_GENERATED_FOLDER(dataset_name), file, DATAFRAME, PICKLE_EXTENSION)
+BUILD_DATAFRAME_CSV_PATH = lambda dataset_name, file: BUILD_FILE_PATH(BASE_GENERATED_CSV_FOLDER(dataset_name), file, DATAFRAME, CSV_EXTENSION)
+
+BUILD_FEATURE_PICKLE_PATH = lambda dataset_name, file: BUILD_FILE_PATH(BASE_GENERATED_FOLDER(dataset_name), file, FEATURE, PICKLE_EXTENSION)
+BUILD_FEATURE_CSV_PATH = lambda dataset_name, file: BUILD_FILE_PATH(BASE_GENERATED_CSV_FOLDER(dataset_name), file, FEATURE, CSV_EXTENSION)
 
 
 PATHS_FUN = {DATAFRAME:

@@ -45,22 +45,22 @@ def add_column(dataframe, column):
 
 
 
-def dataframe_to_csv(dataframe, path):
-    if not os.path.isdir(BASE_GENERATED_CSV_FOLDER):
-        os.makedirs(BASE_GENERATED_CSV_FOLDER)
+def dataframe_to_csv(dataframe, dataset_name, path):
+    if not os.path.isdir(BASE_GENERATED_CSV_FOLDER(dataset_name)):
+        os.makedirs(BASE_GENERATED_CSV_FOLDER(dataset_name))
     dataframe.to_csv(path, decimal=",", sep=";")
 
 
-def save_dataframes(dataframes_dict, dataframe_type, message, to_csv, frames_to_add_column, csv_column):
-    if not os.path.isdir(BASE_GENERATED_FOLDER):
-        os.makedirs(BASE_GENERATED_FOLDER)
+def save_dataframes(dataset_name, dataframes_dict, dataframe_type, message, to_csv, frames_to_add_column, csv_column):
+    if not os.path.isdir(BASE_GENERATED_FOLDER(dataset_name)):
+        os.makedirs(BASE_GENERATED_FOLDER(dataset_name))
     chrono = Chrono(message)
     for label, v in dataframes_dict.items():
-        v.to_pickle(PATHS_FUN[dataframe_type][PICKLE_EXTENSION](label))
+        v.to_pickle(PATHS_FUN[dataframe_type][PICKLE_EXTENSION](dataset_name, label))
         if to_csv:
             if frames_to_add_column and csv_column is not None and label in frames_to_add_column:
                 v = add_column(v, csv_column)
-            dataframe_to_csv(v, PATHS_FUN[dataframe_type][CSV_EXTENSION](label))
+            dataframe_to_csv(v, dataset_name, PATHS_FUN[dataframe_type][CSV_EXTENSION](dataset_name, label))
     chrono.end()
 
 
