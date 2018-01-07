@@ -29,7 +29,12 @@ if __name__ == '__main__':
     # print(f.get_features()[TOUCH_DOWN_POINTS].equals(f.get_features()[TOUCH_DOWN_POINTS]))
     # print(f.get_features()[TOUCH_DOWN_POINTS].equals(f.get_features()[TOUCH_UP_POINTS]))
     y = f.get_classes()
+    user_data=f.get_userdata()
 
+    print (x)
+    print(y)
+    print(user_data)
+    assert False
     # dividing X, y into train and test data
     X_train, X_test, y_train, y_test = train_test_split(x, y, random_state=0, test_size=0.3)
 

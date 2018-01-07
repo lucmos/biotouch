@@ -41,11 +41,14 @@ class FeaturesManager:
     def get_classes(self):
         return self.data_frames[WORDID_USERID]
 
+    def get_userdata(self):
+        return self.data_frames[USERID_USERDATA]
+
     def _load_features(self, update_data, update_features):
+        self.data_frames = dm.DataManager(self.dataset_name, update_data).get_dataframes()
         if not update_features and FeaturesManager._check_saved_pickles(self.dataset_name):
             self._read_pickles()
         else:
-            self.data_frames = dm.DataManager(self.dataset_name, update_data).get_dataframes()
             self._extract_features_from_dataframes()
             self._save_features()
 
@@ -53,7 +56,6 @@ class FeaturesManager:
         chrono = Chrono("Reading features...")
         for label in TIMED_POINTS_SERIES_TYPE:
             self.data_features[label] = pandas.read_pickle(BUILD_FEATURE_PICKLE_PATH(self.dataset_name, label))
-        self.data_frames[WORDID_USERID] = pandas.read_pickle(BUILD_DATAFRAME_PICKLE_PATH(self.dataset_name, WORDID_USERID))
         chrono.end()
 
     def _extract_features_from_dataframes(self):
