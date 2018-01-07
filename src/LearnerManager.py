@@ -110,6 +110,7 @@ def brute_testing1():
 
 from sklearn.model_selection import GridSearchCV, cross_val_score
 import numpy as np
+from pandas.util.testing import assert_series_equal
 
 if __name__ == '__main__':
     f = fm.FeaturesManager(DATASET_NAME_0)
@@ -145,6 +146,9 @@ if __name__ == '__main__':
             x = scaler.fit(X_train[label])
             X_train[label] = scaler.transform(X_train[label])
             X_test[label] = scaler.transform(X_test[label])
+
+        assert_series_equal(y_train[MOVEMENT_POINTS], y_train[TOUCH_UP_POINTS])
+        assert_series_equal(y_train[TOUCH_DOWN_POINTS],y_train[TOUCH_UP_POINTS])
 
         for label in TIMED_POINTS_SERIES_TYPE:
             print("Testing on: " + label)
