@@ -76,10 +76,10 @@ TIMED_POINTS = POINTS + [TIME]
 # *********************************************** #
 
 # other useful labels #
-SHIFT = "_shifted"
+SHIFT = "_shifted_"
 XY = X + Y
 
-GET_SHIFTED_POINTS_NAME = lambda shift, x: shift + "_shifted_" + x
+GET_SHIFTED_POINTS_NAME = lambda shift, x: shift + SHIFT + x
 X_SHIFTED_MOVEMENT_POINTS = GET_SHIFTED_POINTS_NAME(X, MOVEMENT_POINTS)
 X_SHIFTED_TOUCH_DOWN_POINTS = GET_SHIFTED_POINTS_NAME(X, TOUCH_DOWN_POINTS)
 X_SHIFTED_TOUCH_UP_POINTS = GET_SHIFTED_POINTS_NAME(X, TOUCH_UP_POINTS)

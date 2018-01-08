@@ -110,16 +110,11 @@ if __name__ == '__main__':
             #     print("%0.3f (+/-%0.03f) for %r"
             #           % (mean, std * 2, params))
             print()
-
-            print("Detailed classification report:")
-            print()
-            print("The model is trained on the full development set.")
-            print("The scores are computed on the full evaluation set.")
-            print()
             y_true, y_pred = y_test[label], classifier.predict(X_test[label])
             print(classification_report(y_true, y_pred))
             print()
 
+        # todo va fatto per ogni direzione di split
         mixed_pre = []
         print("Testing on: majority results")
         for a, b, c in zip(predictions[MOVEMENT_POINTS], predictions[TOUCH_UP_POINTS], predictions[TOUCH_DOWN_POINTS]):
