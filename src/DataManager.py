@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-import json
-import pandas
 from src.Chronometer import Chrono
-import src.Utils as Utils
 from src.Constants import *
-from matplotlib.pyplot import plot as plt
+import src.Plotter as plot
+import src.Utils as Utils
+import pandas
+import random
+import json
 
 DATAFRAME_FROM_JSON = [WORDID_USERID, USERID_USERDATA] + INITIAL_POINTS_SERIES_TYPE
 DATAFRAMES = [WORDID_USERID, USERID_USERDATA] + POINTS_SERIES_TYPE
@@ -51,10 +52,9 @@ class DataManager:
 
     @staticmethod
     def get_userid(data):
-        norm = lambda t: "".join(t.lower().split())
-        return "{}_{}_{}_{}_{}".format(norm(data[SESSION_DATA][NAME]),
-                                       norm(data[SESSION_DATA][SURNAME]),
-                                       norm(data[SESSION_DATA][DEVICE_DATA][DEVICE_MODEL]),
+        return "{}_{}_{}_{}_{}".format(Utils.uglify(data[SESSION_DATA][NAME]),
+                                       Utils.uglify(data[SESSION_DATA][SURNAME]),
+                                       Utils.uglify(data[SESSION_DATA][DEVICE_DATA][DEVICE_MODEL]),
                                        data[SESSION_DATA][ID],
                                        data[SESSION_DATA][HANDWRITING])
 
@@ -208,25 +208,17 @@ class DataManager:
                               to_csv, POINTS_SERIES_TYPE, self.get_dataframes()[WORDID_USERID])
 
 
-import matplotlib.pylab as plt
-
-plt.style.use('ggplot')
-
-
-# todo: implementa plotting		     # todo: implementa plotting
-def plotdata(dataframe):
-    d = dataframe.copy()
-    plt.interactive(False)  #
-    # d['y'] *= -1		     #
-    d[d.word_id == 0][["x", "y"]].plot(x="x", y="y", kind="scatter")
-    plt.axes().set_aspect('equal', 'datalim')
-    plt.show()
 
 
 if __name__ == "__main__":
-    d = DataManager(DATASET_NAME_0, update_data=True).get_dataframes()
+    d = DataManager(DATASET_NAME_0, update_data=False).get_dataframes()
 
-    # plotdata(d[MOVEMENT_POINTS])
-    # plotdata(d[X_SHIFTED_MOVEMENT_POINTS])
-    # plotdata(d[Y_SHIFTED_MOVEMENT_POINTS])
-    # plotdata(d[XY_SHIFTED_MOVEMENT_POINTS])
+    for i in random.sample(range(1, 1010), 9).append(633):
+        plot.GifCreator(DATASET_NAME_0, d, d[WORDID_USERID], d[USERID_USERDATA], i)
+
+    # r  = random.randint(0, 1000)
+    # print(r)
+    # for i in range(100,1000,50):
+    #     plot3dataframe(d, XY_SHIFTED_MOVEMENT_POINTS, r, i)
+    #
+    # assert False

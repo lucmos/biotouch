@@ -1,4 +1,7 @@
 import re
+
+import pandas
+
 from src.Chronometer import Chrono
 from src.Constants import *
 
@@ -44,14 +47,12 @@ def add_column(dataframe, column):
 
 
 def dataframe_to_csv(dataframe, dataset_name, path):
-    if not os.path.isdir(BASE_GENERATED_CSV_FOLDER(dataset_name)):
-        os.makedirs(BASE_GENERATED_CSV_FOLDER(dataset_name))
+    mkdir(BUILD_CSV_FOLDER(dataset_name))
     dataframe.to_csv(path, decimal=",", sep=";")
 
 
 def save_dataframes(dataset_name, dataframes_dict, dataframe_type, message, to_csv, frames_to_add_column, csv_column):
-    if not os.path.isdir(BASE_GENERATED_FOLDER(dataset_name)):
-        os.makedirs(BASE_GENERATED_FOLDER(dataset_name))
+    mkdir(BUILD_GENERATED_FOLDER(dataset_name))
     chrono = Chrono(message)
     for label, v in dataframes_dict.items():
         v.to_pickle(PATHS_FUN[dataframe_type][PICKLE_EXTENSION](dataset_name, label))
@@ -64,3 +65,29 @@ def save_dataframes(dataset_name, dataframes_dict, dataframe_type, message, to_c
 
 def init_dict(labels, length):
     return {x: [None] * length for x in labels}
+
+def mkdir(path):
+    if not os.path.isdir(path):
+        os.makedirs(path)
+
+def get_infos(wordid_userid, user_data, wordid):
+    # join con l'user id_data
+    a = pandas.DataFrame(wordid_userid).join(user_data, on=USER_ID)
+
+    # consideriamo l'user che ci interessa
+    a = a[a[USER_ID] == wordid_userid[wordid]]
+
+    # contiamo quante parole ha già fatto
+    word_number = len(a.loc[: wordid]) - 1
+
+    # prendiamo il resto dei dati
+    row = a.loc[wordid].to_dict()
+    row[WORD_NUMBER] = word_number
+    return row
+
+def prettify_name(s):
+    return " ".join(s.split("_")).title()
+
+
+def uglify(t):
+    return "".join(t.lower().split())
