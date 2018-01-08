@@ -4,6 +4,7 @@ import pandas
 from src.Chronometer import Chrono
 import src.Utils as Utils
 from src.Constants import *
+from matplotlib.pyplot import plot as plt
 
 DATAFRAME_FROM_JSON = [WORDID_USERID, USERID_USERDATA] + INITIAL_POINTS_SERIES_TYPE
 DATAFRAMES = [WORDID_USERID, USERID_USERDATA] + POINTS_SERIES_TYPE
@@ -123,14 +124,13 @@ class DataManager:
         if not update and DataManager._check_saved_pickles(self.dataset_name):
             self._read_pickles()
         else:
-            self._load_jsons()
-            self._create_dataframes()
-            self._shift()
+            self._generate_dataframes()
             self._save_dataframes()
 
-    def _save_dataframes(self, to_csv=True):
-        Utils.save_dataframes(self.dataset_name, self.get_dataframes(), DATAFRAME, "Saving dataframes...",
-                              to_csv, POINTS_SERIES_TYPE, self.get_dataframes()[WORDID_USERID])
+    def _generate_dataframes(self):
+        self._load_jsons()
+        self._create_dataframes()
+        self._shift()
 
     def _load_jsons(self):
         assert os.path.isdir(BUILD_DATASET_FOLDER(
@@ -146,12 +146,6 @@ class DataManager:
                         self._jsons_data.append(json.load(f))
                     files_counter += 1
         chrono.end("read {} files".format(files_counter))
-
-    def _read_pickles(self):
-        chrono = Chrono("Reading dataframes...")
-        for label in DATAFRAMES:
-            self.data_frames[label] = pandas.read_pickle(BUILD_DATAFRAME_PICKLE_PATH(self.dataset_name, label))
-        chrono.end()
 
     def _create_dataframes(self):
         assert self._jsons_data
@@ -203,14 +197,36 @@ class DataManager:
                 self.data_frames[GET_SHIFTED_POINTS_NAME(dir, l)] = self.data_frames[l].groupby(WORD_ID).apply(f[dir])
         chrono.end()
 
-     # todo: implementa plotting		     # todo: implementa plotting
-     # def print(self):		     # def print(self):
-     #     plt.interactive(False)		     #     plt.interactive(False)
-     #     d['y'] *= -1		     #     d['y'] *= -1
-     #		     #
-     #     d[d.word_id == 0][["x", "y"]].plot(x="x", y="y", kind="scatter")		     #     d[d.word_id == 0][["x", "y"]].plot(x="x", y="y", kind="scatter")
-     #     plt.axes().set_aspect('equal', 'datalim')		     #     plt.axes().set_aspect('equal', 'datalim')
-     #     plt.show()
+    def _read_pickles(self):
+        chrono = Chrono("Reading dataframes...")
+        for label in DATAFRAMES:
+            self.data_frames[label] = pandas.read_pickle(BUILD_DATAFRAME_PICKLE_PATH(self.dataset_name, label))
+        chrono.end()
+
+    def _save_dataframes(self, to_csv=True):
+        Utils.save_dataframes(self.dataset_name, self.get_dataframes(), DATAFRAME, "Saving dataframes...",
+                              to_csv, POINTS_SERIES_TYPE, self.get_dataframes()[WORDID_USERID])
+
+
+import matplotlib.pylab as plt
+
+plt.style.use('ggplot')
+
+
+# todo: implementa plotting		     # todo: implementa plotting
+def plotdata(dataframe):
+    d = dataframe.copy()
+    plt.interactive(False)  #
+    # d['y'] *= -1		     #
+    d[d.word_id == 0][["x", "y"]].plot(x="x", y="y", kind="scatter")
+    plt.axes().set_aspect('equal', 'datalim')
+    plt.show()
+
 
 if __name__ == "__main__":
-    DataManager(DATASET_NAME_0, update_data=True)
+    d = DataManager(DATASET_NAME_0, update_data=True).get_dataframes()
+
+    # plotdata(d[MOVEMENT_POINTS])
+    # plotdata(d[X_SHIFTED_MOVEMENT_POINTS])
+    # plotdata(d[Y_SHIFTED_MOVEMENT_POINTS])
+    # plotdata(d[XY_SHIFTED_MOVEMENT_POINTS])

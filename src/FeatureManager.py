@@ -59,11 +59,11 @@ class FeaturesManager:
         chrono.end()
 
     def _extract_features_from_dataframes(self):
-        chrono = Chrono("Extracting features...", True)
         for label in TIMED_POINTS_SERIES_TYPE:
+            chrono = Chrono("Extracting features from {}...".format(label), True)
             self.data_features[label] = self.extract_features_from_dataframe(self.data_frames[label],
                                                                              self.data_frames[WORDID_USERID])
-        chrono.end()
+            chrono.end()
 
     def _save_features(self, to_csv=True):
         Utils.save_dataframes(self.dataset_name, self.data_features, FEATURE, "Saving features...",

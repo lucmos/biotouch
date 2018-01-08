@@ -1,11 +1,11 @@
 import unittest
 import src.DataManager as dm
-
+from src.Constants import *
 
 class Tests(unittest.TestCase):
-    f = dm.DataManager(True)
+    f = dm.DataManager(DATASET_NAME_0, True)
 
-    datadicts = f.get_datadicts()
+    datadicts = f._data_dicts
     dataframes = f.get_dataframes()
     idword_dataword_mapping = f._idword_dataword_mapping
 
@@ -46,8 +46,9 @@ class Tests(unittest.TestCase):
             dm.TOUCH_DOWN_POINTS: len_fun(dm.TOUCH_DOWN_POINTS),
             dm.SAMPLED_POINTS: sum(len(component) for word in self.f._jsons_data for component in word[dm.SAMPLED_POINTS])
         }
-        for label in dm.POINTS_SERIES_TYPE:
-            self.assertTrue(number[label] == len(self.dataframes[label]))
+        for label in POINTS_SERIES_TYPE:
+            if label in number:
+                self.assertTrue(number[label] == len(self.dataframes[label]))
         self.assertTrue(number[dm.TOUCH_DOWN_POINTS] == number[dm.TOUCH_UP_POINTS])
 
         # number of words
@@ -63,9 +64,9 @@ class Tests(unittest.TestCase):
         self.assertTrue(set(self.datadicts[dm.USERID_USERDATA].keys()) == set(self.datadicts[dm.WORDID_USERID].values()))
 
     def test_dataframes_pickle_saving(self):
-        dm.DataManager(update_data=True)._save_dataframes()
-        for (_, read_value), (_, gen_value) in zip(sorted(dm.DataManager(update_data=False).get_dataframes().items()),
-                                                   sorted(dm.DataManager(update_data=True).get_dataframes().items())):
+        dm.DataManager(DATASET_NAME_0, update_data=True)._save_dataframes()
+        for (l, read_value), (_, gen_value) in zip(sorted(dm.DataManager(DATASET_NAME_0, update_data=False).get_dataframes().items()),
+                                                   sorted(dm.DataManager(DATASET_NAME_0, update_data=True).get_dataframes().items())):
             self.assertTrue(read_value.equals(gen_value))
 
 
