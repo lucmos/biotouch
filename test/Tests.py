@@ -7,7 +7,7 @@ class Tests(unittest.TestCase):
 
     datadicts = f.get_datadicts()
     dataframes = f.get_dataframes()
-    idword_dataword_mapping = f.idword_dataword_mapping
+    idword_dataword_mapping = f._idword_dataword_mapping
 
     def test_timed_points_in_dataframe(self):
         for label in [dm.MOVEMENT_POINTS, dm.TOUCH_DOWN_POINTS, dm.TOUCH_UP_POINTS]:

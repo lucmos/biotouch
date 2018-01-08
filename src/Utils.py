@@ -43,8 +43,6 @@ def add_column(dataframe, column):
         return dataframe.join(column)
 
 
-
-
 def dataframe_to_csv(dataframe, dataset_name, path):
     if not os.path.isdir(BASE_GENERATED_CSV_FOLDER(dataset_name)):
         os.makedirs(BASE_GENERATED_CSV_FOLDER(dataset_name))
