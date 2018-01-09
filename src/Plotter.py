@@ -10,7 +10,8 @@ import src.Utils as Utils
 
 import warnings
 import matplotlib.cbook
-warnings.filterwarnings("ignore",category=matplotlib.cbook.mplDeprecation)
+
+warnings.filterwarnings("ignore", category=matplotlib.cbook.mplDeprecation)
 
 plt.style.use('fivethirtyeight')
 # plt.style.use('ggplot')
@@ -26,21 +27,30 @@ def get_title(info):
         Utils.prettify_name(info[Utils.HANDWRITING]))
 
 
+def get_word_data(dataframe, wordid_userid, user_data, wordid, name, surname, handwriting, wordnumber):
+    assert bool(wordid) != bool(
+        name and surname and handwriting and wordnumber), "Need a wordid xor a (name, surname, handwriting, word number"
+    if not wordid:
+        wordid = Utils.get_wordidfrom_wordnumber_name_surname(wordid_userid, user_data, name, surname, handwriting,
+                                                              wordnumber)
+    return dataframe.loc[dataframe[Utils.WORD_ID] == wordid], wordid
+
+
 class GifCreator:
 
-    def __init__(self, dataset_name, dataframes, wordid_userid_dataframe, user_data_dataframe, word_id,
+    def __init__(self, dataset_name, dataframes, wordid_userid_dataframe, user_data_dataframe, word_id=None, name=None,
+                 surname=None, handwriting=None, word_number=None,
                  label=Utils.MOVEMENT_POINTS, frames=120, after_delay=1000):
+        self.word_dataframe, word_id = get_word_data(dataframes[label], wordid_userid_dataframe, user_data_dataframe, word_id,
+                                            name, surname, handwriting, word_number)
         self.info = Utils.get_infos(wordid_userid_dataframe, user_data_dataframe, word_id)
 
         self.frames = frames
-        dataframe = dataframes[label]
-        self.data_word = dataframe.loc[getattr(dataframe, Utils.WORD_ID) == word_id].copy()
-        self.max_time = max(self.data_word[Utils.TIME])
+        self.max_time = max(self.word_dataframe[Utils.TIME])
 
         self.repeat_delay = after_delay
         self.height = self.info[Utils.HEIGHT_PIXELS]
         self.width = self.info[Utils.WIDTH_PIXELS]
-        self.word_id = word_id
 
         self.colors_cycle = itertools.cycle(plt.rcParams['axes.prop_cycle'])
         self.color_map = {}
@@ -55,7 +65,7 @@ class GifCreator:
 
     @staticmethod
     def _update_plot(i, a, time_millis_per_frame):
-        data = a.data_word[a.data_word['time'] <= i * time_millis_per_frame]
+        data = a.word_dataframe[a.word_dataframe['time'] <= i * time_millis_per_frame]
         for i, group in data.groupby(Utils.COMPONENT):
             if i not in a.color_map:
                 a.color_map[i] = next(a.colors_cycle)['color']
@@ -101,7 +111,10 @@ class GifCreator:
 
 class ChartCreator:
 
-    def __init__(self, dataset_name, dataframe, wordid_userid_dataframe, user_data_dataframe, word_id, label=Utils.MOVEMENT_POINTS):
+    def __init__(self, dataset_name, dataframe, wordid_userid_dataframe, user_data_dataframe,
+                 word_id=None, name=None, surname=None, handwriting=None, word_number=None, label=Utils.MOVEMENT_POINTS):
+        self.word_dataframe, word_id = get_word_data(dataframe[label], wordid_userid_dataframe, user_data_dataframe, word_id,
+                                            name, surname, handwriting, word_number)
         self.info = Utils.get_infos(wordid_userid_dataframe, user_data_dataframe, word_id)
         Utils.mkdir(Utils.BUILD_PICS_FOLDER(dataset_name))
 
@@ -116,18 +129,17 @@ class ChartCreator:
 
     def plot2dataframe(self, xaxes=Utils.X, yaxes=Utils.Y):
         path = Utils.BUILD_CHART2D_PATH(self.dataset_name, self.info[Utils.NAME], self.info[Utils.SURNAME],
-                                             self.info[Utils.WORD_NUMBER], self.info[Utils.HANDWRITING], self.label)
+                                        self.info[Utils.WORD_NUMBER], self.info[Utils.HANDWRITING], self.label)
         chrono = chronometer.Chrono("Plotting 2D Chart for: {}...".format(self.title))
         if os.path.isfile(path):
             chrono.end("already exixst")
             return
 
-        d = self.dataframe[self.label]
-
         ax = None
         colors = itertools.cycle(plt.rcParams['axes.prop_cycle'])
-        for i, component in enumerate(g for _, g in d.loc[d.word_id == self.word_id].groupby(Utils.COMPONENT)):
-            ax = component[["x", "y", Utils.TIME]].plot(x=xaxes, y=yaxes, kind="scatter", c=next(colors)['color'],ax=ax if ax else None)
+        for i, component in enumerate(g for _, g in self.word_dataframe.groupby(Utils.COMPONENT)):
+            ax = component[["x", "y", Utils.TIME]].plot(x=xaxes, y=yaxes, kind="scatter", c=next(colors)['color'],
+                                                        ax=ax if ax else None)
 
         ax.set_xlim(0, self.width)
         ax.set_ylim(0, self.height)
@@ -146,32 +158,31 @@ class ChartCreator:
         plt.savefig(path, dpi=400)
         chrono.end()
 
-    def plot3dataframe(self, scaling_rates=range(0, 2000, 250)):
+    def plot3dataframe(self, scaling_rates=None):
         chrono = chronometer.Chrono("Plotting 3D Charts for: {}...".format(self.title))
-        d = self.dataframe[self.label]
-        maxv = max(d[Utils.TIME])
+        maxv = max(self.word_dataframe[Utils.TIME])
+        if not scaling_rates:
+            scaling_rates = range(0, maxv + 1, 50)
         wrote_something = False
         for scaling in scaling_rates:
             path = Utils.BUILD_CHART3D_PATH(self.dataset_name, self.info[Utils.NAME], self.info[Utils.SURNAME],
-                                                 self.info[Utils.WORD_NUMBER], self.info[Utils.HANDWRITING], scaling, self.label)
+                                            self.info[Utils.WORD_NUMBER], self.info[Utils.HANDWRITING], scaling,
+                                            self.label)
             if os.path.isfile(path):
                 continue
 
             wrote_something = True
 
-
             fig = plt.figure()
             ax = fig.add_subplot(111, projection='3d')
 
-
             colors = itertools.cycle(plt.rcParams['axes.prop_cycle'])
-            for i, component in enumerate(g for _, g in d.loc[d.word_id == self.word_id].groupby(Utils.COMPONENT)):
+            for i, component in enumerate(g for _, g in self.word_dataframe.groupby(Utils.COMPONENT)):
                 x = component[Utils.X]
                 y = component[Utils.Y]
                 z = component[Utils.TIME] / maxv * scaling
 
                 ax.scatter(y, x, z, c=next(colors)['color'])
-
 
             ax.set_xticklabels([])
             ax.set_yticklabels([])
@@ -180,15 +191,17 @@ class ChartCreator:
             ax.xaxis.set_ticks_position('none')  # tick markers
             ax.yaxis.set_ticks_position('none')
 
+
             plt.title(self.title)
+            ax.set_xlim(0, self.height)
+            ax.set_ylim(0, self.width)
+            ax.set_zlim(0, maxv)
+            ax.set_zlabel('\ntime', linespacing=-4)
 
-            ax.set_zlabel("\ntime", linespacing=-4)
-            ax.set_xlabel("\nx", linespacing=-4)
-            ax.set_ylabel("\ny", linespacing=-4)
+            # ChartCreator.set_axes_equal(ax)
 
-            ChartCreator.set_axes_equal(ax)
-
-            Utils.mkdir(Utils.BUILD_CHART3D_FOLDER_PATH(self.dataset_name))
+            Utils.mkdir(Utils.BUILD_CHART3D_FOLDER_PATH(self.dataset_name, self.info[Utils.NAME], self.info[Utils.SURNAME],
+                                            self.info[Utils.WORD_NUMBER], self.info[Utils.HANDWRITING], self.label ))
             plt.savefig(path, dpi=400, bbox_inches='tight')
             plt.close(fig)
 
@@ -197,8 +210,6 @@ class ChartCreator:
 
         else:
             chrono.end("already exixst")
-
-
 
     @staticmethod
     def set_axes_equal(ax):

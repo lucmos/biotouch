@@ -84,6 +84,16 @@ def get_infos(wordid_userid, user_data, wordid):
     row[WORD_NUMBER] = word_number
     return row
 
+def get_wordidfrom_wordnumber_name_surname(wordid_userid, user_data, name, surname, handwriting, word_number):
+    # join con l'user id_data
+    a = pandas.DataFrame(wordid_userid).join(user_data[[NAME, SURNAME, HANDWRITING]], on=USER_ID)
+
+    # consideriamo l'user e lo stile che ci interessa e prendiamo l'index corrispondente a word_number
+    b = (a.loc[(a[NAME] ==  name.lower()) & (a[SURNAME] == surname.lower()) & (a[HANDWRITING] == handwriting)])
+    assert not b.empty, "Controlla i parametri di ricerca, non è stata trovata nessuna entry"
+    return b.index[word_number]
+
+
 def prettify_name(s):
     return " ".join(s.split("_")).title()
 

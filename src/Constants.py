@@ -192,8 +192,8 @@ def uglify(t):
 
 BUILD_GIFS_FOLDER_PATH = lambda dataset_name: os.path.join(BUILD_PICS_FOLDER(dataset_name), _folder_ANIMATION)
 BUILD_CHART2D_FOLDER_PATH = lambda dataset_name: os.path.join(BUILD_PICS_FOLDER(dataset_name), _folder_CHART2D)
-BUILD_CHART3D_FOLDER_PATH = lambda dataset_name: os.path.join(BUILD_PICS_FOLDER(dataset_name), _folder_CHART3D)
+BUILD_CHART3D_FOLDER_PATH = lambda dataset_name, name, surname, word, handwriting, label: os.path.join(BUILD_PICS_FOLDER(dataset_name), _folder_CHART3D, "charts_{}_{}_{}_{}_{}".format(uglify(name),uglify(surname),word,handwriting, label))
 
 BUILD_GIFS_PATH =       lambda dataset_name, name, surname, word, handwriting, label: BUILD_FILE_PATH(BUILD_GIFS_FOLDER_PATH(dataset_name), "word_{}_{}_{}_{}_{}".format(uglify(name),uglify(surname),word,handwriting, label), ANIMATION, GIF_EXTENSION)
 BUILD_CHART2D_PATH =    lambda dataset_name, name, surname, word, handwriting, label: BUILD_FILE_PATH(BUILD_CHART2D_FOLDER_PATH(dataset_name), "word_{}_{}_{}_{}_{}".format(uglify(name),uglify(surname),word,handwriting, label), CHART2D, PNG_EXTENSION)
-BUILD_CHART3D_PATH =    lambda dataset_name, name, surname, word, handwriting,timescaling, label: BUILD_FILE_PATH(BUILD_CHART3D_FOLDER_PATH(dataset_name), "word_{}_{}_{}_{}_timescaling{}_{}".format(uglify(name),uglify(surname),word,handwriting, timescaling, label), CHART3D, PNG_EXTENSION)
+BUILD_CHART3D_PATH =    lambda dataset_name, name, surname, word, handwriting,timescaling, label: BUILD_FILE_PATH(BUILD_CHART3D_FOLDER_PATH(dataset_name, name, surname, word, handwriting, label), "word_{}_{}_{}_{}_timescaling{}_{}".format(uglify(name),uglify(surname),word,handwriting, timescaling, label), CHART3D, PNG_EXTENSION)

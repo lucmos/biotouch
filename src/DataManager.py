@@ -128,7 +128,7 @@ class DataManager:
         else:
             self._generate_dataframes()
             self._save_dataframes()
-            self._generate_charts()
+            self._generate_example_charts()
 
     def _generate_dataframes(self):
         self._load_jsons()
@@ -167,6 +167,9 @@ class DataManager:
 
         for label, d in self._data_dicts.items():
             self.data_frames[label] = self._dict_to_frames_funs[label](d)
+
+        self.data_frames[Utils.USERID_USERDATA][Utils.NAME] = self.data_frames[Utils.USERID_USERDATA][Utils.NAME].str.lower()
+        self.data_frames[Utils.USERID_USERDATA][Utils.SURNAME] = self.data_frames[Utils.USERID_USERDATA][Utils.SURNAME].str.lower()
         chrono.end()
 
     def _group_compute_offsets(self, group):
@@ -210,26 +213,27 @@ class DataManager:
         Utils.save_dataframes(self.dataset_name, self.get_dataframes(), Utils.DATAFRAME, "Saving dataframes...",
                               to_csv, Utils.POINTS_SERIES_TYPE, self.get_dataframes()[Utils.WORDID_USERID])
 
-    def _generate_charts(self):
+    def _generate_example_charts(self):
+        examples = [
+            {Utils.NAME:"Rita", Utils.SURNAME:"Battilocchi", Utils.WORD_NUMBER:5, Utils.HANDWRITING: Utils.ITALIC},
+            {Utils.NAME: "Alessio", Utils.SURNAME: "Mecca", Utils.WORD_NUMBER: 13, Utils.HANDWRITING: Utils.BLOCK_LETTER}
+
+        ]
         dataframes = self.get_dataframes()
-        for i in [random.randint(0, len(dataframes[Utils.WORDID_USERID]))] + [633]:
-            Plot.GifCreator(Utils.DATASET_NAME_0, dataframes, dataframes[Utils.WORDID_USERID], dataframes[Utils.USERID_USERDATA], i)
-            p = Plot.ChartCreator(Utils.DATASET_NAME_0, dataframes, dataframes[Utils.WORDID_USERID], dataframes[Utils.USERID_USERDATA], i)
+        for ex in examples:
+            Plot.GifCreator(      Utils.DATASET_NAME_0, dataframes, dataframes[Utils.WORDID_USERID], dataframes[Utils.USERID_USERDATA], name=ex.get(Utils.NAME), surname=ex.get(Utils.SURNAME), word_number=ex.get(Utils.WORD_NUMBER), handwriting=ex.get(Utils.HANDWRITING))
+            p = Plot.ChartCreator(Utils.DATASET_NAME_0, dataframes, dataframes[Utils.WORDID_USERID], dataframes[Utils.USERID_USERDATA], name=ex.get(Utils.NAME), surname=ex.get(Utils.SURNAME), word_number=ex.get(Utils.WORD_NUMBER), handwriting=ex.get(Utils.HANDWRITING))
             p.plot2dataframe()
             p.plot3dataframe()
-            Plot.ChartCreator(Utils.DATASET_NAME_0, dataframes, dataframes[Utils.WORDID_USERID], dataframes[Utils.USERID_USERDATA], i, label=Utils.XY_SHIFTED_MOVEMENT_POINTS).plot2dataframe()
+            Plot.ChartCreator(Utils.DATASET_NAME_0, dataframes, dataframes[Utils.WORDID_USERID], dataframes[Utils.USERID_USERDATA],  name=ex.get(Utils.NAME), surname=ex.get(Utils.SURNAME), word_number=ex.get(Utils.WORD_NUMBER), handwriting=ex.get(Utils.HANDWRITING), label=Utils.XY_SHIFTED_MOVEMENT_POINTS).plot2dataframe()
 
 
 
 if __name__ == "__main__":
-    d = DataManager(Utils.DATASET_NAME_0, update_data=False).get_dataframes()
+    d = DataManager(Utils.DATASET_NAME_0, update_data=False)
 
 # todo metodo che checka se già ci sono e non le ricrea. Anzi, metodo per creare, il check lo fanno loro
 
-
-    # r  = random.randint(0, 1000)
-    # print(r)
-    # for i in range(100,1000,50):
-    #     plot3dataframe(d, XY_SHIFTED_MOVEMENT_POINTS, r, i)
-    #
-    # assert False
+    # a = Utils.get_wordidfrom_wordnumber_name_surname(d[Utils.WORDID_USERID], d[Utils.USERID_USERDATA], "Rita", "Battilocchi" , Utils.BLOCK_LETTER, 31)
+    # print(Utils.get_infos(d[Utils.WORDID_USERID], d[Utils.USERID_USERDATA], a))
+    d._generate_example_charts()
