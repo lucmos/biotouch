@@ -56,7 +56,7 @@ def get_most_common_priority(list):
 
 
 if __name__ == '__main__':
-    f = fm.FeaturesManager(Utils.DATASET_NAME_SMALL)
+    f = fm.FeaturesManager(Utils.DATASET_NAME_0)
 
     for h in [Utils.ITALIC, Utils.BLOCK_LETTER]:
 

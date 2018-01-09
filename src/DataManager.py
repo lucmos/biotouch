@@ -128,6 +128,7 @@ class DataManager:
         else:
             self._generate_dataframes()
             self._save_dataframes()
+            self._generate_charts()
 
     def _generate_dataframes(self):
         self._load_jsons()
@@ -210,7 +211,13 @@ class DataManager:
                               to_csv, Utils.POINTS_SERIES_TYPE, self.get_dataframes()[Utils.WORDID_USERID])
 
     def _generate_charts(self):
-        pass
+        dataframes = self.get_dataframes()
+        for i in [random.randint(0, len(dataframes[Utils.WORDID_USERID]))] + [633]:
+            Plot.GifCreator(Utils.DATASET_NAME_0, dataframes, dataframes[Utils.WORDID_USERID], dataframes[Utils.USERID_USERDATA], i)
+            p = Plot.ChartCreator(Utils.DATASET_NAME_0, dataframes, dataframes[Utils.WORDID_USERID], dataframes[Utils.USERID_USERDATA], i)
+            p.plot2dataframe()
+            p.plot3dataframe()
+            Plot.ChartCreator(Utils.DATASET_NAME_0, dataframes, dataframes[Utils.WORDID_USERID], dataframes[Utils.USERID_USERDATA], i, label=Utils.XY_SHIFTED_MOVEMENT_POINTS).plot2dataframe()
 
 
 
@@ -218,12 +225,8 @@ if __name__ == "__main__":
     d = DataManager(Utils.DATASET_NAME_0, update_data=False).get_dataframes()
 
 # todo metodo che checka se già ci sono e non le ricrea. Anzi, metodo per creare, il check lo fanno loro
-    for i in [0,66,501,888,444,765] + [633]:
-        Plot.GifCreator(Utils.DATASET_NAME_0, d, d[Utils.WORDID_USERID], d[Utils.USERID_USERDATA], i)
-        p = Plot.ChartCreator(Utils.DATASET_NAME_0, d, d[Utils.WORDID_USERID], d[Utils.USERID_USERDATA], i)
-        p.plot2dataframe()
-        # p = Plot.ChartCreator(Utils.DATASET_NAME_0, d, d[Utils.WORDID_USERID], d[Utils.USERID_USERDATA], i)
-        p.plot3dataframe()
+
+
     # r  = random.randint(0, 1000)
     # print(r)
     # for i in range(100,1000,50):
