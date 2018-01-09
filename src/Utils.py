@@ -1,8 +1,7 @@
 import re
-
 import pandas
 
-from src.Chronometer import Chrono
+import src.Chronometer as Chronometer
 from src.Constants import *
 
 def atoi(text):
@@ -53,7 +52,7 @@ def dataframe_to_csv(dataframe, dataset_name, path):
 
 def save_dataframes(dataset_name, dataframes_dict, dataframe_type, message, to_csv, frames_to_add_column, csv_column):
     mkdir(BUILD_GENERATED_FOLDER(dataset_name))
-    chrono = Chrono(message)
+    chrono = Chronometer.Chrono(message)
     for label, v in dataframes_dict.items():
         v.to_pickle(PATHS_FUN[dataframe_type][PICKLE_EXTENSION](dataset_name, label))
         if to_csv:
@@ -88,6 +87,3 @@ def get_infos(wordid_userid, user_data, wordid):
 def prettify_name(s):
     return " ".join(s.split("_")).title()
 
-
-def uglify(t):
-    return "".join(t.lower().split())

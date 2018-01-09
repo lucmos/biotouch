@@ -1,7 +1,6 @@
 import os
 
 # ***************** json fields ***************** #
-from src import Utils
 
 DATE = "date"
 
@@ -107,6 +106,7 @@ JSON_EXTENSION = ".json"
 CSV_EXTENSION = ".csv"
 PICKLE_EXTENSION = ".pickle"
 GIF_EXTENSION = ".gif"
+PNG_EXTENSION = ".png"
 
 DATAFRAME = "dataframe"
 FEATURE = "features"
@@ -135,22 +135,27 @@ POINTS_SERIES_TYPE = TIMED_POINTS_SERIES_TYPE + [SAMPLED_POINTS,
                                                  XY_SHIFTED_SAMPLED_POINTS]
 
 # files constants
+ROOT_FOLDER = ".."
 BASE_FOLDER = "../res/"
 _RES_SUFFIX = "_res/"
 
 DATASET_NAME_0 = "Biotouch"
 DATASET_NAME_1 = "Biotouch_sara"
+DATASET_NAME_SMALL = "small"
 
 GENERATED_FOLDER = "generated/"
+OUTPUT_FOLDER = "outputs"
 CSV_FOLDER = "csv/"
 PICS_FOLDER = "pics/"
 
 BUILD_DATASET_FOLDER = lambda dataset_name: os.path.join(BASE_FOLDER, dataset_name)
 BUILD_RES_FOLDER = lambda dataset_name: BUILD_DATASET_FOLDER(dataset_name + _RES_SUFFIX)
+BUILD_OUTPUT_FOLDER = lambda dataset_name: os.path.join(ROOT_FOLDER,  OUTPUT_FOLDER, "output_" + dataset_name)
+
 
 BUILD_GENERATED_FOLDER = lambda dataset_name: os.path.join(BUILD_RES_FOLDER(dataset_name), GENERATED_FOLDER)
 BUILD_CSV_FOLDER = lambda dataset_name: os.path.join(BUILD_RES_FOLDER(dataset_name), CSV_FOLDER)
-BUILD_PICS_FOLDER = lambda dataset_name: os.path.join(BUILD_RES_FOLDER(dataset_name), PICS_FOLDER)
+BUILD_PICS_FOLDER = lambda dataset_name: os.path.join(BUILD_OUTPUT_FOLDER(dataset_name), PICS_FOLDER)
 
 BUILD_FILE_PATH = lambda base_path, file, desc, ext: os.path.join(base_path, file + "_" + desc + ext)
 
@@ -172,10 +177,23 @@ PATHS_FUN = {DATAFRAME:
                   CSV_EXTENSION: BUILD_FEATURE_CSV_PATH}}
 
 
-ANIMATION = "animation"
-CHART2D = "chard2D"
-CHART3D = "chard3D"
 
-BUILD_GIFS_PATH =       lambda dataset_name, name, surname, word, handwriting: BUILD_FILE_PATH(BUILD_PICS_FOLDER(dataset_name), "word_{}_{}_{}_{}".format(Utils.uglify(name),Utils.uglify(surname),word,handwriting), ANIMATION, GIF_EXTENSION)
-BUILD_CHART2D_PATH =    lambda dataset_name, name, surname, word, handwriting: BUILD_FILE_PATH(BUILD_PICS_FOLDER(dataset_name), "word_{}_{}_{}_{}".format(Utils.uglify(name),Utils.uglify(surname),word,handwriting), CHART2D, GIF_EXTENSION)
-BUILD_CHART3D_PATH =    lambda dataset_name, name, surname, word, handwriting: BUILD_FILE_PATH(BUILD_PICS_FOLDER(dataset_name), "word_{}_{}_{}_{}".format(Utils.uglify(name),Utils.uglify(surname),word,handwriting), CHART3D, GIF_EXTENSION)
+ANIMATION = "animation"
+CHART2D = "chart2D"
+CHART3D = "chart3D"
+
+_folder_ANIMATION = "animation/"
+_folder_CHART2D = "chart2D/"
+_folder_CHART3D = "chart3D/"
+
+def uglify(t):
+    return "".join(t.lower().split())
+
+
+BUILD_GIFS_FOLDER_PATH = lambda dataset_name: os.path.join(BUILD_PICS_FOLDER(dataset_name), _folder_ANIMATION)
+BUILD_CHART2D_FOLDER_PATH = lambda dataset_name: os.path.join(BUILD_PICS_FOLDER(dataset_name), _folder_CHART2D)
+BUILD_CHART3D_FOLDER_PATH = lambda dataset_name: os.path.join(BUILD_PICS_FOLDER(dataset_name), _folder_CHART3D)
+
+BUILD_GIFS_PATH =       lambda dataset_name, name, surname, word, handwriting: BUILD_FILE_PATH(BUILD_GIFS_FOLDER_PATH(dataset_name), "word_{}_{}_{}_{}".format(uglify(name),uglify(surname),word,handwriting), ANIMATION, GIF_EXTENSION)
+BUILD_CHART2D_PATH =    lambda dataset_name, name, surname, word, handwriting: BUILD_FILE_PATH(BUILD_CHART2D_FOLDER_PATH(dataset_name), "word_{}_{}_{}_{}".format(uglify(name),uglify(surname),word,handwriting), CHART2D, PNG_EXTENSION)
+BUILD_CHART3D_PATH =    lambda dataset_name, name, surname, word, handwriting,timescaling: BUILD_FILE_PATH(BUILD_CHART3D_FOLDER_PATH(dataset_name), "word_{}_{}_{}_{}_timescaling{}".format(uglify(name),uglify(surname),word,handwriting, timescaling), CHART3D, PNG_EXTENSION)

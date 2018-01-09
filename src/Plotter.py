@@ -1,68 +1,64 @@
-import matplotlib.pyplot as plt
-import matplotlib.animation as animation
-import numpy as np
-from matplotlib import pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
-import matplotlib.animation
-import pandas as pd
-
-from src.Chronometer import Chrono
-from src.Constants import *
-import matplotlib.pyplot as plt
-import matplotlib
-plt.style.use('fivethirtyeight')
-# plt.style.use('ggplot')
-import numpy as np
-import random
-import numpy.random
 import itertools
+
+import numpy as np
+import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+from mpl_toolkits.mplot3d import axes3d
+
+import src.Chronometer as chronometer
 import src.Utils as Utils
 
-import pandas
+plt.style.use('fivethirtyeight')
 
 
+# plt.style.use('ggplot')
+
+
+def get_title(info):
+    return "{} {} {} - {}".format(
+        Utils.prettify_name(info[Utils.NAME]),
+        Utils.prettify_name(info[Utils.SURNAME]),
+        info[Utils.WORD_NUMBER],
+        Utils.prettify_name(info[Utils.HANDWRITING]))
 
 
 class GifCreator:
 
-    def __init__(self, dataset_name, dataframe, wordid_userid, user_data, word_id, label=MOVEMENT_POINTS, frames=120, after_delay=1000):
-        self.info = Utils.get_infos(wordid_userid, user_data, word_id)
+    def __init__(self, dataset_name, dataframes, wordid_userid_dataframe, user_data_dataframe, word_id,
+                 label=Utils.MOVEMENT_POINTS, frames=120, after_delay=1000):
+        self.info = Utils.get_infos(wordid_userid_dataframe, user_data_dataframe, word_id)
 
         self.frames = frames
-        dataframe = dataframe[label]
-        self.data_word = dataframe.loc[getattr(dataframe, WORD_ID) == word_id].copy()
-        self.max_time = max(self.data_word[TIME])
+        dataframe = dataframes[label]
+        self.data_word = dataframe.loc[getattr(dataframe, Utils.WORD_ID) == word_id].copy()
+        self.max_time = max(self.data_word[Utils.TIME])
 
         self.repeat_delay = after_delay
-        self.height = self.info[HEIGHT_PIXELS]
-        self.width = self.info[WIDTH_PIXELS]
+        self.height = self.info[Utils.HEIGHT_PIXELS]
+        self.width = self.info[Utils.WIDTH_PIXELS]
         self.word_id = word_id
 
         self.colors_cycle = itertools.cycle(plt.rcParams['axes.prop_cycle'])
         self.color_map = {}
 
-        Utils.mkdir(BUILD_PICS_FOLDER(dataset_name))
-        self.gif_path = BUILD_GIFS_PATH(dataset_name, self.info[NAME], self.info[SURNAME], self.info[WORD_NUMBER], self.info[HANDWRITING])
+        Utils.mkdir(Utils.BUILD_GIFS_FOLDER_PATH(dataset_name))
+        self.gif_path = Utils.BUILD_GIFS_PATH(dataset_name, self.info[Utils.NAME], self.info[Utils.SURNAME],
+                                              self.info[Utils.WORD_NUMBER], self.info[Utils.HANDWRITING])
         self._generate_animation()
 
     @staticmethod
     def _update_plot(i, a, time_millis_per_frame):
         data = a.data_word[a.data_word['time'] <= i * time_millis_per_frame]
-        for i, group in data.groupby(COMPONENT):
+        for i, group in data.groupby(Utils.COMPONENT):
             if i not in a.color_map:
                 a.color_map[i] = next(a.colors_cycle)['color']
             color = a.color_map[i]
-            plt.scatter(group[X], group[Y], c=color, s=plt.rcParams['lines.markersize']*2)
+            plt.scatter(group[Utils.X], group[Utils.Y], c=color, s=plt.rcParams['lines.markersize'] * 2)
 
     def _generate_animation(self):
-        title = "{} {} {} - {}".format(
-            Utils.prettify_name(self.info[NAME]),
-            Utils.prettify_name(self.info[SURNAME]),
-            self.info[WORD_NUMBER],
-            Utils.prettify_name(self.info[HANDWRITING]))
-        chrono = Chrono("Generating gif for: {}...".format(title))
-        time_millis_per_frame = self.max_time / (self.frames-1)
+        title = get_title(self.info)
+        chrono = chronometer.Chrono("Generating gif for: {}...".format(title))
+        time_millis_per_frame = self.max_time / (self.frames - 1)
 
         fig = plt.figure()
         ax = fig.add_subplot(111)
@@ -81,25 +77,98 @@ class GifCreator:
                                       blit=False)
 
         ani.save(self.gif_path, writer='imagemagick')
+        plt.close(fig)
         chrono.end()
 
 
 class Plotter:
 
-    @staticmethod
-    def plot2dataframe(dataframe, label, wordid):
-        d = dataframe[label]
-        plt.interactive(False)
+    def __init__(self, dataset_name, dataframe, wordid_userid_dataframe, user_data_dataframe, word_id, label=Utils.MOVEMENT_POINTS):
+        self.info = Utils.get_infos(wordid_userid_dataframe, user_data_dataframe, word_id)
+        Utils.mkdir(Utils.BUILD_PICS_FOLDER(dataset_name))
+
+        self.dataset_name = dataset_name
+        self.dataframe = dataframe
+        self.word_id = word_id
+        self.label = label
+        self.height = self.info[Utils.HEIGHT_PIXELS]
+        self.width = self.info[Utils.WIDTH_PIXELS]
+
+        self.title = get_title(self.info)
+
+
+    def plot2dataframe(self):
+        chrono = chronometer.Chrono("Plotting 2D Chart for: {}...".format(self.title))
+        d = self.dataframe[self.label]
 
         ax = None
         colors = itertools.cycle(plt.rcParams['axes.prop_cycle'])
-        for i, component in enumerate(g for _, g in d.loc[d.word_id == wordid].groupby(COMPONENT)):
-            ax = component[["x", "y", TIME]].plot(x="x", y="y", kind="scatter", c=next(colors)['color'],
-                                                  ax=ax if ax else None)
+        for i, component in enumerate(g for _, g in d.loc[d.word_id == self.word_id].groupby(Utils.COMPONENT)):
+            ax = component[["x", "y", Utils.TIME]].plot(x="x", y="y", kind="scatter", c=next(colors)['color'],ax=ax if ax else None)
 
-        plt.axes().set_aspect('equal', 'datalim')
+        ax.set_xlim(0, self.width)
+        ax.set_ylim(0, self.height)
+
+        ax.set_xticklabels([])
+        ax.set_yticklabels([])
+
+        ax.xaxis.label.set_visible(False)
+        ax.yaxis.label.set_visible(False)
+
+        plt.title(self.title)
+        plt.axes().set_aspect('equal')
         plt.axes().invert_yaxis()
-        plt.show()
+
+        Utils.mkdir(Utils.BUILD_CHART2D_FOLDER_PATH(self.dataset_name))
+        plt.savefig(Utils.BUILD_CHART2D_PATH(self.dataset_name, self.info[Utils.NAME], self.info[Utils.SURNAME],
+                                             self.info[Utils.WORD_NUMBER], self.info[Utils.HANDWRITING]), dpi=400)
+        chrono.end()
+
+
+
+    def plot3dataframe(self, scaling_rates=[500, 1000, 2000, 2500, 3000, 3500]):
+        chrono = chronometer.Chrono("Plotting 3D Charts for: {}...".format(self.title))
+        d = self.dataframe[self.label]
+        maxv = max(d[Utils.TIME])
+
+        for scaling in scaling_rates:
+
+            fig = plt.figure()
+            ax = fig.add_subplot(111, projection='3d')
+
+
+            colors = itertools.cycle(plt.rcParams['axes.prop_cycle'])
+            for i, component in enumerate(g for _, g in d.loc[d.word_id == self.word_id].groupby(Utils.COMPONENT)):
+                x = component[Utils.X]
+                y = component[Utils.Y]
+                z = component[Utils.TIME] / maxv * scaling
+
+                ax.scatter(y, x, z, c=next(colors)['color'])
+
+
+            ax.set_xticklabels([])
+            ax.set_yticklabels([])
+            ax.set_zticklabels([])
+
+            ax.xaxis.set_ticks_position('none')  # tick markers
+            ax.yaxis.set_ticks_position('none')
+
+            plt.title(self.title)
+
+            ax.set_zlabel("\ntime", linespacing=-4)
+            ax.set_xlabel("\nx", linespacing=-4)
+            ax.set_ylabel("\ny", linespacing=-4)
+
+            Plotter.set_axes_equal(ax)
+
+            Utils.mkdir(Utils.BUILD_CHART3D_FOLDER_PATH(self.dataset_name))
+            plt.savefig(Utils.BUILD_CHART3D_PATH(self.dataset_name, self.info[Utils.NAME], self.info[Utils.SURNAME],
+                                                 self.info[Utils.WORD_NUMBER], self.info[Utils.HANDWRITING], scaling), dpi=400, bbox_inches='tight')
+            plt.close(fig)
+
+        chrono.end()
+
+
 
     @staticmethod
     def set_axes_equal(ax):
@@ -129,35 +198,3 @@ class Plotter:
         ax.set_xlim3d([x_middle - plot_radius, x_middle + plot_radius])
         ax.set_ylim3d([y_middle - plot_radius, y_middle + plot_radius])
         ax.set_zlim3d([z_middle - plot_radius, z_middle + plot_radius])
-
-    @staticmethod
-    def plot3dataframe(dataframe, label, wordid, scaling):
-        d = dataframe[label].copy()
-
-        plt.interactive(False)
-
-        fig = plt.figure()
-        ax = fig.add_subplot(111, projection='3d')
-
-        colors = itertools.cycle(plt.rcParams['axes.prop_cycle'])
-        for i, component in enumerate(g for _, g in d.loc[d.word_id == wordid].groupby(COMPONENT)):
-            x = component[X]
-            y = component[Y] * -1
-            z = component[TIME] / max(component[TIME]) * scaling
-
-            ax.scatter(y, x, z, c=next(colors)['color'])
-
-        # for i, component in enumerate(g for _, g in d.loc[d.word_id==wordid].groupby(COMPONENT)):
-        #
-        #     x = component[X]
-        #     y = component[Y] * -1
-        #     z = component[TIME] / max(component[TIME]) * scaling
-        #
-        #     ax.scatter(z, y, x,  c=next(colors)['color'])
-
-        # plt.axes().invert_yaxis()
-        ax.set_xlabel("x label")
-        ax.set_ylabel("y label")
-        ax.set_zlabel("z label")
-        Plotter.set_axes_equal(ax)
-        plt.show()

@@ -1,34 +1,35 @@
 import random
-import src.DataManager as dm
 import pandas
+from pandas.util.testing import assert_series_equal
+
+import warnings
+import logging
+
+import sklearn.exceptions
 from sklearn.metrics import *
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import *
 from sklearn.svm import SVC
+from sklearn.model_selection import GridSearchCV
 
 import src.FeatureManager as fm
-from src.Constants import *
+import src.Utils as Utils
 
-import logging
 logging.basicConfig(level=logging.ERROR)
-import warnings
-import sklearn.exceptions
-from src.Chronometer import  Chrono
+
 warnings.filterwarnings("ignore",category=sklearn.exceptions.UndefinedMetricWarning)
-from sklearn.model_selection import GridSearchCV
-from pandas.util.testing import assert_series_equal
 
 
 # form sklearn.model_selection import GridSearchCV
 
 def filter_dataframe_by_handwriting(dataframe, classes, user_data, handwriting):
-    temp = dataframe.join(classes).join(user_data[HANDWRITING], on=USER_ID).drop(USER_ID, axis=1)
-    return temp[temp[HANDWRITING] == handwriting].drop(HANDWRITING, axis=1)
+    temp = dataframe.join(classes).join(user_data[Utils.HANDWRITING], on=Utils.USER_ID).drop(Utils.USER_ID, axis=1)
+    return temp[temp[Utils.HANDWRITING] == handwriting].drop(Utils.HANDWRITING, axis=1)
 
 
 def filter_classes_by_handwriting(classes, user_data, handwriting):
-    temp = pandas.DataFrame(classes).join(user_data[HANDWRITING], on=USER_ID)
-    return temp[temp[HANDWRITING] == handwriting].drop(HANDWRITING, axis=1).squeeze()
+    temp = pandas.DataFrame(classes).join(user_data[Utils.HANDWRITING], on=Utils.USER_ID)
+    return temp[temp[Utils.HANDWRITING] == handwriting].drop(Utils.HANDWRITING, axis=1).squeeze()
 
 
 def filter_by_handwriting(dataframe, classes, user_data, handwriting):
@@ -55,9 +56,9 @@ def get_most_common_priority(list):
 
 
 if __name__ == '__main__':
-    f = fm.FeaturesManager(DATASET_NAME_0)
+    f = fm.FeaturesManager(Utils.DATASET_NAME_SMALL)
 
-    for h in [ITALIC, BLOCK_LETTER]:
+    for h in [Utils.ITALIC, Utils.BLOCK_LETTER]:
 
         print("...............................", h, "...................................")
         y = f.get_classes()
@@ -77,7 +78,7 @@ if __name__ == '__main__':
                             #{'kernel': ['poly'], 'C': [1, 10, 100, 1000], 'degree':[2, 3, 4, 5, 6], 'gamma': [1e-3, 1e-4]}]
         scoring = ['precision_macro', 'recall_macro', 'f1_macro']
 
-        for label in TIMED_POINTS_SERIES_TYPE:
+        for label in Utils.TIMED_POINTS_SERIES_TYPE:
             x = f.get_features()[label]
             x, y = filter_by_handwriting(x, y, user_data, h)
             X_train[label], X_test[label], y_train[label], y_test[label] = train_test_split(x, y, random_state=r,
@@ -87,10 +88,10 @@ if __name__ == '__main__':
             X_train[label] = scaler.transform(X_train[label])
             X_test[label] = scaler.transform(X_test[label])
 
-        assert_series_equal(y_train[MOVEMENT_POINTS], y_train[TOUCH_UP_POINTS])
-        assert_series_equal(y_train[TOUCH_DOWN_POINTS],y_train[TOUCH_UP_POINTS])
+        assert_series_equal(y_train[Utils.MOVEMENT_POINTS], y_train[Utils.TOUCH_UP_POINTS])
+        assert_series_equal(y_train[Utils.TOUCH_DOWN_POINTS], y_train[Utils.TOUCH_UP_POINTS])
 
-        for label in TIMED_POINTS_SERIES_TYPE:
+        for label in Utils.TIMED_POINTS_SERIES_TYPE:
             print("Testing on: " + label)
             classifier = GridSearchCV(SVC(), tuned_parameters, scoring=scoring, cv=5, refit='f1_macro', n_jobs=-1)
             classifier = classifier.fit(X_train[label], y_train[label])
@@ -117,6 +118,6 @@ if __name__ == '__main__':
         # todo va fatto per ogni direzione di split
         mixed_pre = []
         print("Testing on: majority results")
-        for a, b, c in zip(predictions[MOVEMENT_POINTS], predictions[TOUCH_UP_POINTS], predictions[TOUCH_DOWN_POINTS]):
+        for a, b, c in zip(predictions[Utils.MOVEMENT_POINTS], predictions[Utils.TOUCH_UP_POINTS], predictions[Utils.TOUCH_DOWN_POINTS]):
             mixed_pre.append(get_most_common_priority([a, b, c]))
-        print(classification_report(y_test[MOVEMENT_POINTS], mixed_pre))
+        print(classification_report(y_test[Utils.MOVEMENT_POINTS], mixed_pre))
