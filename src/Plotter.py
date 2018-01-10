@@ -92,7 +92,7 @@ class GifCreator:
         ax.xaxis.label.set_visible(False)
         ax.yaxis.label.set_visible(False)
 
-        plt.title(self.title)
+        # plt.title(self.title)
         plt.axes().set_aspect('equal')
         plt.axes().invert_yaxis()
 
@@ -150,7 +150,7 @@ class ChartCreator:
         ax.xaxis.label.set_visible(False)
         ax.yaxis.label.set_visible(False)
 
-        plt.title(self.title)
+        # plt.title(self.title)
         plt.axes().set_aspect('equal')
         plt.axes().invert_yaxis()
 
@@ -192,7 +192,7 @@ class ChartCreator:
             ax.yaxis.set_ticks_position('none')
 
 
-            plt.title(self.title)
+            # plt.title(self.title)
             ax.set_xlim(0, self.height)
             ax.set_ylim(0, self.width)
             ax.set_zlim(0, maxv)
