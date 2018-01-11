@@ -72,15 +72,15 @@ def majority12_on_predictions(a0, b0, c0, d0, e0, f0, g0, h0, i0, l0, m0, n0):
         mixed_pre.append(get_most_common_priority([a,b,c, d,e,f, g,h,i, l,m,n]))
     return mixed_pre
 
-# tuned_parameters = [{'kernel': ['rbf'], 'gamma': [1e-3, 1e-4, 1e-2, 1e-1, 1e-5], 'C': [0.1, 1, 10, 100, 500, 1000,  2500, 5000, 7500,10000]},
-#                     {'kernel': ['linear'], 'C': [0.1, 1, 10, 100, 500, 1000, 2500, 5000, 7500,10000]}]
-#                     #{'kernel': ['poly'], 'C': [1, 10, 100, 1000], 'degree':[2, 3, 4, 5, 6], 'gamma': [1e-3, 1e-4]}]
-# scoring = ['precision_macro', 'recall_macro', 'f1_macro']
+tuned_parameters = [{'kernel': ['rbf'], 'gamma': [1e-3, 1e-4, 1e-2, 1e-1, 1e-5], 'C': [0.1, 1, 10, 100, 500, 1000,  2500, 5000, 7500,10000]},
+                    {'kernel': ['linear'], 'C': [0.1, 1, 10, 100, 500, 1000, 2500, 5000, 7500,10000]}]
+                    #{'kernel': ['poly'], 'C': [1, 10, 100, 1000], 'degree':[2, 3, 4, 5, 6], 'gamma': [1e-3, 1e-4]}]
+scoring = ['precision_macro', 'recall_macro', 'f1_macro']
 
-tuned_parameters = [{'kernel': ['rbf'], 'gamma': [1e-3, 1e-4, 1e-2, ], 'C': [10, 500, 1000, 2500, 5000, 7500]},
-                    {'kernel': ['linear'], 'C': [100, 500, 1000, 2500, 5000]}]
+# tuned_parameters = [{'kernel': ['rbf'], 'gamma': [1e-3, 1e-4, 1e-2, ], 'C': [10, 500, 1000, 2500, 5000, 7500]},
+#                     {'kernel': ['linear'], 'C': [100, 500, 1000, 2500, 5000]}]
 # {'kernel': ['poly'], 'C': [1, 10, 100, 1000], 'degree':[2, 3, 4, 5, 6], 'gamma': [1e-3, 1e-4]}]
-scoring = ['f1_macro']
+# scoring = ['f1_macro']
 
 
 class Learner:
@@ -116,8 +116,8 @@ class Learner:
     #     return classifier
 
     def train_gridsearch_svc(self, X_train, y_train):
-        # classifier = GridSearchCV(SVC(probability=True), tuned_parameters, scoring=scoring, cv=5, refit='f1_macro', n_jobs=-1)
-        classifier = SVC()
+        classifier = GridSearchCV(SVC(probability=True), tuned_parameters, scoring=scoring, cv=5, refit='f1_macro', n_jobs=-1)
+        # classifier = SVC()
         classifier.fit(X_train, y_train)
         # print(classifier.best_params_)
         # print(classifier.best_score_)
