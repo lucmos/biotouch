@@ -24,7 +24,7 @@ class FeaturesManager:
     @staticmethod
     def extract_features_from_dataframe(dataframe: pandas.DataFrame, wordid_userid_mapping):
         return tsfresh.extract_relevant_features(dataframe, wordid_userid_mapping,
-                                                 column_id=Utils.WORD_ID, column_sort=Utils.TIME, n_jobs=8)
+                                                 column_id=Utils.WORD_ID, column_sort=Utils.TIME, n_jobs=3)
 
     def __init__(self, dataset_name, update_data=False, update_features=False):
         update_features = update_features or update_data
@@ -71,4 +71,4 @@ class FeaturesManager:
 
 
 if __name__ == '__main__':
-    FeaturesManager(Utils.DATASET_NAME_0, update_features=True)
+    FeaturesManager(Utils.DATASET_NAME_0, update_data=True, update_features=True)
