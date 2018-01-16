@@ -19,6 +19,17 @@ plt.style.use('fivethirtyeight')
 Utils.os.putenv("MAGICK_MEMORY_LIMIT", "4294967296")
 
 
+import matplotlib as mpl
+mpl.rcParams["figure.facecolor"] = 'white'
+mpl.rcParams["axes.facecolor"] = 'white'
+mpl.rcParams["axes.edgecolor"] = 'white'
+mpl.rcParams["savefig.facecolor"] = 'white'
+
+mpl.rcParams["xtick.color"] = 'white'
+mpl.rcParams["ytick.color"] = 'white'
+
+
+
 def get_title(info):
     return "{} {} {} - {}".format(
         Utils.prettify_name(info[Utils.NAME]),
@@ -184,12 +195,17 @@ class ChartCreator:
 
                 ax.scatter(y, x, z, c=next(colors)['color'])
 
+            ax.w_xaxis.set_pane_color((1, 1, 1, 0))
+            ax.w_yaxis.set_pane_color((1, 1, 1, 0))
+            ax.w_zaxis.set_pane_color((1, 1, 1, 0))
+
             ax.set_xticklabels([])
             ax.set_yticklabels([])
             ax.set_zticklabels([])
 
-            ax.xaxis.set_ticks_position('none')  # tick markers
-            ax.yaxis.set_ticks_position('none')
+
+            # ax.xaxis.set_ticks_position('none')  # tick markers
+            # ax.yaxis.set_ticks_position('none')
 
 
             # plt.title(self.title)
