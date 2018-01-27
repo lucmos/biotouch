@@ -1,0 +1,1415 @@
+C:\Users\feder\Documents\University\Progetti\Biotouch-wordlearner\venv\Scripts\python.exe C:/Users/feder/Documents/University/Progetti/Biotouch-wordlearner/src/LearningManager.py
+Reading dataframes...	done (in 209 millis)
+Reading features...	done (in 190 millis)
+################################### ITALIC ###################################
+{'C': 100, 'gamma': 1e-05, 'kernel': 'rbf'}
+0.9843802555495254
+SVC(C=100, cache_size=200, class_weight=None, coef0=0.0,
+  decision_function_shape='ovr', degree=3, gamma=1e-05, kernel='rbf',
+  max_iter=-1, probability=False, random_state=None, shrinking=True,
+  tol=0.001, verbose=False)
+{'f1_macro': make_scorer(f1_score, pos_label=None, average=macro)}
+Results for: ITALIC  -  movementPoints
+
+                                         precision    recall  f1-score   support
+
+    adriano_ischiboni_was-lx1a_0_ITALIC       0.91      1.00      0.95        10
+     alessandro_spini_was-lx1a_0_ITALIC       0.88      1.00      0.93         7
+   alessio_cappellini_was-lx1a_0_ITALIC       1.00      1.00      1.00        11
+        alessio_mecca_was-lx1a_0_ITALIC       1.00      0.91      0.95        11
+      fabrizia_palone_was-lx1a_0_ITALIC       1.00      1.00      1.00         9
+       federica_spini_was-lx1a_0_ITALIC       1.00      1.00      1.00        13
+fiammetta_dedominicis_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+     flavia_ischiboni_was-lx1a_0_ITALIC       1.00      1.00      1.00         6
+    fulviomaria_rossi_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+   giordano_ischiboni_was-lx1a_0_ITALIC       1.00      0.86      0.92         7
+       giuseppe_spini_was-lx1a_0_ITALIC       1.00      0.90      0.95        10
+         laura_sibani_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+         loredana_aba_was-lx1a_0_ITALIC       0.86      1.00      0.92         6
+    luca_dibartolomeo_was-lx1a_0_ITALIC       1.00      1.00      1.00         9
+       luca_moschella_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+          marta_samek_was-lx1a_0_ITALIC       1.00      1.00      1.00         8
+       paola_giannini_was-lx1a_0_ITALIC       1.00      1.00      1.00         8
+  patrizia_durastante_was-lx1a_0_ITALIC       1.00      1.00      1.00        12
+     rita_battilocchi_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+          roberto_aba_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+        sara_tramonte_was-lx1a_0_ITALIC       1.00      1.00      1.00        11
+      valerio_novelli_was-lx1a_0_ITALIC       1.00      1.00      1.00        12
+      walter_ferrazza_was-lx1a_0_ITALIC       1.00      1.00      1.00        11
+
+                            avg / total       0.99      0.99      0.99       221
+
+
+{'C': 1000, 'gamma': 0.0001, 'kernel': 'rbf'}
+0.9087839949553754
+SVC(C=1000, cache_size=200, class_weight=None, coef0=0.0,
+  decision_function_shape='ovr', degree=3, gamma=0.0001, kernel='rbf',
+  max_iter=-1, probability=False, random_state=None, shrinking=True,
+  tol=0.001, verbose=False)
+{'f1_macro': make_scorer(f1_score, pos_label=None, average=macro)}
+Results for: ITALIC  -  touchDownPoints
+
+                                         precision    recall  f1-score   support
+
+    adriano_ischiboni_was-lx1a_0_ITALIC       0.64      0.90      0.75        10
+     alessandro_spini_was-lx1a_0_ITALIC       0.75      0.86      0.80         7
+   alessio_cappellini_was-lx1a_0_ITALIC       1.00      1.00      1.00        11
+        alessio_mecca_was-lx1a_0_ITALIC       0.83      0.91      0.87        11
+      fabrizia_palone_was-lx1a_0_ITALIC       1.00      1.00      1.00         9
+       federica_spini_was-lx1a_0_ITALIC       1.00      1.00      1.00        13
+fiammetta_dedominicis_was-lx1a_0_ITALIC       1.00      0.90      0.95        10
+     flavia_ischiboni_was-lx1a_0_ITALIC       0.83      0.83      0.83         6
+    fulviomaria_rossi_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+   giordano_ischiboni_was-lx1a_0_ITALIC       0.86      0.86      0.86         7
+       giuseppe_spini_was-lx1a_0_ITALIC       0.70      0.70      0.70        10
+         laura_sibani_was-lx1a_0_ITALIC       0.90      0.90      0.90        10
+         loredana_aba_was-lx1a_0_ITALIC       0.86      1.00      0.92         6
+    luca_dibartolomeo_was-lx1a_0_ITALIC       0.90      1.00      0.95         9
+       luca_moschella_was-lx1a_0_ITALIC       1.00      0.90      0.95        10
+          marta_samek_was-lx1a_0_ITALIC       1.00      1.00      1.00         8
+       paola_giannini_was-lx1a_0_ITALIC       0.86      0.75      0.80         8
+  patrizia_durastante_was-lx1a_0_ITALIC       1.00      0.92      0.96        12
+     rita_battilocchi_was-lx1a_0_ITALIC       1.00      0.80      0.89        10
+          roberto_aba_was-lx1a_0_ITALIC       0.82      0.90      0.86        10
+        sara_tramonte_was-lx1a_0_ITALIC       0.80      0.73      0.76        11
+      valerio_novelli_was-lx1a_0_ITALIC       0.91      0.83      0.87        12
+      walter_ferrazza_was-lx1a_0_ITALIC       1.00      0.91      0.95        11
+
+                            avg / total       0.90      0.90      0.90       221
+
+
+{'C': 2500, 'kernel': 'linear'}
+0.8661689771229663
+SVC(C=2500, cache_size=200, class_weight=None, coef0=0.0,
+  decision_function_shape='ovr', degree=3, gamma='auto', kernel='linear',
+  max_iter=-1, probability=False, random_state=None, shrinking=True,
+  tol=0.001, verbose=False)
+{'f1_macro': make_scorer(f1_score, pos_label=None, average=macro)}
+Results for: ITALIC  -  touchUpPoints
+
+                                         precision    recall  f1-score   support
+
+    adriano_ischiboni_was-lx1a_0_ITALIC       0.80      0.80      0.80        10
+     alessandro_spini_was-lx1a_0_ITALIC       0.86      0.86      0.86         7
+   alessio_cappellini_was-lx1a_0_ITALIC       1.00      1.00      1.00        11
+        alessio_mecca_was-lx1a_0_ITALIC       0.67      0.55      0.60        11
+      fabrizia_palone_was-lx1a_0_ITALIC       0.64      0.78      0.70         9
+       federica_spini_was-lx1a_0_ITALIC       0.92      0.85      0.88        13
+fiammetta_dedominicis_was-lx1a_0_ITALIC       1.00      0.90      0.95        10
+     flavia_ischiboni_was-lx1a_0_ITALIC       0.62      0.83      0.71         6
+    fulviomaria_rossi_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+   giordano_ischiboni_was-lx1a_0_ITALIC       0.75      0.86      0.80         7
+       giuseppe_spini_was-lx1a_0_ITALIC       1.00      0.80      0.89        10
+         laura_sibani_was-lx1a_0_ITALIC       0.50      0.60      0.55        10
+         loredana_aba_was-lx1a_0_ITALIC       0.83      0.83      0.83         6
+    luca_dibartolomeo_was-lx1a_0_ITALIC       0.90      1.00      0.95         9
+       luca_moschella_was-lx1a_0_ITALIC       0.77      1.00      0.87        10
+          marta_samek_was-lx1a_0_ITALIC       1.00      1.00      1.00         8
+       paola_giannini_was-lx1a_0_ITALIC       0.88      0.88      0.88         8
+  patrizia_durastante_was-lx1a_0_ITALIC       0.92      0.92      0.92        12
+     rita_battilocchi_was-lx1a_0_ITALIC       1.00      0.90      0.95        10
+          roberto_aba_was-lx1a_0_ITALIC       0.90      0.90      0.90        10
+        sara_tramonte_was-lx1a_0_ITALIC       0.89      0.73      0.80        11
+      valerio_novelli_was-lx1a_0_ITALIC       1.00      0.92      0.96        12
+      walter_ferrazza_was-lx1a_0_ITALIC       1.00      0.91      0.95        11
+
+                            avg / total       0.87      0.86      0.86       221
+
+
+{'C': 0.1, 'kernel': 'linear'}
+0.9864183656501091
+SVC(C=0.1, cache_size=200, class_weight=None, coef0=0.0,
+  decision_function_shape='ovr', degree=3, gamma='auto', kernel='linear',
+  max_iter=-1, probability=False, random_state=None, shrinking=True,
+  tol=0.001, verbose=False)
+{'f1_macro': make_scorer(f1_score, pos_label=None, average=macro)}
+Results for: ITALIC  -  x_shifted_movementPoints
+
+                                         precision    recall  f1-score   support
+
+    adriano_ischiboni_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+     alessandro_spini_was-lx1a_0_ITALIC       0.88      1.00      0.93         7
+   alessio_cappellini_was-lx1a_0_ITALIC       1.00      1.00      1.00        11
+        alessio_mecca_was-lx1a_0_ITALIC       1.00      0.91      0.95        11
+      fabrizia_palone_was-lx1a_0_ITALIC       1.00      1.00      1.00         9
+       federica_spini_was-lx1a_0_ITALIC       1.00      1.00      1.00        13
+fiammetta_dedominicis_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+     flavia_ischiboni_was-lx1a_0_ITALIC       1.00      1.00      1.00         6
+    fulviomaria_rossi_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+   giordano_ischiboni_was-lx1a_0_ITALIC       1.00      0.86      0.92         7
+       giuseppe_spini_was-lx1a_0_ITALIC       1.00      0.90      0.95        10
+         laura_sibani_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+         loredana_aba_was-lx1a_0_ITALIC       0.75      1.00      0.86         6
+    luca_dibartolomeo_was-lx1a_0_ITALIC       1.00      1.00      1.00         9
+       luca_moschella_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+          marta_samek_was-lx1a_0_ITALIC       1.00      1.00      1.00         8
+       paola_giannini_was-lx1a_0_ITALIC       1.00      1.00      1.00         8
+  patrizia_durastante_was-lx1a_0_ITALIC       1.00      1.00      1.00        12
+     rita_battilocchi_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+          roberto_aba_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+        sara_tramonte_was-lx1a_0_ITALIC       0.92      1.00      0.96        11
+      valerio_novelli_was-lx1a_0_ITALIC       1.00      1.00      1.00        12
+      walter_ferrazza_was-lx1a_0_ITALIC       1.00      0.91      0.95        11
+
+                            avg / total       0.99      0.98      0.98       221
+
+
+{'C': 1000, 'gamma': 0.0001, 'kernel': 'rbf'}
+0.9110852629383656
+SVC(C=1000, cache_size=200, class_weight=None, coef0=0.0,
+  decision_function_shape='ovr', degree=3, gamma=0.0001, kernel='rbf',
+  max_iter=-1, probability=False, random_state=None, shrinking=True,
+  tol=0.001, verbose=False)
+{'f1_macro': make_scorer(f1_score, pos_label=None, average=macro)}
+Results for: ITALIC  -  x_shifted_touchDownPoints
+
+                                         precision    recall  f1-score   support
+
+    adriano_ischiboni_was-lx1a_0_ITALIC       0.75      0.90      0.82        10
+     alessandro_spini_was-lx1a_0_ITALIC       0.56      0.71      0.63         7
+   alessio_cappellini_was-lx1a_0_ITALIC       1.00      1.00      1.00        11
+        alessio_mecca_was-lx1a_0_ITALIC       0.62      0.91      0.74        11
+      fabrizia_palone_was-lx1a_0_ITALIC       1.00      1.00      1.00         9
+       federica_spini_was-lx1a_0_ITALIC       1.00      1.00      1.00        13
+fiammetta_dedominicis_was-lx1a_0_ITALIC       0.90      0.90      0.90        10
+     flavia_ischiboni_was-lx1a_0_ITALIC       0.83      0.83      0.83         6
+    fulviomaria_rossi_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+   giordano_ischiboni_was-lx1a_0_ITALIC       0.86      0.86      0.86         7
+       giuseppe_spini_was-lx1a_0_ITALIC       0.64      0.70      0.67        10
+         laura_sibani_was-lx1a_0_ITALIC       1.00      0.80      0.89        10
+         loredana_aba_was-lx1a_0_ITALIC       0.62      0.83      0.71         6
+    luca_dibartolomeo_was-lx1a_0_ITALIC       0.90      1.00      0.95         9
+       luca_moschella_was-lx1a_0_ITALIC       0.90      0.90      0.90        10
+          marta_samek_was-lx1a_0_ITALIC       1.00      1.00      1.00         8
+       paola_giannini_was-lx1a_0_ITALIC       0.86      0.75      0.80         8
+  patrizia_durastante_was-lx1a_0_ITALIC       1.00      0.83      0.91        12
+     rita_battilocchi_was-lx1a_0_ITALIC       1.00      0.80      0.89        10
+          roberto_aba_was-lx1a_0_ITALIC       0.62      0.80      0.70        10
+        sara_tramonte_was-lx1a_0_ITALIC       1.00      0.73      0.84        11
+      valerio_novelli_was-lx1a_0_ITALIC       1.00      0.83      0.91        12
+      walter_ferrazza_was-lx1a_0_ITALIC       1.00      0.64      0.78        11
+
+                            avg / total       0.88      0.86      0.86       221
+
+
+{'C': 2500, 'gamma': 0.0001, 'kernel': 'rbf'}
+0.860034494373878
+SVC(C=2500, cache_size=200, class_weight=None, coef0=0.0,
+  decision_function_shape='ovr', degree=3, gamma=0.0001, kernel='rbf',
+  max_iter=-1, probability=False, random_state=None, shrinking=True,
+  tol=0.001, verbose=False)
+{'f1_macro': make_scorer(f1_score, pos_label=None, average=macro)}
+Results for: ITALIC  -  x_shifted_touchUpPoints
+
+                                         precision    recall  f1-score   support
+
+    adriano_ischiboni_was-lx1a_0_ITALIC       0.90      0.90      0.90        10
+     alessandro_spini_was-lx1a_0_ITALIC       0.83      0.71      0.77         7
+   alessio_cappellini_was-lx1a_0_ITALIC       0.85      1.00      0.92        11
+        alessio_mecca_was-lx1a_0_ITALIC       0.67      0.55      0.60        11
+      fabrizia_palone_was-lx1a_0_ITALIC       0.53      0.89      0.67         9
+       federica_spini_was-lx1a_0_ITALIC       0.92      0.92      0.92        13
+fiammetta_dedominicis_was-lx1a_0_ITALIC       1.00      0.90      0.95        10
+     flavia_ischiboni_was-lx1a_0_ITALIC       0.62      0.83      0.71         6
+    fulviomaria_rossi_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+   giordano_ischiboni_was-lx1a_0_ITALIC       0.75      0.86      0.80         7
+       giuseppe_spini_was-lx1a_0_ITALIC       0.83      0.50      0.62        10
+         laura_sibani_was-lx1a_0_ITALIC       0.64      0.70      0.67        10
+         loredana_aba_was-lx1a_0_ITALIC       0.83      0.83      0.83         6
+    luca_dibartolomeo_was-lx1a_0_ITALIC       0.88      0.78      0.82         9
+       luca_moschella_was-lx1a_0_ITALIC       0.83      1.00      0.91        10
+          marta_samek_was-lx1a_0_ITALIC       1.00      1.00      1.00         8
+       paola_giannini_was-lx1a_0_ITALIC       0.58      0.88      0.70         8
+  patrizia_durastante_was-lx1a_0_ITALIC       0.91      0.83      0.87        12
+     rita_battilocchi_was-lx1a_0_ITALIC       1.00      0.80      0.89        10
+          roberto_aba_was-lx1a_0_ITALIC       0.89      0.80      0.84        10
+        sara_tramonte_was-lx1a_0_ITALIC       0.80      0.73      0.76        11
+      valerio_novelli_was-lx1a_0_ITALIC       1.00      0.92      0.96        12
+      walter_ferrazza_was-lx1a_0_ITALIC       0.88      0.64      0.74        11
+
+                            avg / total       0.84      0.82      0.82       221
+
+
+{'C': 10, 'gamma': 0.0001, 'kernel': 'rbf'}
+0.98250538917487
+SVC(C=10, cache_size=200, class_weight=None, coef0=0.0,
+  decision_function_shape='ovr', degree=3, gamma=0.0001, kernel='rbf',
+  max_iter=-1, probability=False, random_state=None, shrinking=True,
+  tol=0.001, verbose=False)
+{'f1_macro': make_scorer(f1_score, pos_label=None, average=macro)}
+Results for: ITALIC  -  y_shifted_movementPoints
+
+                                         precision    recall  f1-score   support
+
+    adriano_ischiboni_was-lx1a_0_ITALIC       0.91      1.00      0.95        10
+     alessandro_spini_was-lx1a_0_ITALIC       0.88      1.00      0.93         7
+   alessio_cappellini_was-lx1a_0_ITALIC       1.00      1.00      1.00        11
+        alessio_mecca_was-lx1a_0_ITALIC       1.00      0.91      0.95        11
+      fabrizia_palone_was-lx1a_0_ITALIC       1.00      1.00      1.00         9
+       federica_spini_was-lx1a_0_ITALIC       1.00      1.00      1.00        13
+fiammetta_dedominicis_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+     flavia_ischiboni_was-lx1a_0_ITALIC       1.00      1.00      1.00         6
+    fulviomaria_rossi_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+   giordano_ischiboni_was-lx1a_0_ITALIC       1.00      0.86      0.92         7
+       giuseppe_spini_was-lx1a_0_ITALIC       1.00      0.90      0.95        10
+         laura_sibani_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+         loredana_aba_was-lx1a_0_ITALIC       0.86      1.00      0.92         6
+    luca_dibartolomeo_was-lx1a_0_ITALIC       1.00      1.00      1.00         9
+       luca_moschella_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+          marta_samek_was-lx1a_0_ITALIC       1.00      1.00      1.00         8
+       paola_giannini_was-lx1a_0_ITALIC       1.00      1.00      1.00         8
+  patrizia_durastante_was-lx1a_0_ITALIC       1.00      1.00      1.00        12
+     rita_battilocchi_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+          roberto_aba_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+        sara_tramonte_was-lx1a_0_ITALIC       1.00      1.00      1.00        11
+      valerio_novelli_was-lx1a_0_ITALIC       1.00      1.00      1.00        12
+      walter_ferrazza_was-lx1a_0_ITALIC       1.00      1.00      1.00        11
+
+                            avg / total       0.99      0.99      0.99       221
+
+
+{'C': 500, 'gamma': 0.0001, 'kernel': 'rbf'}
+0.8642975157200571
+SVC(C=500, cache_size=200, class_weight=None, coef0=0.0,
+  decision_function_shape='ovr', degree=3, gamma=0.0001, kernel='rbf',
+  max_iter=-1, probability=False, random_state=None, shrinking=True,
+  tol=0.001, verbose=False)
+{'f1_macro': make_scorer(f1_score, pos_label=None, average=macro)}
+Results for: ITALIC  -  y_shifted_touchDownPoints
+
+                                         precision    recall  f1-score   support
+
+    adriano_ischiboni_was-lx1a_0_ITALIC       0.75      0.90      0.82        10
+     alessandro_spini_was-lx1a_0_ITALIC       0.67      0.86      0.75         7
+   alessio_cappellini_was-lx1a_0_ITALIC       1.00      1.00      1.00        11
+        alessio_mecca_was-lx1a_0_ITALIC       0.73      0.73      0.73        11
+      fabrizia_palone_was-lx1a_0_ITALIC       0.64      0.78      0.70         9
+       federica_spini_was-lx1a_0_ITALIC       1.00      1.00      1.00        13
+fiammetta_dedominicis_was-lx1a_0_ITALIC       0.90      0.90      0.90        10
+     flavia_ischiboni_was-lx1a_0_ITALIC       0.71      0.83      0.77         6
+    fulviomaria_rossi_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+   giordano_ischiboni_was-lx1a_0_ITALIC       0.86      0.86      0.86         7
+       giuseppe_spini_was-lx1a_0_ITALIC       0.38      0.30      0.33        10
+         laura_sibani_was-lx1a_0_ITALIC       0.67      1.00      0.80        10
+         loredana_aba_was-lx1a_0_ITALIC       1.00      1.00      1.00         6
+    luca_dibartolomeo_was-lx1a_0_ITALIC       0.90      1.00      0.95         9
+       luca_moschella_was-lx1a_0_ITALIC       1.00      0.90      0.95        10
+          marta_samek_was-lx1a_0_ITALIC       1.00      0.88      0.93         8
+       paola_giannini_was-lx1a_0_ITALIC       0.50      0.50      0.50         8
+  patrizia_durastante_was-lx1a_0_ITALIC       1.00      0.83      0.91        12
+     rita_battilocchi_was-lx1a_0_ITALIC       0.88      0.70      0.78        10
+          roberto_aba_was-lx1a_0_ITALIC       0.89      0.80      0.84        10
+        sara_tramonte_was-lx1a_0_ITALIC       0.80      0.73      0.76        11
+      valerio_novelli_was-lx1a_0_ITALIC       0.83      0.83      0.83        12
+      walter_ferrazza_was-lx1a_0_ITALIC       0.88      0.64      0.74        11
+
+                            avg / total       0.83      0.82      0.82       221
+
+
+{'C': 2500, 'gamma': 0.0001, 'kernel': 'rbf'}
+0.8862909807232308
+SVC(C=2500, cache_size=200, class_weight=None, coef0=0.0,
+  decision_function_shape='ovr', degree=3, gamma=0.0001, kernel='rbf',
+  max_iter=-1, probability=False, random_state=None, shrinking=True,
+  tol=0.001, verbose=False)
+{'f1_macro': make_scorer(f1_score, pos_label=None, average=macro)}
+Results for: ITALIC  -  y_shifted_touchUpPoints
+
+                                         precision    recall  f1-score   support
+
+    adriano_ischiboni_was-lx1a_0_ITALIC       0.70      0.70      0.70        10
+     alessandro_spini_was-lx1a_0_ITALIC       0.88      1.00      0.93         7
+   alessio_cappellini_was-lx1a_0_ITALIC       0.85      1.00      0.92        11
+        alessio_mecca_was-lx1a_0_ITALIC       0.69      0.82      0.75        11
+      fabrizia_palone_was-lx1a_0_ITALIC       0.89      0.89      0.89         9
+       federica_spini_was-lx1a_0_ITALIC       1.00      0.62      0.76        13
+fiammetta_dedominicis_was-lx1a_0_ITALIC       1.00      0.90      0.95        10
+     flavia_ischiboni_was-lx1a_0_ITALIC       0.56      0.83      0.67         6
+    fulviomaria_rossi_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+   giordano_ischiboni_was-lx1a_0_ITALIC       0.75      0.86      0.80         7
+       giuseppe_spini_was-lx1a_0_ITALIC       0.60      0.60      0.60        10
+         laura_sibani_was-lx1a_0_ITALIC       0.83      1.00      0.91        10
+         loredana_aba_was-lx1a_0_ITALIC       1.00      0.83      0.91         6
+    luca_dibartolomeo_was-lx1a_0_ITALIC       0.88      0.78      0.82         9
+       luca_moschella_was-lx1a_0_ITALIC       0.91      1.00      0.95        10
+          marta_samek_was-lx1a_0_ITALIC       1.00      1.00      1.00         8
+       paola_giannini_was-lx1a_0_ITALIC       0.54      0.88      0.67         8
+  patrizia_durastante_was-lx1a_0_ITALIC       1.00      1.00      1.00        12
+     rita_battilocchi_was-lx1a_0_ITALIC       1.00      0.70      0.82        10
+          roberto_aba_was-lx1a_0_ITALIC       0.90      0.90      0.90        10
+        sara_tramonte_was-lx1a_0_ITALIC       0.80      0.73      0.76        11
+      valerio_novelli_was-lx1a_0_ITALIC       1.00      0.92      0.96        12
+      walter_ferrazza_was-lx1a_0_ITALIC       1.00      0.64      0.78        11
+
+                            avg / total       0.87      0.85      0.85       221
+
+
+{'C': 10, 'gamma': 0.0001, 'kernel': 'rbf'}
+0.9829833643679148
+SVC(C=10, cache_size=200, class_weight=None, coef0=0.0,
+  decision_function_shape='ovr', degree=3, gamma=0.0001, kernel='rbf',
+  max_iter=-1, probability=False, random_state=None, shrinking=True,
+  tol=0.001, verbose=False)
+{'f1_macro': make_scorer(f1_score, pos_label=None, average=macro)}
+Results for: ITALIC  -  xy_shifted_movementPoints
+
+                                         precision    recall  f1-score   support
+
+    adriano_ischiboni_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+     alessandro_spini_was-lx1a_0_ITALIC       0.88      1.00      0.93         7
+   alessio_cappellini_was-lx1a_0_ITALIC       1.00      1.00      1.00        11
+        alessio_mecca_was-lx1a_0_ITALIC       1.00      0.91      0.95        11
+      fabrizia_palone_was-lx1a_0_ITALIC       1.00      1.00      1.00         9
+       federica_spini_was-lx1a_0_ITALIC       1.00      1.00      1.00        13
+fiammetta_dedominicis_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+     flavia_ischiboni_was-lx1a_0_ITALIC       1.00      1.00      1.00         6
+    fulviomaria_rossi_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+   giordano_ischiboni_was-lx1a_0_ITALIC       1.00      0.86      0.92         7
+       giuseppe_spini_was-lx1a_0_ITALIC       1.00      0.90      0.95        10
+         laura_sibani_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+         loredana_aba_was-lx1a_0_ITALIC       0.75      1.00      0.86         6
+    luca_dibartolomeo_was-lx1a_0_ITALIC       1.00      1.00      1.00         9
+       luca_moschella_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+          marta_samek_was-lx1a_0_ITALIC       1.00      1.00      1.00         8
+       paola_giannini_was-lx1a_0_ITALIC       1.00      1.00      1.00         8
+  patrizia_durastante_was-lx1a_0_ITALIC       1.00      1.00      1.00        12
+     rita_battilocchi_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+          roberto_aba_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+        sara_tramonte_was-lx1a_0_ITALIC       0.92      1.00      0.96        11
+      valerio_novelli_was-lx1a_0_ITALIC       1.00      1.00      1.00        12
+      walter_ferrazza_was-lx1a_0_ITALIC       1.00      0.91      0.95        11
+
+                            avg / total       0.99      0.98      0.98       221
+
+
+{'C': 500, 'gamma': 0.0001, 'kernel': 'rbf'}
+0.8791687736305719
+SVC(C=500, cache_size=200, class_weight=None, coef0=0.0,
+  decision_function_shape='ovr', degree=3, gamma=0.0001, kernel='rbf',
+  max_iter=-1, probability=False, random_state=None, shrinking=True,
+  tol=0.001, verbose=False)
+{'f1_macro': make_scorer(f1_score, pos_label=None, average=macro)}
+Results for: ITALIC  -  xy_shifted_touchDownPoints
+
+                                         precision    recall  f1-score   support
+
+    adriano_ischiboni_was-lx1a_0_ITALIC       0.82      0.90      0.86        10
+     alessandro_spini_was-lx1a_0_ITALIC       0.71      0.71      0.71         7
+   alessio_cappellini_was-lx1a_0_ITALIC       0.92      1.00      0.96        11
+        alessio_mecca_was-lx1a_0_ITALIC       0.58      0.64      0.61        11
+      fabrizia_palone_was-lx1a_0_ITALIC       0.58      0.78      0.67         9
+       federica_spini_was-lx1a_0_ITALIC       1.00      1.00      1.00        13
+fiammetta_dedominicis_was-lx1a_0_ITALIC       0.82      0.90      0.86        10
+     flavia_ischiboni_was-lx1a_0_ITALIC       0.71      0.83      0.77         6
+    fulviomaria_rossi_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+   giordano_ischiboni_was-lx1a_0_ITALIC       0.86      0.86      0.86         7
+       giuseppe_spini_was-lx1a_0_ITALIC       0.50      0.30      0.37        10
+         laura_sibani_was-lx1a_0_ITALIC       0.64      0.90      0.75        10
+         loredana_aba_was-lx1a_0_ITALIC       1.00      0.83      0.91         6
+    luca_dibartolomeo_was-lx1a_0_ITALIC       0.90      1.00      0.95         9
+       luca_moschella_was-lx1a_0_ITALIC       1.00      0.90      0.95        10
+          marta_samek_was-lx1a_0_ITALIC       1.00      1.00      1.00         8
+       paola_giannini_was-lx1a_0_ITALIC       0.56      0.62      0.59         8
+  patrizia_durastante_was-lx1a_0_ITALIC       1.00      0.83      0.91        12
+     rita_battilocchi_was-lx1a_0_ITALIC       1.00      0.70      0.82        10
+          roberto_aba_was-lx1a_0_ITALIC       0.89      0.80      0.84        10
+        sara_tramonte_was-lx1a_0_ITALIC       0.73      0.73      0.73        11
+      valerio_novelli_was-lx1a_0_ITALIC       0.83      0.83      0.83        12
+      walter_ferrazza_was-lx1a_0_ITALIC       0.89      0.73      0.80        11
+
+                            avg / total       0.83      0.82      0.82       221
+
+
+{'C': 1000, 'gamma': 1e-05, 'kernel': 'rbf'}
+0.8945324217548786
+SVC(C=1000, cache_size=200, class_weight=None, coef0=0.0,
+  decision_function_shape='ovr', degree=3, gamma=1e-05, kernel='rbf',
+  max_iter=-1, probability=False, random_state=None, shrinking=True,
+  tol=0.001, verbose=False)
+{'f1_macro': make_scorer(f1_score, pos_label=None, average=macro)}
+Results for: ITALIC  -  xy_shifted_touchUpPoints
+
+                                         precision    recall  f1-score   support
+
+    adriano_ischiboni_was-lx1a_0_ITALIC       0.88      0.70      0.78        10
+     alessandro_spini_was-lx1a_0_ITALIC       1.00      1.00      1.00         7
+   alessio_cappellini_was-lx1a_0_ITALIC       0.92      1.00      0.96        11
+        alessio_mecca_was-lx1a_0_ITALIC       0.82      0.82      0.82        11
+      fabrizia_palone_was-lx1a_0_ITALIC       0.82      1.00      0.90         9
+       federica_spini_was-lx1a_0_ITALIC       1.00      0.92      0.96        13
+fiammetta_dedominicis_was-lx1a_0_ITALIC       1.00      0.90      0.95        10
+     flavia_ischiboni_was-lx1a_0_ITALIC       0.56      0.83      0.67         6
+    fulviomaria_rossi_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+   giordano_ischiboni_was-lx1a_0_ITALIC       0.67      0.86      0.75         7
+       giuseppe_spini_was-lx1a_0_ITALIC       0.88      0.70      0.78        10
+         laura_sibani_was-lx1a_0_ITALIC       0.91      1.00      0.95        10
+         loredana_aba_was-lx1a_0_ITALIC       1.00      0.83      0.91         6
+    luca_dibartolomeo_was-lx1a_0_ITALIC       0.89      0.89      0.89         9
+       luca_moschella_was-lx1a_0_ITALIC       0.77      1.00      0.87        10
+          marta_samek_was-lx1a_0_ITALIC       1.00      1.00      1.00         8
+       paola_giannini_was-lx1a_0_ITALIC       0.62      0.62      0.62         8
+  patrizia_durastante_was-lx1a_0_ITALIC       1.00      0.83      0.91        12
+     rita_battilocchi_was-lx1a_0_ITALIC       0.62      0.80      0.70        10
+          roberto_aba_was-lx1a_0_ITALIC       1.00      0.90      0.95        10
+        sara_tramonte_was-lx1a_0_ITALIC       0.89      0.73      0.80        11
+      valerio_novelli_was-lx1a_0_ITALIC       1.00      0.92      0.96        12
+      walter_ferrazza_was-lx1a_0_ITALIC       0.78      0.64      0.70        11
+
+                            avg / total       0.88      0.86      0.87       221
+
+
+Results for: ITALIC  -  MAJORITY ON NON SHIFTED POINTS (on movements, up, down)
+
+                                         precision    recall  f1-score   support
+
+    adriano_ischiboni_was-lx1a_0_ITALIC       0.90      0.90      0.90        10
+     alessandro_spini_was-lx1a_0_ITALIC       0.88      1.00      0.93         7
+   alessio_cappellini_was-lx1a_0_ITALIC       1.00      1.00      1.00        11
+        alessio_mecca_was-lx1a_0_ITALIC       1.00      0.91      0.95        11
+      fabrizia_palone_was-lx1a_0_ITALIC       1.00      1.00      1.00         9
+       federica_spini_was-lx1a_0_ITALIC       1.00      1.00      1.00        13
+fiammetta_dedominicis_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+     flavia_ischiboni_was-lx1a_0_ITALIC       1.00      1.00      1.00         6
+    fulviomaria_rossi_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+   giordano_ischiboni_was-lx1a_0_ITALIC       1.00      0.86      0.92         7
+       giuseppe_spini_was-lx1a_0_ITALIC       1.00      0.90      0.95        10
+         laura_sibani_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+         loredana_aba_was-lx1a_0_ITALIC       0.86      1.00      0.92         6
+    luca_dibartolomeo_was-lx1a_0_ITALIC       0.90      1.00      0.95         9
+       luca_moschella_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+          marta_samek_was-lx1a_0_ITALIC       1.00      1.00      1.00         8
+       paola_giannini_was-lx1a_0_ITALIC       1.00      1.00      1.00         8
+  patrizia_durastante_was-lx1a_0_ITALIC       1.00      1.00      1.00        12
+     rita_battilocchi_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+          roberto_aba_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+        sara_tramonte_was-lx1a_0_ITALIC       1.00      1.00      1.00        11
+      valerio_novelli_was-lx1a_0_ITALIC       1.00      1.00      1.00        12
+      walter_ferrazza_was-lx1a_0_ITALIC       1.00      1.00      1.00        11
+
+                            avg / total       0.98      0.98      0.98       221
+
+
+Results for: ITALIC  -  MAJORITY ON X-SHIFTED POINTS (on movements, up, down)
+
+                                         precision    recall  f1-score   support
+
+    adriano_ischiboni_was-lx1a_0_ITALIC       1.00      0.90      0.95        10
+     alessandro_spini_was-lx1a_0_ITALIC       0.86      0.86      0.86         7
+   alessio_cappellini_was-lx1a_0_ITALIC       1.00      1.00      1.00        11
+        alessio_mecca_was-lx1a_0_ITALIC       0.91      0.91      0.91        11
+      fabrizia_palone_was-lx1a_0_ITALIC       1.00      1.00      1.00         9
+       federica_spini_was-lx1a_0_ITALIC       1.00      1.00      1.00        13
+fiammetta_dedominicis_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+     flavia_ischiboni_was-lx1a_0_ITALIC       1.00      1.00      1.00         6
+    fulviomaria_rossi_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+   giordano_ischiboni_was-lx1a_0_ITALIC       0.86      0.86      0.86         7
+       giuseppe_spini_was-lx1a_0_ITALIC       1.00      0.90      0.95        10
+         laura_sibani_was-lx1a_0_ITALIC       1.00      0.90      0.95        10
+         loredana_aba_was-lx1a_0_ITALIC       0.71      0.83      0.77         6
+    luca_dibartolomeo_was-lx1a_0_ITALIC       0.90      1.00      0.95         9
+       luca_moschella_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+          marta_samek_was-lx1a_0_ITALIC       1.00      1.00      1.00         8
+       paola_giannini_was-lx1a_0_ITALIC       1.00      1.00      1.00         8
+  patrizia_durastante_was-lx1a_0_ITALIC       1.00      1.00      1.00        12
+     rita_battilocchi_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+          roberto_aba_was-lx1a_0_ITALIC       0.91      1.00      0.95        10
+        sara_tramonte_was-lx1a_0_ITALIC       0.92      1.00      0.96        11
+      valerio_novelli_was-lx1a_0_ITALIC       1.00      1.00      1.00        12
+      walter_ferrazza_was-lx1a_0_ITALIC       1.00      0.91      0.95        11
+
+                            avg / total       0.97      0.96      0.96       221
+
+
+Results for: ITALIC  -  MAJORITY ON Y-SHIFTED POINTS (on movements, up, down)
+
+                                         precision    recall  f1-score   support
+
+    adriano_ischiboni_was-lx1a_0_ITALIC       0.82      0.90      0.86        10
+     alessandro_spini_was-lx1a_0_ITALIC       0.88      1.00      0.93         7
+   alessio_cappellini_was-lx1a_0_ITALIC       1.00      1.00      1.00        11
+        alessio_mecca_was-lx1a_0_ITALIC       0.83      0.91      0.87        11
+      fabrizia_palone_was-lx1a_0_ITALIC       1.00      1.00      1.00         9
+       federica_spini_was-lx1a_0_ITALIC       1.00      1.00      1.00        13
+fiammetta_dedominicis_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+     flavia_ischiboni_was-lx1a_0_ITALIC       1.00      1.00      1.00         6
+    fulviomaria_rossi_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+   giordano_ischiboni_was-lx1a_0_ITALIC       1.00      0.86      0.92         7
+       giuseppe_spini_was-lx1a_0_ITALIC       0.73      0.80      0.76        10
+         laura_sibani_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+         loredana_aba_was-lx1a_0_ITALIC       0.86      1.00      0.92         6
+    luca_dibartolomeo_was-lx1a_0_ITALIC       0.90      1.00      0.95         9
+       luca_moschella_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+          marta_samek_was-lx1a_0_ITALIC       1.00      1.00      1.00         8
+       paola_giannini_was-lx1a_0_ITALIC       0.89      1.00      0.94         8
+  patrizia_durastante_was-lx1a_0_ITALIC       1.00      1.00      1.00        12
+     rita_battilocchi_was-lx1a_0_ITALIC       1.00      0.90      0.95        10
+          roberto_aba_was-lx1a_0_ITALIC       1.00      0.90      0.95        10
+        sara_tramonte_was-lx1a_0_ITALIC       0.91      0.91      0.91        11
+      valerio_novelli_was-lx1a_0_ITALIC       1.00      0.92      0.96        12
+      walter_ferrazza_was-lx1a_0_ITALIC       1.00      0.73      0.84        11
+
+                            avg / total       0.95      0.95      0.95       221
+
+
+Results for: ITALIC  -  MAJORITY ON XY-SHIFTED POINTS (on movements, up, down)
+
+                                         precision    recall  f1-score   support
+
+    adriano_ischiboni_was-lx1a_0_ITALIC       1.00      0.90      0.95        10
+     alessandro_spini_was-lx1a_0_ITALIC       1.00      1.00      1.00         7
+   alessio_cappellini_was-lx1a_0_ITALIC       0.92      1.00      0.96        11
+        alessio_mecca_was-lx1a_0_ITALIC       0.91      0.91      0.91        11
+      fabrizia_palone_was-lx1a_0_ITALIC       1.00      1.00      1.00         9
+       federica_spini_was-lx1a_0_ITALIC       1.00      1.00      1.00        13
+fiammetta_dedominicis_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+     flavia_ischiboni_was-lx1a_0_ITALIC       1.00      0.83      0.91         6
+    fulviomaria_rossi_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+   giordano_ischiboni_was-lx1a_0_ITALIC       1.00      0.86      0.92         7
+       giuseppe_spini_was-lx1a_0_ITALIC       1.00      0.80      0.89        10
+         laura_sibani_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+         loredana_aba_was-lx1a_0_ITALIC       0.86      1.00      0.92         6
+    luca_dibartolomeo_was-lx1a_0_ITALIC       0.90      1.00      0.95         9
+       luca_moschella_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+          marta_samek_was-lx1a_0_ITALIC       1.00      1.00      1.00         8
+       paola_giannini_was-lx1a_0_ITALIC       0.80      1.00      0.89         8
+  patrizia_durastante_was-lx1a_0_ITALIC       1.00      1.00      1.00        12
+     rita_battilocchi_was-lx1a_0_ITALIC       1.00      0.90      0.95        10
+          roberto_aba_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+        sara_tramonte_was-lx1a_0_ITALIC       0.85      1.00      0.92        11
+      valerio_novelli_was-lx1a_0_ITALIC       1.00      1.00      1.00        12
+      walter_ferrazza_was-lx1a_0_ITALIC       1.00      0.91      0.95        11
+
+                            avg / total       0.97      0.96      0.96       221
+
+
+Results for: ITALIC  -  MAJORITY ON ALL MOVEMENTS POINTS (considering non shifted and shifted)
+
+                                         precision    recall  f1-score   support
+
+    adriano_ischiboni_was-lx1a_0_ITALIC       0.91      1.00      0.95        10
+     alessandro_spini_was-lx1a_0_ITALIC       0.88      1.00      0.93         7
+   alessio_cappellini_was-lx1a_0_ITALIC       1.00      1.00      1.00        11
+        alessio_mecca_was-lx1a_0_ITALIC       1.00      0.91      0.95        11
+      fabrizia_palone_was-lx1a_0_ITALIC       1.00      1.00      1.00         9
+       federica_spini_was-lx1a_0_ITALIC       1.00      1.00      1.00        13
+fiammetta_dedominicis_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+     flavia_ischiboni_was-lx1a_0_ITALIC       1.00      1.00      1.00         6
+    fulviomaria_rossi_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+   giordano_ischiboni_was-lx1a_0_ITALIC       1.00      0.86      0.92         7
+       giuseppe_spini_was-lx1a_0_ITALIC       1.00      0.90      0.95        10
+         laura_sibani_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+         loredana_aba_was-lx1a_0_ITALIC       0.86      1.00      0.92         6
+    luca_dibartolomeo_was-lx1a_0_ITALIC       1.00      1.00      1.00         9
+       luca_moschella_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+          marta_samek_was-lx1a_0_ITALIC       1.00      1.00      1.00         8
+       paola_giannini_was-lx1a_0_ITALIC       1.00      1.00      1.00         8
+  patrizia_durastante_was-lx1a_0_ITALIC       1.00      1.00      1.00        12
+     rita_battilocchi_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+          roberto_aba_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+        sara_tramonte_was-lx1a_0_ITALIC       1.00      1.00      1.00        11
+      valerio_novelli_was-lx1a_0_ITALIC       1.00      1.00      1.00        12
+      walter_ferrazza_was-lx1a_0_ITALIC       1.00      1.00      1.00        11
+
+                            avg / total       0.99      0.99      0.99       221
+
+
+Results for: ITALIC  -  MAJORITY ON ALL UP POINTS (considering non shifted and shifted)
+
+                                         precision    recall  f1-score   support
+
+    adriano_ischiboni_was-lx1a_0_ITALIC       0.82      0.90      0.86        10
+     alessandro_spini_was-lx1a_0_ITALIC       0.86      0.86      0.86         7
+   alessio_cappellini_was-lx1a_0_ITALIC       0.92      1.00      0.96        11
+        alessio_mecca_was-lx1a_0_ITALIC       0.67      0.55      0.60        11
+      fabrizia_palone_was-lx1a_0_ITALIC       0.67      0.89      0.76         9
+       federica_spini_was-lx1a_0_ITALIC       1.00      0.92      0.96        13
+fiammetta_dedominicis_was-lx1a_0_ITALIC       1.00      0.90      0.95        10
+     flavia_ischiboni_was-lx1a_0_ITALIC       0.62      0.83      0.71         6
+    fulviomaria_rossi_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+   giordano_ischiboni_was-lx1a_0_ITALIC       1.00      0.86      0.92         7
+       giuseppe_spini_was-lx1a_0_ITALIC       1.00      0.70      0.82        10
+         laura_sibani_was-lx1a_0_ITALIC       0.58      0.70      0.64        10
+         loredana_aba_was-lx1a_0_ITALIC       0.83      0.83      0.83         6
+    luca_dibartolomeo_was-lx1a_0_ITALIC       0.90      1.00      0.95         9
+       luca_moschella_was-lx1a_0_ITALIC       0.83      1.00      0.91        10
+          marta_samek_was-lx1a_0_ITALIC       1.00      1.00      1.00         8
+       paola_giannini_was-lx1a_0_ITALIC       1.00      0.88      0.93         8
+  patrizia_durastante_was-lx1a_0_ITALIC       0.92      0.92      0.92        12
+     rita_battilocchi_was-lx1a_0_ITALIC       1.00      0.90      0.95        10
+          roberto_aba_was-lx1a_0_ITALIC       0.90      0.90      0.90        10
+        sara_tramonte_was-lx1a_0_ITALIC       0.80      0.73      0.76        11
+      valerio_novelli_was-lx1a_0_ITALIC       1.00      0.92      0.96        12
+      walter_ferrazza_was-lx1a_0_ITALIC       0.91      0.91      0.91        11
+
+                            avg / total       0.88      0.87      0.87       221
+
+
+Results for: ITALIC  -  MAJORITY ON ALL DOWN POINTS (considering non shifted and shifted)
+
+                                         precision    recall  f1-score   support
+
+    adriano_ischiboni_was-lx1a_0_ITALIC       0.64      0.90      0.75        10
+     alessandro_spini_was-lx1a_0_ITALIC       0.75      0.86      0.80         7
+   alessio_cappellini_was-lx1a_0_ITALIC       1.00      1.00      1.00        11
+        alessio_mecca_was-lx1a_0_ITALIC       0.77      0.91      0.83        11
+      fabrizia_palone_was-lx1a_0_ITALIC       1.00      1.00      1.00         9
+       federica_spini_was-lx1a_0_ITALIC       1.00      1.00      1.00        13
+fiammetta_dedominicis_was-lx1a_0_ITALIC       0.90      0.90      0.90        10
+     flavia_ischiboni_was-lx1a_0_ITALIC       0.71      0.83      0.77         6
+    fulviomaria_rossi_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+   giordano_ischiboni_was-lx1a_0_ITALIC       0.86      0.86      0.86         7
+       giuseppe_spini_was-lx1a_0_ITALIC       0.64      0.70      0.67        10
+         laura_sibani_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+         loredana_aba_was-lx1a_0_ITALIC       0.86      1.00      0.92         6
+    luca_dibartolomeo_was-lx1a_0_ITALIC       0.90      1.00      0.95         9
+       luca_moschella_was-lx1a_0_ITALIC       1.00      0.90      0.95        10
+          marta_samek_was-lx1a_0_ITALIC       1.00      1.00      1.00         8
+       paola_giannini_was-lx1a_0_ITALIC       0.86      0.75      0.80         8
+  patrizia_durastante_was-lx1a_0_ITALIC       1.00      0.92      0.96        12
+     rita_battilocchi_was-lx1a_0_ITALIC       1.00      0.80      0.89        10
+          roberto_aba_was-lx1a_0_ITALIC       0.89      0.80      0.84        10
+        sara_tramonte_was-lx1a_0_ITALIC       0.80      0.73      0.76        11
+      valerio_novelli_was-lx1a_0_ITALIC       0.91      0.83      0.87        12
+      walter_ferrazza_was-lx1a_0_ITALIC       1.00      0.73      0.84        11
+
+                            avg / total       0.90      0.89      0.89       221
+
+
+Results for: ITALIC  -  MAJORITY ON ALL
+
+                                         precision    recall  f1-score   support
+
+    adriano_ischiboni_was-lx1a_0_ITALIC       0.90      0.90      0.90        10
+     alessandro_spini_was-lx1a_0_ITALIC       1.00      1.00      1.00         7
+   alessio_cappellini_was-lx1a_0_ITALIC       1.00      1.00      1.00        11
+        alessio_mecca_was-lx1a_0_ITALIC       0.91      0.91      0.91        11
+      fabrizia_palone_was-lx1a_0_ITALIC       1.00      1.00      1.00         9
+       federica_spini_was-lx1a_0_ITALIC       1.00      1.00      1.00        13
+fiammetta_dedominicis_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+     flavia_ischiboni_was-lx1a_0_ITALIC       1.00      1.00      1.00         6
+    fulviomaria_rossi_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+   giordano_ischiboni_was-lx1a_0_ITALIC       1.00      0.86      0.92         7
+       giuseppe_spini_was-lx1a_0_ITALIC       1.00      0.80      0.89        10
+         laura_sibani_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+         loredana_aba_was-lx1a_0_ITALIC       0.86      1.00      0.92         6
+    luca_dibartolomeo_was-lx1a_0_ITALIC       0.90      1.00      0.95         9
+       luca_moschella_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+          marta_samek_was-lx1a_0_ITALIC       1.00      1.00      1.00         8
+       paola_giannini_was-lx1a_0_ITALIC       1.00      1.00      1.00         8
+  patrizia_durastante_was-lx1a_0_ITALIC       1.00      1.00      1.00        12
+     rita_battilocchi_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+          roberto_aba_was-lx1a_0_ITALIC       1.00      1.00      1.00        10
+        sara_tramonte_was-lx1a_0_ITALIC       0.79      1.00      0.88        11
+      valerio_novelli_was-lx1a_0_ITALIC       1.00      0.92      0.96        12
+      walter_ferrazza_was-lx1a_0_ITALIC       1.00      0.91      0.95        11
+
+                            avg / total       0.97      0.97      0.97       221
+
+
+################################### BLOCK_LETTERS ###################################
+{'C': 10, 'gamma': 0.0001, 'kernel': 'rbf'}
+0.9655857120694605
+SVC(C=10, cache_size=200, class_weight=None, coef0=0.0,
+  decision_function_shape='ovr', degree=3, gamma=0.0001, kernel='rbf',
+  max_iter=-1, probability=False, random_state=None, shrinking=True,
+  tol=0.001, verbose=False)
+{'f1_macro': make_scorer(f1_score, pos_label=None, average=macro)}
+Results for: BLOCK_LETTERS  -  movementPoints
+
+                                                precision    recall  f1-score   support
+
+    adriano_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         9
+     alessandro_spini_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         7
+   alessio_cappellini_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        13
+        alessio_mecca_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         8
+      fabrizia_palone_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         8
+       federica_spini_was-lx1a_0_BLOCK_LETTERS       0.88      1.00      0.93         7
+fiammetta_dedominicis_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        13
+     flavia_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+    fulviomaria_rossi_was-lx1a_0_BLOCK_LETTERS       1.00      0.88      0.93         8
+   giordano_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        10
+       giuseppe_spini_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+         laura_sibani_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        10
+         loredana_aba_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         8
+    luca_dibartolomeo_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+       luca_moschella_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+          marta_samek_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+       paola_giannini_was-lx1a_0_BLOCK_LETTERS       1.00      0.92      0.96        12
+  patrizia_durastante_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         7
+     rita_battilocchi_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         4
+          roberto_aba_was-lx1a_0_BLOCK_LETTERS       0.92      1.00      0.96        11
+        sara_tramonte_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+      valerio_novelli_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         6
+      walter_ferrazza_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        14
+
+                                   avg / total       0.99      0.99      0.99       221
+
+
+{'C': 500, 'gamma': 1e-05, 'kernel': 'rbf'}
+0.9301327137756011
+SVC(C=500, cache_size=200, class_weight=None, coef0=0.0,
+  decision_function_shape='ovr', degree=3, gamma=1e-05, kernel='rbf',
+  max_iter=-1, probability=False, random_state=None, shrinking=True,
+  tol=0.001, verbose=False)
+{'f1_macro': make_scorer(f1_score, pos_label=None, average=macro)}
+Results for: BLOCK_LETTERS  -  touchDownPoints
+
+                                                precision    recall  f1-score   support
+
+    adriano_ischiboni_was-lx1a_0_BLOCK_LETTERS       0.90      1.00      0.95         9
+     alessandro_spini_was-lx1a_0_BLOCK_LETTERS       0.78      1.00      0.88         7
+   alessio_cappellini_was-lx1a_0_BLOCK_LETTERS       1.00      0.92      0.96        13
+        alessio_mecca_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         8
+      fabrizia_palone_was-lx1a_0_BLOCK_LETTERS       0.88      0.88      0.88         8
+       federica_spini_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         7
+fiammetta_dedominicis_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        13
+     flavia_ischiboni_was-lx1a_0_BLOCK_LETTERS       0.92      1.00      0.96        11
+    fulviomaria_rossi_was-lx1a_0_BLOCK_LETTERS       1.00      0.75      0.86         8
+   giordano_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        10
+       giuseppe_spini_was-lx1a_0_BLOCK_LETTERS       0.91      0.91      0.91        11
+         laura_sibani_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        10
+         loredana_aba_was-lx1a_0_BLOCK_LETTERS       0.88      0.88      0.88         8
+    luca_dibartolomeo_was-lx1a_0_BLOCK_LETTERS       0.92      1.00      0.96        11
+       luca_moschella_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+          marta_samek_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+       paola_giannini_was-lx1a_0_BLOCK_LETTERS       1.00      0.83      0.91        12
+  patrizia_durastante_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         7
+     rita_battilocchi_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         4
+          roberto_aba_was-lx1a_0_BLOCK_LETTERS       0.83      0.91      0.87        11
+        sara_tramonte_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+      valerio_novelli_was-lx1a_0_BLOCK_LETTERS       0.83      0.83      0.83         6
+      walter_ferrazza_was-lx1a_0_BLOCK_LETTERS       1.00      0.93      0.96        14
+
+                                   avg / total       0.95      0.95      0.95       221
+
+
+{'C': 1000, 'gamma': 1e-05, 'kernel': 'rbf'}
+0.937691420253683
+SVC(C=1000, cache_size=200, class_weight=None, coef0=0.0,
+  decision_function_shape='ovr', degree=3, gamma=1e-05, kernel='rbf',
+  max_iter=-1, probability=False, random_state=None, shrinking=True,
+  tol=0.001, verbose=False)
+{'f1_macro': make_scorer(f1_score, pos_label=None, average=macro)}
+Results for: BLOCK_LETTERS  -  touchUpPoints
+
+                                                precision    recall  f1-score   support
+
+    adriano_ischiboni_was-lx1a_0_BLOCK_LETTERS       0.90      1.00      0.95         9
+     alessandro_spini_was-lx1a_0_BLOCK_LETTERS       0.88      1.00      0.93         7
+   alessio_cappellini_was-lx1a_0_BLOCK_LETTERS       1.00      0.92      0.96        13
+        alessio_mecca_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         8
+      fabrizia_palone_was-lx1a_0_BLOCK_LETTERS       0.78      0.88      0.82         8
+       federica_spini_was-lx1a_0_BLOCK_LETTERS       1.00      0.86      0.92         7
+fiammetta_dedominicis_was-lx1a_0_BLOCK_LETTERS       0.93      1.00      0.96        13
+     flavia_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      0.91      0.95        11
+    fulviomaria_rossi_was-lx1a_0_BLOCK_LETTERS       1.00      0.88      0.93         8
+   giordano_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        10
+       giuseppe_spini_was-lx1a_0_BLOCK_LETTERS       1.00      0.91      0.95        11
+         laura_sibani_was-lx1a_0_BLOCK_LETTERS       0.91      1.00      0.95        10
+         loredana_aba_was-lx1a_0_BLOCK_LETTERS       0.78      0.88      0.82         8
+    luca_dibartolomeo_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+       luca_moschella_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+          marta_samek_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+       paola_giannini_was-lx1a_0_BLOCK_LETTERS       1.00      0.92      0.96        12
+  patrizia_durastante_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         7
+     rita_battilocchi_was-lx1a_0_BLOCK_LETTERS       0.80      1.00      0.89         4
+          roberto_aba_was-lx1a_0_BLOCK_LETTERS       1.00      0.91      0.95        11
+        sara_tramonte_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+      valerio_novelli_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         6
+      walter_ferrazza_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        14
+
+                                   avg / total       0.96      0.96      0.96       221
+
+
+{'C': 100, 'gamma': 1e-05, 'kernel': 'rbf'}
+0.9675795636285295
+SVC(C=100, cache_size=200, class_weight=None, coef0=0.0,
+  decision_function_shape='ovr', degree=3, gamma=1e-05, kernel='rbf',
+  max_iter=-1, probability=False, random_state=None, shrinking=True,
+  tol=0.001, verbose=False)
+{'f1_macro': make_scorer(f1_score, pos_label=None, average=macro)}
+Results for: BLOCK_LETTERS  -  x_shifted_movementPoints
+
+                                                precision    recall  f1-score   support
+
+    adriano_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      0.89      0.94         9
+     alessandro_spini_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         7
+   alessio_cappellini_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        13
+        alessio_mecca_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         8
+      fabrizia_palone_was-lx1a_0_BLOCK_LETTERS       0.89      1.00      0.94         8
+       federica_spini_was-lx1a_0_BLOCK_LETTERS       0.88      1.00      0.93         7
+fiammetta_dedominicis_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        13
+     flavia_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+    fulviomaria_rossi_was-lx1a_0_BLOCK_LETTERS       1.00      0.88      0.93         8
+   giordano_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        10
+       giuseppe_spini_was-lx1a_0_BLOCK_LETTERS       1.00      0.91      0.95        11
+         laura_sibani_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        10
+         loredana_aba_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         8
+    luca_dibartolomeo_was-lx1a_0_BLOCK_LETTERS       0.92      1.00      0.96        11
+       luca_moschella_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+          marta_samek_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+       paola_giannini_was-lx1a_0_BLOCK_LETTERS       1.00      0.92      0.96        12
+  patrizia_durastante_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         7
+     rita_battilocchi_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         4
+          roberto_aba_was-lx1a_0_BLOCK_LETTERS       0.92      1.00      0.96        11
+        sara_tramonte_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+      valerio_novelli_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         6
+      walter_ferrazza_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        14
+
+                                   avg / total       0.98      0.98      0.98       221
+
+
+{'C': 500, 'gamma': 1e-05, 'kernel': 'rbf'}
+0.9324383350808002
+SVC(C=500, cache_size=200, class_weight=None, coef0=0.0,
+  decision_function_shape='ovr', degree=3, gamma=1e-05, kernel='rbf',
+  max_iter=-1, probability=False, random_state=None, shrinking=True,
+  tol=0.001, verbose=False)
+{'f1_macro': make_scorer(f1_score, pos_label=None, average=macro)}
+Results for: BLOCK_LETTERS  -  x_shifted_touchDownPoints
+
+                                                precision    recall  f1-score   support
+
+    adriano_ischiboni_was-lx1a_0_BLOCK_LETTERS       0.89      0.89      0.89         9
+     alessandro_spini_was-lx1a_0_BLOCK_LETTERS       0.78      1.00      0.88         7
+   alessio_cappellini_was-lx1a_0_BLOCK_LETTERS       0.92      0.92      0.92        13
+        alessio_mecca_was-lx1a_0_BLOCK_LETTERS       0.80      1.00      0.89         8
+      fabrizia_palone_was-lx1a_0_BLOCK_LETTERS       0.78      0.88      0.82         8
+       federica_spini_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         7
+fiammetta_dedominicis_was-lx1a_0_BLOCK_LETTERS       0.93      1.00      0.96        13
+     flavia_ischiboni_was-lx1a_0_BLOCK_LETTERS       0.92      1.00      0.96        11
+    fulviomaria_rossi_was-lx1a_0_BLOCK_LETTERS       1.00      0.75      0.86         8
+   giordano_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        10
+       giuseppe_spini_was-lx1a_0_BLOCK_LETTERS       1.00      0.91      0.95        11
+         laura_sibani_was-lx1a_0_BLOCK_LETTERS       0.90      0.90      0.90        10
+         loredana_aba_was-lx1a_0_BLOCK_LETTERS       0.88      0.88      0.88         8
+    luca_dibartolomeo_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+       luca_moschella_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+          marta_samek_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+       paola_giannini_was-lx1a_0_BLOCK_LETTERS       1.00      0.75      0.86        12
+  patrizia_durastante_was-lx1a_0_BLOCK_LETTERS       0.88      1.00      0.93         7
+     rita_battilocchi_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         4
+          roberto_aba_was-lx1a_0_BLOCK_LETTERS       0.83      0.91      0.87        11
+        sara_tramonte_was-lx1a_0_BLOCK_LETTERS       1.00      0.91      0.95        11
+      valerio_novelli_was-lx1a_0_BLOCK_LETTERS       1.00      0.83      0.91         6
+      walter_ferrazza_was-lx1a_0_BLOCK_LETTERS       1.00      0.93      0.96        14
+
+                                   avg / total       0.94      0.93      0.93       221
+
+
+{'C': 0.1, 'kernel': 'linear'}
+0.9456516683447878
+SVC(C=0.1, cache_size=200, class_weight=None, coef0=0.0,
+  decision_function_shape='ovr', degree=3, gamma='auto', kernel='linear',
+  max_iter=-1, probability=False, random_state=None, shrinking=True,
+  tol=0.001, verbose=False)
+{'f1_macro': make_scorer(f1_score, pos_label=None, average=macro)}
+Results for: BLOCK_LETTERS  -  x_shifted_touchUpPoints
+
+                                                precision    recall  f1-score   support
+
+    adriano_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         9
+     alessandro_spini_was-lx1a_0_BLOCK_LETTERS       0.86      0.86      0.86         7
+   alessio_cappellini_was-lx1a_0_BLOCK_LETTERS       0.92      0.92      0.92        13
+        alessio_mecca_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         8
+      fabrizia_palone_was-lx1a_0_BLOCK_LETTERS       0.78      0.88      0.82         8
+       federica_spini_was-lx1a_0_BLOCK_LETTERS       1.00      0.86      0.92         7
+fiammetta_dedominicis_was-lx1a_0_BLOCK_LETTERS       0.93      1.00      0.96        13
+     flavia_ischiboni_was-lx1a_0_BLOCK_LETTERS       0.91      0.91      0.91        11
+    fulviomaria_rossi_was-lx1a_0_BLOCK_LETTERS       1.00      0.88      0.93         8
+   giordano_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        10
+       giuseppe_spini_was-lx1a_0_BLOCK_LETTERS       0.91      0.91      0.91        11
+         laura_sibani_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        10
+         loredana_aba_was-lx1a_0_BLOCK_LETTERS       0.86      0.75      0.80         8
+    luca_dibartolomeo_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+       luca_moschella_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+          marta_samek_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+       paola_giannini_was-lx1a_0_BLOCK_LETTERS       0.85      0.92      0.88        12
+  patrizia_durastante_was-lx1a_0_BLOCK_LETTERS       0.88      1.00      0.93         7
+     rita_battilocchi_was-lx1a_0_BLOCK_LETTERS       0.80      1.00      0.89         4
+          roberto_aba_was-lx1a_0_BLOCK_LETTERS       1.00      0.82      0.90        11
+        sara_tramonte_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+      valerio_novelli_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         6
+      walter_ferrazza_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        14
+
+                                   avg / total       0.95      0.95      0.95       221
+
+
+{'C': 10, 'gamma': 0.0001, 'kernel': 'rbf'}
+0.9701885516575259
+SVC(C=10, cache_size=200, class_weight=None, coef0=0.0,
+  decision_function_shape='ovr', degree=3, gamma=0.0001, kernel='rbf',
+  max_iter=-1, probability=False, random_state=None, shrinking=True,
+  tol=0.001, verbose=False)
+{'f1_macro': make_scorer(f1_score, pos_label=None, average=macro)}
+Results for: BLOCK_LETTERS  -  y_shifted_movementPoints
+
+                                                precision    recall  f1-score   support
+
+    adriano_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         9
+     alessandro_spini_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         7
+   alessio_cappellini_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        13
+        alessio_mecca_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         8
+      fabrizia_palone_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         8
+       federica_spini_was-lx1a_0_BLOCK_LETTERS       0.88      1.00      0.93         7
+fiammetta_dedominicis_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        13
+     flavia_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+    fulviomaria_rossi_was-lx1a_0_BLOCK_LETTERS       1.00      0.88      0.93         8
+   giordano_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        10
+       giuseppe_spini_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+         laura_sibani_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        10
+         loredana_aba_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         8
+    luca_dibartolomeo_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+       luca_moschella_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+          marta_samek_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+       paola_giannini_was-lx1a_0_BLOCK_LETTERS       1.00      0.92      0.96        12
+  patrizia_durastante_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         7
+     rita_battilocchi_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         4
+          roberto_aba_was-lx1a_0_BLOCK_LETTERS       0.92      1.00      0.96        11
+        sara_tramonte_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+      valerio_novelli_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         6
+      walter_ferrazza_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        14
+
+                                   avg / total       0.99      0.99      0.99       221
+
+
+{'C': 500, 'gamma': 1e-05, 'kernel': 'rbf'}
+0.9190622903666382
+SVC(C=500, cache_size=200, class_weight=None, coef0=0.0,
+  decision_function_shape='ovr', degree=3, gamma=1e-05, kernel='rbf',
+  max_iter=-1, probability=False, random_state=None, shrinking=True,
+  tol=0.001, verbose=False)
+{'f1_macro': make_scorer(f1_score, pos_label=None, average=macro)}
+Results for: BLOCK_LETTERS  -  y_shifted_touchDownPoints
+
+                                                precision    recall  f1-score   support
+
+    adriano_ischiboni_was-lx1a_0_BLOCK_LETTERS       0.89      0.89      0.89         9
+     alessandro_spini_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         7
+   alessio_cappellini_was-lx1a_0_BLOCK_LETTERS       1.00      0.92      0.96        13
+        alessio_mecca_was-lx1a_0_BLOCK_LETTERS       0.80      1.00      0.89         8
+      fabrizia_palone_was-lx1a_0_BLOCK_LETTERS       0.88      0.88      0.88         8
+       federica_spini_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         7
+fiammetta_dedominicis_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        13
+     flavia_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+    fulviomaria_rossi_was-lx1a_0_BLOCK_LETTERS       1.00      0.88      0.93         8
+   giordano_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        10
+       giuseppe_spini_was-lx1a_0_BLOCK_LETTERS       0.91      0.91      0.91        11
+         laura_sibani_was-lx1a_0_BLOCK_LETTERS       0.91      1.00      0.95        10
+         loredana_aba_was-lx1a_0_BLOCK_LETTERS       0.89      1.00      0.94         8
+    luca_dibartolomeo_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+       luca_moschella_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+          marta_samek_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+       paola_giannini_was-lx1a_0_BLOCK_LETTERS       1.00      0.83      0.91        12
+  patrizia_durastante_was-lx1a_0_BLOCK_LETTERS       0.78      1.00      0.88         7
+     rita_battilocchi_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         4
+          roberto_aba_was-lx1a_0_BLOCK_LETTERS       0.83      0.91      0.87        11
+        sara_tramonte_was-lx1a_0_BLOCK_LETTERS       1.00      0.91      0.95        11
+      valerio_novelli_was-lx1a_0_BLOCK_LETTERS       1.00      0.83      0.91         6
+      walter_ferrazza_was-lx1a_0_BLOCK_LETTERS       1.00      0.93      0.96        14
+
+                                   avg / total       0.96      0.95      0.95       221
+
+
+{'C': 1000, 'gamma': 1e-05, 'kernel': 'rbf'}
+0.9487990195630551
+SVC(C=1000, cache_size=200, class_weight=None, coef0=0.0,
+  decision_function_shape='ovr', degree=3, gamma=1e-05, kernel='rbf',
+  max_iter=-1, probability=False, random_state=None, shrinking=True,
+  tol=0.001, verbose=False)
+{'f1_macro': make_scorer(f1_score, pos_label=None, average=macro)}
+Results for: BLOCK_LETTERS  -  y_shifted_touchUpPoints
+
+                                                precision    recall  f1-score   support
+
+    adriano_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      0.78      0.88         9
+     alessandro_spini_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         7
+   alessio_cappellini_was-lx1a_0_BLOCK_LETTERS       0.93      1.00      0.96        13
+        alessio_mecca_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         8
+      fabrizia_palone_was-lx1a_0_BLOCK_LETTERS       0.88      0.88      0.88         8
+       federica_spini_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         7
+fiammetta_dedominicis_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        13
+     flavia_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      0.91      0.95        11
+    fulviomaria_rossi_was-lx1a_0_BLOCK_LETTERS       1.00      0.88      0.93         8
+   giordano_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        10
+       giuseppe_spini_was-lx1a_0_BLOCK_LETTERS       1.00      0.91      0.95        11
+         laura_sibani_was-lx1a_0_BLOCK_LETTERS       0.91      1.00      0.95        10
+         loredana_aba_was-lx1a_0_BLOCK_LETTERS       0.73      1.00      0.84         8
+    luca_dibartolomeo_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+       luca_moschella_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+          marta_samek_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+       paola_giannini_was-lx1a_0_BLOCK_LETTERS       1.00      0.83      0.91        12
+  patrizia_durastante_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         7
+     rita_battilocchi_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         4
+          roberto_aba_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+        sara_tramonte_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+      valerio_novelli_was-lx1a_0_BLOCK_LETTERS       0.75      1.00      0.86         6
+      walter_ferrazza_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        14
+
+                                   avg / total       0.97      0.96      0.96       221
+
+
+{'C': 10, 'gamma': 0.0001, 'kernel': 'rbf'}
+0.9720353011277452
+SVC(C=10, cache_size=200, class_weight=None, coef0=0.0,
+  decision_function_shape='ovr', degree=3, gamma=0.0001, kernel='rbf',
+  max_iter=-1, probability=False, random_state=None, shrinking=True,
+  tol=0.001, verbose=False)
+{'f1_macro': make_scorer(f1_score, pos_label=None, average=macro)}
+Results for: BLOCK_LETTERS  -  xy_shifted_movementPoints
+
+                                                precision    recall  f1-score   support
+
+    adriano_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      0.89      0.94         9
+     alessandro_spini_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         7
+   alessio_cappellini_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        13
+        alessio_mecca_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         8
+      fabrizia_palone_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         8
+       federica_spini_was-lx1a_0_BLOCK_LETTERS       0.88      1.00      0.93         7
+fiammetta_dedominicis_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        13
+     flavia_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+    fulviomaria_rossi_was-lx1a_0_BLOCK_LETTERS       1.00      0.88      0.93         8
+   giordano_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        10
+       giuseppe_spini_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+         laura_sibani_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        10
+         loredana_aba_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         8
+    luca_dibartolomeo_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+       luca_moschella_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+          marta_samek_was-lx1a_0_BLOCK_LETTERS       0.92      1.00      0.96        11
+       paola_giannini_was-lx1a_0_BLOCK_LETTERS       1.00      0.92      0.96        12
+  patrizia_durastante_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         7
+     rita_battilocchi_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         4
+          roberto_aba_was-lx1a_0_BLOCK_LETTERS       0.92      1.00      0.96        11
+        sara_tramonte_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+      valerio_novelli_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         6
+      walter_ferrazza_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        14
+
+                                   avg / total       0.99      0.99      0.99       221
+
+
+{'C': 1000, 'gamma': 1e-05, 'kernel': 'rbf'}
+0.9168801200206856
+SVC(C=1000, cache_size=200, class_weight=None, coef0=0.0,
+  decision_function_shape='ovr', degree=3, gamma=1e-05, kernel='rbf',
+  max_iter=-1, probability=False, random_state=None, shrinking=True,
+  tol=0.001, verbose=False)
+{'f1_macro': make_scorer(f1_score, pos_label=None, average=macro)}
+Results for: BLOCK_LETTERS  -  xy_shifted_touchDownPoints
+
+                                                precision    recall  f1-score   support
+
+    adriano_ischiboni_was-lx1a_0_BLOCK_LETTERS       0.89      0.89      0.89         9
+     alessandro_spini_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         7
+   alessio_cappellini_was-lx1a_0_BLOCK_LETTERS       1.00      0.92      0.96        13
+        alessio_mecca_was-lx1a_0_BLOCK_LETTERS       0.80      1.00      0.89         8
+      fabrizia_palone_was-lx1a_0_BLOCK_LETTERS       0.88      0.88      0.88         8
+       federica_spini_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         7
+fiammetta_dedominicis_was-lx1a_0_BLOCK_LETTERS       0.93      1.00      0.96        13
+     flavia_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+    fulviomaria_rossi_was-lx1a_0_BLOCK_LETTERS       1.00      0.88      0.93         8
+   giordano_ischiboni_was-lx1a_0_BLOCK_LETTERS       0.91      1.00      0.95        10
+       giuseppe_spini_was-lx1a_0_BLOCK_LETTERS       1.00      0.91      0.95        11
+         laura_sibani_was-lx1a_0_BLOCK_LETTERS       0.90      0.90      0.90        10
+         loredana_aba_was-lx1a_0_BLOCK_LETTERS       0.89      1.00      0.94         8
+    luca_dibartolomeo_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+       luca_moschella_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+          marta_samek_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+       paola_giannini_was-lx1a_0_BLOCK_LETTERS       0.91      0.83      0.87        12
+  patrizia_durastante_was-lx1a_0_BLOCK_LETTERS       0.88      1.00      0.93         7
+     rita_battilocchi_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         4
+          roberto_aba_was-lx1a_0_BLOCK_LETTERS       0.83      0.91      0.87        11
+        sara_tramonte_was-lx1a_0_BLOCK_LETTERS       1.00      0.91      0.95        11
+      valerio_novelli_was-lx1a_0_BLOCK_LETTERS       1.00      0.83      0.91         6
+      walter_ferrazza_was-lx1a_0_BLOCK_LETTERS       1.00      0.93      0.96        14
+
+                                   avg / total       0.95      0.95      0.95       221
+
+
+{'C': 1000, 'gamma': 1e-05, 'kernel': 'rbf'}
+0.9480407271542772
+SVC(C=1000, cache_size=200, class_weight=None, coef0=0.0,
+  decision_function_shape='ovr', degree=3, gamma=1e-05, kernel='rbf',
+  max_iter=-1, probability=False, random_state=None, shrinking=True,
+  tol=0.001, verbose=False)
+{'f1_macro': make_scorer(f1_score, pos_label=None, average=macro)}
+Results for: BLOCK_LETTERS  -  xy_shifted_touchUpPoints
+
+                                                precision    recall  f1-score   support
+
+    adriano_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      0.78      0.88         9
+     alessandro_spini_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         7
+   alessio_cappellini_was-lx1a_0_BLOCK_LETTERS       0.87      1.00      0.93        13
+        alessio_mecca_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         8
+      fabrizia_palone_was-lx1a_0_BLOCK_LETTERS       0.88      0.88      0.88         8
+       federica_spini_was-lx1a_0_BLOCK_LETTERS       1.00      0.86      0.92         7
+fiammetta_dedominicis_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        13
+     flavia_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      0.91      0.95        11
+    fulviomaria_rossi_was-lx1a_0_BLOCK_LETTERS       1.00      0.88      0.93         8
+   giordano_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        10
+       giuseppe_spini_was-lx1a_0_BLOCK_LETTERS       1.00      0.91      0.95        11
+         laura_sibani_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        10
+         loredana_aba_was-lx1a_0_BLOCK_LETTERS       0.73      1.00      0.84         8
+    luca_dibartolomeo_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+       luca_moschella_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+          marta_samek_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+       paola_giannini_was-lx1a_0_BLOCK_LETTERS       1.00      0.83      0.91        12
+  patrizia_durastante_was-lx1a_0_BLOCK_LETTERS       0.78      1.00      0.88         7
+     rita_battilocchi_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         4
+          roberto_aba_was-lx1a_0_BLOCK_LETTERS       1.00      0.91      0.95        11
+        sara_tramonte_was-lx1a_0_BLOCK_LETTERS       1.00      0.91      0.95        11
+      valerio_novelli_was-lx1a_0_BLOCK_LETTERS       0.67      1.00      0.80         6
+      walter_ferrazza_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        14
+
+                                   avg / total       0.96      0.95      0.95       221
+
+
+Results for: BLOCK_LETTERS  -  MAJORITY ON NON SHIFTED POINTS (on movements, up, down)
+
+                                                precision    recall  f1-score   support
+
+    adriano_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         9
+     alessandro_spini_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         7
+   alessio_cappellini_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        13
+        alessio_mecca_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         8
+      fabrizia_palone_was-lx1a_0_BLOCK_LETTERS       0.89      1.00      0.94         8
+       federica_spini_was-lx1a_0_BLOCK_LETTERS       0.88      1.00      0.93         7
+fiammetta_dedominicis_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        13
+     flavia_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+    fulviomaria_rossi_was-lx1a_0_BLOCK_LETTERS       1.00      0.88      0.93         8
+   giordano_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        10
+       giuseppe_spini_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+         laura_sibani_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        10
+         loredana_aba_was-lx1a_0_BLOCK_LETTERS       0.89      1.00      0.94         8
+    luca_dibartolomeo_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+       luca_moschella_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+          marta_samek_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+       paola_giannini_was-lx1a_0_BLOCK_LETTERS       1.00      0.92      0.96        12
+  patrizia_durastante_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         7
+     rita_battilocchi_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         4
+          roberto_aba_was-lx1a_0_BLOCK_LETTERS       1.00      0.91      0.95        11
+        sara_tramonte_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+      valerio_novelli_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         6
+      walter_ferrazza_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        14
+
+                                   avg / total       0.99      0.99      0.99       221
+
+
+Results for: BLOCK_LETTERS  -  MAJORITY ON X-SHIFTED POINTS (on movements, up, down)
+
+                                                precision    recall  f1-score   support
+
+    adriano_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         9
+     alessandro_spini_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         7
+   alessio_cappellini_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        13
+        alessio_mecca_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         8
+      fabrizia_palone_was-lx1a_0_BLOCK_LETTERS       0.89      1.00      0.94         8
+       federica_spini_was-lx1a_0_BLOCK_LETTERS       0.88      1.00      0.93         7
+fiammetta_dedominicis_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        13
+     flavia_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+    fulviomaria_rossi_was-lx1a_0_BLOCK_LETTERS       1.00      0.88      0.93         8
+   giordano_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        10
+       giuseppe_spini_was-lx1a_0_BLOCK_LETTERS       1.00      0.91      0.95        11
+         laura_sibani_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        10
+         loredana_aba_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         8
+    luca_dibartolomeo_was-lx1a_0_BLOCK_LETTERS       0.92      1.00      0.96        11
+       luca_moschella_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+          marta_samek_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+       paola_giannini_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        12
+  patrizia_durastante_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         7
+     rita_battilocchi_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         4
+          roberto_aba_was-lx1a_0_BLOCK_LETTERS       1.00      0.91      0.95        11
+        sara_tramonte_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+      valerio_novelli_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         6
+      walter_ferrazza_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        14
+
+                                   avg / total       0.99      0.99      0.99       221
+
+
+Results for: BLOCK_LETTERS  -  MAJORITY ON Y-SHIFTED POINTS (on movements, up, down)
+
+                                                precision    recall  f1-score   support
+
+    adriano_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         9
+     alessandro_spini_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         7
+   alessio_cappellini_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        13
+        alessio_mecca_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         8
+      fabrizia_palone_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         8
+       federica_spini_was-lx1a_0_BLOCK_LETTERS       0.88      1.00      0.93         7
+fiammetta_dedominicis_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        13
+     flavia_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+    fulviomaria_rossi_was-lx1a_0_BLOCK_LETTERS       1.00      0.88      0.93         8
+   giordano_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        10
+       giuseppe_spini_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+         laura_sibani_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        10
+         loredana_aba_was-lx1a_0_BLOCK_LETTERS       0.89      1.00      0.94         8
+    luca_dibartolomeo_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+       luca_moschella_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+          marta_samek_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+       paola_giannini_was-lx1a_0_BLOCK_LETTERS       1.00      0.92      0.96        12
+  patrizia_durastante_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         7
+     rita_battilocchi_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         4
+          roberto_aba_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+        sara_tramonte_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+      valerio_novelli_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         6
+      walter_ferrazza_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        14
+
+                                   avg / total       0.99      0.99      0.99       221
+
+
+Results for: BLOCK_LETTERS  -  MAJORITY ON XY-SHIFTED POINTS (on movements, up, down)
+
+                                                precision    recall  f1-score   support
+
+    adriano_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         9
+     alessandro_spini_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         7
+   alessio_cappellini_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        13
+        alessio_mecca_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         8
+      fabrizia_palone_was-lx1a_0_BLOCK_LETTERS       1.00      0.88      0.93         8
+       federica_spini_was-lx1a_0_BLOCK_LETTERS       0.88      1.00      0.93         7
+fiammetta_dedominicis_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        13
+     flavia_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+    fulviomaria_rossi_was-lx1a_0_BLOCK_LETTERS       1.00      0.88      0.93         8
+   giordano_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        10
+       giuseppe_spini_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+         laura_sibani_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        10
+         loredana_aba_was-lx1a_0_BLOCK_LETTERS       0.89      1.00      0.94         8
+    luca_dibartolomeo_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+       luca_moschella_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+          marta_samek_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+       paola_giannini_was-lx1a_0_BLOCK_LETTERS       1.00      0.92      0.96        12
+  patrizia_durastante_was-lx1a_0_BLOCK_LETTERS       0.88      1.00      0.93         7
+     rita_battilocchi_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         4
+          roberto_aba_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+        sara_tramonte_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+      valerio_novelli_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         6
+      walter_ferrazza_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        14
+
+                                   avg / total       0.99      0.99      0.99       221
+
+
+Results for: BLOCK_LETTERS  -  MAJORITY ON ALL MOVEMENTS POINTS (considering non shifted and shifted)
+
+                                                precision    recall  f1-score   support
+
+    adriano_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         9
+     alessandro_spini_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         7
+   alessio_cappellini_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        13
+        alessio_mecca_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         8
+      fabrizia_palone_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         8
+       federica_spini_was-lx1a_0_BLOCK_LETTERS       0.88      1.00      0.93         7
+fiammetta_dedominicis_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        13
+     flavia_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+    fulviomaria_rossi_was-lx1a_0_BLOCK_LETTERS       1.00      0.88      0.93         8
+   giordano_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        10
+       giuseppe_spini_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+         laura_sibani_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        10
+         loredana_aba_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         8
+    luca_dibartolomeo_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+       luca_moschella_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+          marta_samek_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+       paola_giannini_was-lx1a_0_BLOCK_LETTERS       1.00      0.92      0.96        12
+  patrizia_durastante_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         7
+     rita_battilocchi_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         4
+          roberto_aba_was-lx1a_0_BLOCK_LETTERS       0.92      1.00      0.96        11
+        sara_tramonte_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+      valerio_novelli_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         6
+      walter_ferrazza_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        14
+
+                                   avg / total       0.99      0.99      0.99       221
+
+
+Results for: BLOCK_LETTERS  -  MAJORITY ON ALL UP POINTS (considering non shifted and shifted)
+
+                                                precision    recall  f1-score   support
+
+    adriano_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         9
+     alessandro_spini_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         7
+   alessio_cappellini_was-lx1a_0_BLOCK_LETTERS       0.92      0.92      0.92        13
+        alessio_mecca_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         8
+      fabrizia_palone_was-lx1a_0_BLOCK_LETTERS       0.78      0.88      0.82         8
+       federica_spini_was-lx1a_0_BLOCK_LETTERS       1.00      0.86      0.92         7
+fiammetta_dedominicis_was-lx1a_0_BLOCK_LETTERS       0.93      1.00      0.96        13
+     flavia_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      0.91      0.95        11
+    fulviomaria_rossi_was-lx1a_0_BLOCK_LETTERS       1.00      0.88      0.93         8
+   giordano_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        10
+       giuseppe_spini_was-lx1a_0_BLOCK_LETTERS       1.00      0.91      0.95        11
+         laura_sibani_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        10
+         loredana_aba_was-lx1a_0_BLOCK_LETTERS       0.80      1.00      0.89         8
+    luca_dibartolomeo_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+       luca_moschella_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+          marta_samek_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+       paola_giannini_was-lx1a_0_BLOCK_LETTERS       1.00      0.92      0.96        12
+  patrizia_durastante_was-lx1a_0_BLOCK_LETTERS       0.88      1.00      0.93         7
+     rita_battilocchi_was-lx1a_0_BLOCK_LETTERS       0.80      1.00      0.89         4
+          roberto_aba_was-lx1a_0_BLOCK_LETTERS       1.00      0.91      0.95        11
+        sara_tramonte_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+      valerio_novelli_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         6
+      walter_ferrazza_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        14
+
+                                   avg / total       0.97      0.96      0.96       221
+
+
+Results for: BLOCK_LETTERS  -  MAJORITY ON ALL DOWN POINTS (considering non shifted and shifted)
+
+                                                precision    recall  f1-score   support
+
+    adriano_ischiboni_was-lx1a_0_BLOCK_LETTERS       0.89      0.89      0.89         9
+     alessandro_spini_was-lx1a_0_BLOCK_LETTERS       0.78      1.00      0.88         7
+   alessio_cappellini_was-lx1a_0_BLOCK_LETTERS       1.00      0.92      0.96        13
+        alessio_mecca_was-lx1a_0_BLOCK_LETTERS       0.80      1.00      0.89         8
+      fabrizia_palone_was-lx1a_0_BLOCK_LETTERS       0.88      0.88      0.88         8
+       federica_spini_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         7
+fiammetta_dedominicis_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        13
+     flavia_ischiboni_was-lx1a_0_BLOCK_LETTERS       0.92      1.00      0.96        11
+    fulviomaria_rossi_was-lx1a_0_BLOCK_LETTERS       1.00      0.75      0.86         8
+   giordano_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        10
+       giuseppe_spini_was-lx1a_0_BLOCK_LETTERS       0.91      0.91      0.91        11
+         laura_sibani_was-lx1a_0_BLOCK_LETTERS       0.91      1.00      0.95        10
+         loredana_aba_was-lx1a_0_BLOCK_LETTERS       0.88      0.88      0.88         8
+    luca_dibartolomeo_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+       luca_moschella_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+          marta_samek_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+       paola_giannini_was-lx1a_0_BLOCK_LETTERS       1.00      0.83      0.91        12
+  patrizia_durastante_was-lx1a_0_BLOCK_LETTERS       0.88      1.00      0.93         7
+     rita_battilocchi_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         4
+          roberto_aba_was-lx1a_0_BLOCK_LETTERS       0.83      0.91      0.87        11
+        sara_tramonte_was-lx1a_0_BLOCK_LETTERS       1.00      0.91      0.95        11
+      valerio_novelli_was-lx1a_0_BLOCK_LETTERS       1.00      0.83      0.91         6
+      walter_ferrazza_was-lx1a_0_BLOCK_LETTERS       1.00      0.93      0.96        14
+
+                                   avg / total       0.95      0.94      0.94       221
+
+
+Results for: BLOCK_LETTERS  -  MAJORITY ON ALL
+
+                                                precision    recall  f1-score   support
+
+    adriano_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         9
+     alessandro_spini_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         7
+   alessio_cappellini_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        13
+        alessio_mecca_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         8
+      fabrizia_palone_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         8
+       federica_spini_was-lx1a_0_BLOCK_LETTERS       0.88      1.00      0.93         7
+fiammetta_dedominicis_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        13
+     flavia_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+    fulviomaria_rossi_was-lx1a_0_BLOCK_LETTERS       1.00      0.88      0.93         8
+   giordano_ischiboni_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        10
+       giuseppe_spini_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+         laura_sibani_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        10
+         loredana_aba_was-lx1a_0_BLOCK_LETTERS       0.89      1.00      0.94         8
+    luca_dibartolomeo_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+       luca_moschella_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+          marta_samek_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+       paola_giannini_was-lx1a_0_BLOCK_LETTERS       1.00      0.92      0.96        12
+  patrizia_durastante_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         7
+     rita_battilocchi_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         4
+          roberto_aba_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+        sara_tramonte_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        11
+      valerio_novelli_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00         6
+      walter_ferrazza_was-lx1a_0_BLOCK_LETTERS       1.00      1.00      1.00        14
+
+                                   avg / total       0.99      0.99      0.99       221
+
+
+
+Process finished with exit code 0

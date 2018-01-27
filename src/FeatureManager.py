@@ -1,15 +1,16 @@
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
+import logging
+logging.basicConfig(level=logging.ERROR)
+
 import tsfresh
 import pandas
 
-import logging
-import warnings
 
 import src.DataManager as dm
 import src.Chronometer as Chronom
 import src.Utils as Utils
 
-warnings.simplefilter(action='ignore', category=FutureWarning)
-logging.basicConfig(level=logging.ERROR)
 
 
 class FeaturesManager:

@@ -7,6 +7,7 @@ import logging
 
 import sklearn.exceptions
 from sklearn import preprocessing
+from sklearn.ensemble import AdaBoostClassifier
 from sklearn.metrics import *
 from sklearn.model_selection import train_test_split
 from sklearn.multiclass import OneVsRestClassifier
@@ -72,8 +73,10 @@ def majority12_on_predictions(a0, b0, c0, d0, e0, f0, g0, h0, i0, l0, m0, n0):
         mixed_pre.append(get_most_common_priority([a,b,c, d,e,f, g,h,i, l,m,n]))
     return mixed_pre
 
-tuned_parameters = [{'kernel': ['rbf'], 'gamma': [1e-3, 1e-4, 1e-2, 1e-1, 1e-5], 'C': [0.1, 1, 10, 100, 500, 1000,  2500, 5000, 7500,10000]},
-                    {'kernel': ['linear'], 'C': [0.1, 1, 10, 100, 500, 1000, 2500, 5000, 7500,10000]}]
+#tuned_parameters = [{'kernel': ['rbf'], 'gamma': [ 1e-2,], 'C': [10,  5000]}]
+tuned_parameters = [{'kernel': ['rbf'], 'gamma': [0, 1e-1, 1e-2, 1e-3, 1e-4, 1e-5, 1e-6], 'C': [0.1, 1, 10, 100, 500, 1000,  2500, 5000, 7500]}]
+
+
                     #{'kernel': ['poly'], 'C': [1, 10, 100, 1000], 'degree':[2, 3, 4, 5, 6], 'gamma': [1e-3, 1e-4]}]
 scoring = ['precision_macro', 'recall_macro', 'f1_macro']
 
@@ -98,16 +101,15 @@ class Learner:
         return scaler.transform(X_train), scaler.transform(X_test)
 
     def __init__(self, dataset_name):
-        self.feature_manager = fm.FeaturesManager(dataset_name, update_data=True)
+        self.feature_manager = fm.FeaturesManager(dataset_name, update_data=False)
         self.features = self.feature_manager.get_features()
         self.classes = self.feature_manager.get_classes()
         self.classes_data = self.feature_manager.get_classes_data()
 
     def get_data_splitted(self, label, handwriting, random_state=None, test_size=0.3):
         x, y = filter_by_handwriting(self.features[label], self.classes, self.classes_data, handwriting)
-        xtrain, xtest, y_train, y_test = train_test_split(x, y, random_state=random_state, test_size=test_size)
+        xtrain, xtest, y_train, y_test = train_test_split(x, y, random_state=random_state, stratify=y, test_size=test_size)
         X_train, X_test = Learner.scale_features(xtrain, xtest)
-
         return X_train, X_test, y_train, y_test
 
     # def train_ovs_svc(self, X_train, y_train):
@@ -116,8 +118,10 @@ class Learner:
     #     return classifier
 
     def train_gridsearch_svc(self, X_train, y_train):
-        classifier = GridSearchCV(SVC(probability=True), tuned_parameters, scoring=scoring, cv=5, refit='f1_macro', n_jobs=-1)
-        # classifier = SVC()
+        # classifier = GridSearchCV(SVC(), tuned_parameters, scoring=scoring, cv=5, refit='f1_macro', n_jobs=4)
+        classifier = SVC(probability=True)
+        classifier = AdaBoostClassifier(base_estimator=classifier)
+
         classifier.fit(X_train, y_train)
         # print(classifier.best_params_)
         # print(classifier.best_score_)
@@ -145,7 +149,7 @@ class Learner:
             print("################################### {} ###################################".format(hand))
 
             for label in Utils.TIMED_POINTS_SERIES_TYPE:
-                X_train, X_test, y_train, y_test = self.get_data_splitted(label, hand, test_size=0.30, random_state=r)
+                X_train, X_test, y_train, y_test = self.get_data_splitted(label, hand, test_size=0.3125, random_state=r)
                 if hand_classes[hand] is not None:
                     assert_series_equal(hand_classes[hand], y_test)
                 else:
