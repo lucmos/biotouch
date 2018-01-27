@@ -7,7 +7,7 @@ import logging
 
 import sklearn.exceptions
 from sklearn import preprocessing
-from sklearn.ensemble import AdaBoostClassifier
+from sklearn.ensemble import AdaBoostClassifier, BaggingClassifier
 from sklearn.metrics import *
 from sklearn.model_selection import train_test_split
 from sklearn.multiclass import OneVsRestClassifier
@@ -118,9 +118,10 @@ class Learner:
     #     return classifier
 
     def train_gridsearch_svc(self, X_train, y_train):
+        #todo testa adaboost, bagging, gridsearch e loro combinazioni
         # classifier = GridSearchCV(SVC(), tuned_parameters, scoring=scoring, cv=5, refit='f1_macro', n_jobs=4)
         classifier = SVC(probability=True)
-        classifier = AdaBoostClassifier(base_estimator=classifier)
+        #classifier = AdaBoostClassifier(base_estimator=classifier)
 
         classifier.fit(X_train, y_train)
         # print(classifier.best_params_)
@@ -157,6 +158,9 @@ class Learner:
 
                 classifier = self.train_gridsearch_svc(X_train, y_train)
                 y_pred = classifier.predict(X_test)
+
+                print(classifier.predict_proba(X_test))
+
                 predictions[hand][label] = y_pred
 
                 self.print_report(hand, label, y_test, y_pred)
