@@ -130,7 +130,7 @@ class WordClassifier:
         X_train, X_test = WordClassifier.scale_features(xtrain, xtest)
         return X_train, X_test, y_train, y_test
 
-    def __init__(self, dataset_name, handwriting, test_size=0.3125, update_data=False):
+    def __init__(self, dataset_name, handwriting, test_size=0.3125, update_data=False, check_consistency=False):
         self.feature_manager = fm.FeaturesManager(dataset_name, update_data)
         self.features = self.feature_manager.get_features()
         self.classes = self.feature_manager.get_classes()
@@ -140,6 +140,8 @@ class WordClassifier:
         self.X_test = {x: None for x in LEARNING_FROM}
         self.y_train = None
         self.y_test = None
+
+        self.check_inconsistency = check_consistency
 
         random.seed(datetime.now())
         r = random.randint(0, 10000)
@@ -206,6 +208,7 @@ class WordClassifier:
         for label in LEARNING_FROM:
             # self.svms[label] = sklearn.calibration.CalibratedClassifierCV(SVC(), cv=8) #todo implementa grid search
             self.svms[label] = SVC(probability=True) #todo implementa grid search
+            # todo esplora approcci ovo e ovr
 
     def fit(self):
         self._initialize_svm()
@@ -218,7 +221,9 @@ class WordClassifier:
             for l2 in LEARNING_FROM:
                 assert (self.svms[l1].classes_ == self.svms[l2].classes_).all()
         chrono.end()
-        self.check_inconsistencies()
+        if self.check_inconsistency:
+            self.check_inconsistencies()
+
 
     def predict(self, svm_name, x_test, mov_weight=MOVEMENT_WEIGHT):
         assert svm_name in self.predict_functions, "Predict function not valid"
