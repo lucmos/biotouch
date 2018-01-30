@@ -128,7 +128,7 @@ class DataManager:
         else:
             self._generate_dataframes()
             self._save_dataframes()
-            self._generate_example_charts()
+           # self._generate_example_charts()
 
     def _generate_dataframes(self):
         self._load_jsons()
