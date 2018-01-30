@@ -13,23 +13,30 @@ import matplotlib.cbook
 
 warnings.filterwarnings("ignore", category=matplotlib.cbook.mplDeprecation)
 
-plt.style.use('fivethirtyeight')
+
 # plt.style.use('ggplot')
 
 Utils.os.putenv("MAGICK_MEMORY_LIMIT", "4294967296")
 
 
 import matplotlib as mpl
-mpl.rcParams["figure.facecolor"] = 'white'
-mpl.rcParams["axes.facecolor"] = 'white'
-mpl.rcParams["axes.edgecolor"] = 'white'
-mpl.rcParams["savefig.facecolor"] = 'white'
-
-mpl.rcParams["xtick.color"] = 'white'
-mpl.rcParams["ytick.color"] = 'white'
 
 
 
+def set_white_params():
+
+    mpl.rcParams["figure.facecolor"] = 'white'
+    mpl.rcParams["axes.facecolor"] = 'white'
+    mpl.rcParams["axes.edgecolor"] = 'white'
+    mpl.rcParams["savefig.facecolor"] = 'white'
+
+    mpl.rcParams["xtick.color"] = 'white'
+    mpl.rcParams["ytick.color"] = 'white'
+    plt.style.use('fivethirtyeight')
+
+def set_default_params():
+    mpl.rcParams.update(mpl.rcParamsDefault)
+    plt.style.use('fivethirtyeight')
 def get_title(info):
     return "{} {} {} - {}".format(
         Utils.prettify_name(info[Utils.NAME]),
@@ -46,6 +53,21 @@ def get_word_data(dataframe, wordid_userid, user_data, wordid, name, surname, ha
                                                               wordnumber)
     return dataframe.loc[dataframe[Utils.WORD_ID] == wordid], wordid
 
+class Plotter:
+    def __init__(self, dataset_name):
+        self.dataset_name=dataset_name
+
+    def simplePlot(self, xassis, yassis):
+        set_default_params()
+        ax = plt.subplot(111)
+        t1 = np.arange(0.0, 1.0, 0.01)
+        for n in [1, 2, 3, 4]:
+            plt.plot(t1, t1 ** n, label="n=%d" % (n,))
+
+        leg = plt.legend(loc='best', ncol=2, mode="expand", shadow=True, fancybox=True)
+        leg.get_frame().set_alpha(0.5)
+
+        plt.show()
 
 class GifCreator:
 
@@ -71,7 +93,7 @@ class GifCreator:
 
         self.gif_path = Utils.BUILD_GIFS_PATH(dataset_name, self.info[Utils.NAME], self.info[Utils.SURNAME],
                                               self.info[Utils.WORD_NUMBER], self.info[Utils.HANDWRITING], label)
-
+        set_white_params()
         self._generate_animation()
 
     @staticmethod
@@ -119,7 +141,6 @@ class GifCreator:
         plt.close(fig)
         chrono.end()
 
-
 class ChartCreator:
 
     def __init__(self, dataset_name, dataframe, wordid_userid_dataframe, user_data_dataframe,
@@ -135,7 +156,7 @@ class ChartCreator:
         self.label = label
         self.height = self.info[Utils.HEIGHT_PIXELS]
         self.width = self.info[Utils.WIDTH_PIXELS]
-
+        set_white_params()
         self.title = get_title(self.info)
 
     def plot2dataframe(self, xaxes=Utils.X, yaxes=Utils.Y):
