@@ -82,15 +82,15 @@ class DataManager:
                             Utils.TOUCH_DOWN_POINTS: None,
                             Utils.SAMPLED_POINTS: None,
 
-                            Utils.X_SHIFTED_MOVEMENT_POINTS: None,
-                            Utils.X_SHIFTED_TOUCH_DOWN_POINTS: None,
-                            Utils.X_SHIFTED_TOUCH_UP_POINTS: None,
-                            Utils.X_SHIFTED_SAMPLED_POINTS: None,
-
-                            Utils.Y_SHIFTED_MOVEMENT_POINTS: None,
-                            Utils.Y_SHIFTED_TOUCH_DOWN_POINTS: None,
-                            Utils.Y_SHIFTED_TOUCH_UP_POINTS: None,
-                            Utils.Y_SHIFTED_SAMPLED_POINTS: None,
+                            # Utils.X_SHIFTED_MOVEMENT_POINTS: None,
+                            # Utils.X_SHIFTED_TOUCH_DOWN_POINTS: None,
+                            # Utils.X_SHIFTED_TOUCH_UP_POINTS: None,
+                            # Utils.X_SHIFTED_SAMPLED_POINTS: None,
+                            #
+                            # Utils.Y_SHIFTED_MOVEMENT_POINTS: None,
+                            # Utils.Y_SHIFTED_TOUCH_DOWN_POINTS: None,
+                            # Utils.Y_SHIFTED_TOUCH_UP_POINTS: None,
+                            # Utils.Y_SHIFTED_SAMPLED_POINTS: None,
 
                             Utils.XY_SHIFTED_MOVEMENT_POINTS: None,
                             Utils.XY_SHIFTED_TOUCH_DOWN_POINTS: None,
@@ -128,7 +128,7 @@ class DataManager:
         else:
             self._generate_dataframes()
             self._save_dataframes()
-            self._generate_example_charts()
+            # self._generate_example_charts() #todo decommenta
 
     def _generate_dataframes(self):
         self._load_jsons()
