@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import src.Plotter as pl
 import src.Learner as lrn
 import numpy as np
+import sklearn.metrics
 
 from src import Utils
 
@@ -21,21 +22,14 @@ class IdentificationEvaluator:
     #returns the array with the cms values for k=1 to |test set|: these are the values to put in the cmc curve
     def fill_cms_values(self):
         self.cms_values=[]
-        i = 0
-        while (i < len(self.class_list)):
+        for i in range(0, len(self.class_list)):
             cms_val_i = 0
             for prob_list, y in zip(self.cms_probabilities, self.y_test):
-                y_prob = prob_list[self.y_test.index(y)]
-                numberOfGreater = 0
-                for a in prob_list:
-                    if ((prob_list.index(a) < self.y_test.index(y)) and (a >= y_prob)) or (
-                            (prob_list.index(a) > self.y_test.index(y)) and (a > y_prob)):
-                        numberOfGreater += 1
-                if numberOfGreater <= i:
+                y_prob = prob_list[list(self.class_list).index(y)]
+                if sum(1 for a in prob_list if a>y_prob) <= i:
                     cms_val_i += 1
-                    print(cms_val_i)
-            self.cms_values.append(cms_val_i / len(self.y_test))
-            i += 1
+
+            self.cms_values.append(cms_val_i / float(len(self.y_test)))
         print(self.cms_values)
         return self.cms_values
 
@@ -54,9 +48,12 @@ class IdentificationEvaluator:
 
 if __name__ == '__main__':
     learner=lrn.WordClassifier(Utils.DATASET_NAME_0, Utils.ITALIC)
+    learner.fit()
     x, y=learner.get_testdata()
     classesList=learner.get_classes_()
-    probs=learner.predict_proba()
+    probs=learner.predict_proba(lrn.MOVEMENT,x)
+
+    print (probs)
     l = IdentificationEvaluator([[ 0.96697155  ,0.03302845],[ 0.00746219  ,0.99253781],[ 0.00951699  ,0.99048301],[ 0.95638103  ,0.04361897],
                                  [ 0.8036171   ,0.1963829 ],[ 0.8036171   ,0.1963829 ],[ 0.8036171   ,0.1963829 ],[ 0.01786314  ,0.98213686],
                                  [ 0.96559608  ,0.03440392],[ 0.96077084  ,0.03922916],[ 0.01264261  ,0.98735739],[ 0.81518927  ,0.18481073],
@@ -72,5 +69,11 @@ if __name__ == '__main__':
                                 "adriano_ischiboni_was-lx1a_0_ITALIC","alessandro_spini_was-lx1a_0_ITALIC"],
 
                                 ["adriano_ischiboni_was-lx1a_0_ITALIC","alessandro_spini_was-lx1a_0_ITALIC"])
-    l.fill_cms_values()
-    p= pl.Plotter(Utils.DATASET_NAME_0).simplePlot([],[])
+    l1=IdentificationEvaluator(probs, y, classesList)
+    l1.fill_cms_values()
+    luca=sklearn.metrics.classification_report(y,[learner.prob_to_class(j) for j in probs])
+    print(luca)
+
+    luca1 = sklearn.metrics.classification_report(y, learner.predict(lrn.MOVEMENT, x))
+    print(luca1)
+    #p= pl.Plotter(Utils.DATASET_NAME_0).simplePlot([],[])
