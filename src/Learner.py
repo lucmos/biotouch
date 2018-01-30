@@ -13,6 +13,7 @@ import sklearn
 import sklearn.preprocessing
 import sklearn.model_selection
 import sklearn.metrics
+import sklearn.calibration
 import operator
 import pandas
 import warnings
@@ -203,6 +204,7 @@ class WordClassifier:
     def _initialize_svm(self):
         self.svms = {}
         for label in LEARNING_FROM:
+            # self.svms[label] = sklearn.calibration.CalibratedClassifierCV(SVC(), cv=8) #todo implementa grid search
             self.svms[label] = SVC(probability=True) #todo implementa grid search
 
     def fit(self):
@@ -216,18 +218,25 @@ class WordClassifier:
             for l2 in LEARNING_FROM:
                 assert (self.svms[l1].classes_ == self.svms[l2].classes_).all()
         chrono.end()
+        self.check_inconsistencies()
 
-    def predict(self, fun_name, x_test, mov_weight=MOVEMENT_WEIGHT):
-        assert fun_name in self.predict_functions, "Predict function not valid"
+    def predict(self, svm_name, x_test, mov_weight=MOVEMENT_WEIGHT):
+        assert svm_name in self.predict_functions, "Predict function not valid"
         self.mov_weight = mov_weight
-        fun = self.predict_functions[fun_name]
+        fun = self.predict_functions[svm_name]
         return fun(self.svms, x_test)
 
-    def predict_proba(self, fun_name, x_test, mov_weight=MOVEMENT_WEIGHT):
-        assert fun_name in self.predict_proba_functions, "Predict proba function not valid"
+    def predict_proba(self, svm_name, x_test, mov_weight=MOVEMENT_WEIGHT):
+        assert svm_name in self.predict_proba_functions, "Predict proba function not valid"
         self.mov_weight = mov_weight
-        fun = self.predict_proba_functions[fun_name]
+        fun = self.predict_proba_functions[svm_name]
         return fun(self.svms, x_test)
+
+    def verification(self, svm_name, x_test, y_verify, treshold, mov_weight=MOVEMENT_WEIGHT):
+        assert svm_name in self.predict_proba_functions, "Predict proba function not valid"
+        assert len(x_test[svm_name]) == len(y_verify), "There must be an y to verify for each instance {} != {}".format(len(x_test), len(y_verify))
+        self.mov_weight = mov_weight
+        return [x[self.class_to_index(y)] >= treshold for x, y in zip(self.predict_proba(svm_name, x_test), y_verify)]
 
     def get_traindata(self):
         return self.X_train, self.y_train
@@ -235,33 +244,55 @@ class WordClassifier:
     def get_testdata(self):
         return self.X_test, self.y_test
 
-    def get_classes_(self):
-        return self.svms[MOVEMENT].classes_
-
     def get_data_recap(self):
         return json.dumps(OrderedDict((x, OrderedDict(
             (("X_train", len(self.X_train[x])),
-             ("y_train", len(self.y_train[x])),
+             ("y_train", len(self.y_train)),
              ("X_test", len(self.X_test[x])),
-             ("y_test", len(self.y_test[x])),)
+             ("y_test", len(self.y_test)),)
         )) for x in LEARNING_FROM), indent=4)
 
     def __str__(self):
         return self.get_data_recap()
 
+    def get_classes_(self):
+        return list(self.svms[MOVEMENT].classes_)
+
+    def index_to_class(self, index):
+        assert 0 <= index < len(self.get_classes_()), "Wrong index"
+        return self.get_classes_()[index]
+
+    def prob_to_class(self, probabilities):
+        return self.index_to_class(WordClassifier.index_at_max_value(probabilities))
+
+    def class_to_index(self, string_class):
+        return self.get_classes_().index(string_class)
+
+    def prob_to_index(self, probabilities):
+        return WordClassifier.index_at_max_value(probabilities)
+
+    def check_inconsistencies(self):
+        chrono = Chronom.Chrono("Checking consistency...")
+        counter = 0
+        self.inc = []
+        # print(self.get_classes_())
+        for svm in SVM_LIST:
+            predicted = self.predict(svm, self.get_testdata()[0])
+            predicted_proba = self.predict_proba(svm, self.get_testdata()[0])
+            for i, (a, b) in enumerate(zip(predicted, predicted_proba)):
+                if a != self.prob_to_class(b):
+                    counter += 1
+                    self.inc.append(({"predicted": a}, {self.index_to_class(i): a for i, a in enumerate(b)}, {"class with max proba": self.prob_to_class(b)}, {"correct one":list(self.get_testdata()[1])[i]}))
+                    # print(a,b,self.prob_to_class((b)))
+        chrono.end("found {} inconsistencies".format(counter))
+        return counter
+
 
 if __name__ == '__main__':
     a = WordClassifier(Utils.DATASET_NAME_0, Utils.ITALIC)
     a.fit()
-    b = (a.predict(MOVEMENT, a.get_testdata()[0]))
-    print(MOVEMENT)
-
-    print(sklearn.metrics.classification_report(a.get_testdata()[1], b))
-
-    for x in [WEIGHTED_AVERAGE]:
-        for c in np.arange(0,1.01, 0.05):
-            b = (a.predict(x, a.get_testdata()[0], c))
-            print(x,c)
-            print( sklearn.metrics.classification_report(a.get_testdata()[1], b))
-            print()
-            print()
+    print(a)
+    print()
+    print("Inconsistencies")
+    for b in a.inc:
+        print(json.dumps(b, indent=4))
