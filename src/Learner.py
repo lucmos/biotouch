@@ -25,9 +25,7 @@ warnings.filterwarnings("ignore", category=sklearn.exceptions.UndefinedMetricWar
 import src.Utils as Utils
 import src.FeatureManager as fm
 
-
 LEARNING_FROM = Utils.TIMED_POINTS_SERIES_TYPE
-
 
 MOVEMENT = Utils.MOVEMENT_POINTS
 UP = Utils.TOUCH_UP_POINTS
@@ -70,7 +68,6 @@ class WordClassifier:
         index, value = max(enumerate(probs), key=operator.itemgetter(1))
         return index
 
-
     def majority_vote_proba(self, list_of_probs, majority_predicted):
         # todo ====> The probabilities are actually estimated, majority_vote_proba and majority_vote may yeld different results
 
@@ -97,17 +94,18 @@ class WordClassifier:
     def weighted_average_proba(self, list_of_probs):
         probs = []
         for x in zip(*list_of_probs):
-            other_weights = (1-self.mov_weight)/(len(x)-1)
+            other_weights = (1 - self.mov_weight) / (len(x) - 1)
             mov_weighted = [[a * self.mov_weight for a in v] for v in x[0:1]]
             others_weighted = [[a * other_weights for a in v] for v in x[1:]]
             probabilities = [mean(y) for y in zip(*(mov_weighted + others_weighted))]
             z = sum(probabilities)
-            probs.append([v/z for v in probabilities])
+            probs.append([v / z for v in probabilities])
         return probs
 
     @staticmethod
     def filter_by_handwriting(dataframe, classes, user_data, handwriting):
-        d_temp = dataframe.join(classes).join(user_data[Utils.HANDWRITING], on=Utils.USER_ID).drop(Utils.USER_ID, axis=1)
+        d_temp = dataframe.join(classes).join(user_data[Utils.HANDWRITING], on=Utils.USER_ID).drop(Utils.USER_ID,
+                                                                                                   axis=1)
         dataframe_filt = d_temp[d_temp[Utils.HANDWRITING] == handwriting].drop(Utils.HANDWRITING, axis=1)
 
         c_temp = pandas.DataFrame(classes).join(user_data[Utils.HANDWRITING], on=Utils.USER_ID)
@@ -163,19 +161,25 @@ class WordClassifier:
             MOVEMENT: lambda svms, xtest: svms[MOVEMENT].predict(xtest[MOVEMENT]),
             UP: lambda svms, xtest: svms[UP].predict(xtest[UP]),
             DOWN: lambda svms, xtest: svms[DOWN].predict(xtest[DOWN]),
-            MAJORITY: lambda svms, xtest: WordClassifier.majority_vote((svms[x].predict(xtest[x]) for x in [MOVEMENT, UP, DOWN])),
+            MAJORITY: lambda svms, xtest: WordClassifier.majority_vote(
+                (svms[x].predict(xtest[x]) for x in [MOVEMENT, UP, DOWN])),
             AVERAGE: lambda svms, xtest: self.max_proba_class(self.predict_proba_functions[AVERAGE](svms, xtest)),
-            WEIGHTED_AVERAGE: lambda svms, xtest: self.max_proba_class(self.predict_proba_functions[WEIGHTED_AVERAGE](svms, xtest)),
+            WEIGHTED_AVERAGE: lambda svms, xtest: self.max_proba_class(
+                self.predict_proba_functions[WEIGHTED_AVERAGE](svms, xtest)),
 
             XY_MOVEMENT: lambda svms, xtest: svms[XY_MOVEMENT].predict(xtest[XY_MOVEMENT]),
             XY_UP: lambda svms, xtest: svms[XY_UP].predict(xtest[XY_UP]),
             XY_DOWN: lambda svms, xtest: svms[XY_DOWN].predict(xtest[XY_DOWN]),
-            XY_MAJORITY: lambda svms, xtest: WordClassifier.majority_vote((svms[x].predict(xtest[x]) for x in [XY_MOVEMENT, XY_UP, XY_DOWN])),
+            XY_MAJORITY: lambda svms, xtest: WordClassifier.majority_vote(
+                (svms[x].predict(xtest[x]) for x in [XY_MOVEMENT, XY_UP, XY_DOWN])),
             XY_AVERAGE: lambda svms, xtest: self.max_proba_class(self.predict_proba_functions[XY_AVERAGE](svms, xtest)),
-            XY_WEIGHTED_AVERAGE: lambda svms, xtest: self.max_proba_class(self.predict_proba_functions[XY_WEIGHTED_AVERAGE](svms, xtest)),
+            XY_WEIGHTED_AVERAGE: lambda svms, xtest: self.max_proba_class(
+                self.predict_proba_functions[XY_WEIGHTED_AVERAGE](svms, xtest)),
 
-            ALL_MAJORITY: lambda svms, xtest: WordClassifier.majority_vote((svms[x].predict(xtest[x]) for x in [MOVEMENT, XY_MOVEMENT, UP,XY_UP, DOWN, XY_DOWN])),
-            ALL_AVERAGE: lambda svms, xtest: self.max_proba_class(self.predict_proba_functions[ALL_AVERAGE](svms, xtest)),
+            ALL_MAJORITY: lambda svms, xtest: WordClassifier.majority_vote(
+                (svms[x].predict(xtest[x]) for x in [MOVEMENT, XY_MOVEMENT, UP, XY_UP, DOWN, XY_DOWN])),
+            ALL_AVERAGE: lambda svms, xtest: self.max_proba_class(
+                self.predict_proba_functions[ALL_AVERAGE](svms, xtest)),
             ALL_WEIGHTED_AVERAGE: lambda svms, xtest: self.max_proba_class(
                 self.predict_proba_functions[ALL_WEIGHTED_AVERAGE](svms, xtest)),
         }
@@ -184,21 +188,30 @@ class WordClassifier:
             MOVEMENT: lambda svms, xtest: svms[MOVEMENT].predict_proba(xtest[MOVEMENT]),
             UP: lambda svms, xtest: svms[UP].predict_proba(xtest[UP]),
             DOWN: lambda svms, xtest: svms[DOWN].predict_proba(xtest[DOWN]),
-            MAJORITY: lambda svms, xtest: self.majority_vote_proba([svms[x].predict_proba(xtest[x]) for x in [MOVEMENT, UP, DOWN]], self.predict_functions[MAJORITY](svms, xtest)),
-            AVERAGE: lambda svms, xtest: WordClassifier.average_proba([svms[x].predict_proba(xtest[x]) for x in [MOVEMENT, UP, DOWN]]),
+            MAJORITY: lambda svms, xtest: self.majority_vote_proba(
+                [svms[x].predict_proba(xtest[x]) for x in [MOVEMENT, UP, DOWN]],
+                self.predict_functions[MAJORITY](svms, xtest)),
+            AVERAGE: lambda svms, xtest: WordClassifier.average_proba(
+                [svms[x].predict_proba(xtest[x]) for x in [MOVEMENT, UP, DOWN]]),
             WEIGHTED_AVERAGE: lambda svms, xtest: self.weighted_average_proba(
                 [svms[x].predict_proba(xtest[x]) for x in [MOVEMENT, UP, DOWN]]),
 
             XY_MOVEMENT: lambda svms, xtest: svms[XY_MOVEMENT].predict_proba(xtest[XY_MOVEMENT]),
             XY_UP: lambda svms, xtest: svms[XY_UP].predict_proba(xtest[XY_UP]),
             XY_DOWN: lambda svms, xtest: svms[XY_DOWN].predict_proba(xtest[XY_DOWN]),
-            XY_MAJORITY: lambda svms, xtest: self.majority_vote_proba((svms[x].predict_proba(xtest[x]) for x in [XY_MOVEMENT, XY_UP, XY_DOWN]),self.predict_functions[XY_MAJORITY](svms, xtest)),
-            XY_AVERAGE: lambda svms, xtest: WordClassifier.average_proba((svms[x].predict_proba(xtest[x]) for x in [XY_MOVEMENT, XY_UP, XY_DOWN])),
+            XY_MAJORITY: lambda svms, xtest: self.majority_vote_proba(
+                (svms[x].predict_proba(xtest[x]) for x in [XY_MOVEMENT, XY_UP, XY_DOWN]),
+                self.predict_functions[XY_MAJORITY](svms, xtest)),
+            XY_AVERAGE: lambda svms, xtest: WordClassifier.average_proba(
+                (svms[x].predict_proba(xtest[x]) for x in [XY_MOVEMENT, XY_UP, XY_DOWN])),
             XY_WEIGHTED_AVERAGE: lambda svms, xtest: self.weighted_average_proba(
                 [svms[x].predict_proba(xtest[x]) for x in [XY_MOVEMENT, XY_UP, XY_DOWN]]),
 
-            ALL_MAJORITY: lambda svms, xtest: self.majority_vote_proba((svms[x].predict_proba(xtest[x]) for x in [MOVEMENT, XY_MOVEMENT, UP, XY_UP, DOWN, XY_DOWN]),self.predict_functions[ALL_MAJORITY](svms, xtest)),
-            ALL_AVERAGE: lambda svms, xtest: WordClassifier.average_proba((svms[x].predict_proba(xtest[x]) for x in [MOVEMENT, XY_MOVEMENT, UP,XY_UP, DOWN, XY_DOWN])),
+            ALL_MAJORITY: lambda svms, xtest: self.majority_vote_proba(
+                (svms[x].predict_proba(xtest[x]) for x in [MOVEMENT, XY_MOVEMENT, UP, XY_UP, DOWN, XY_DOWN]),
+                self.predict_functions[ALL_MAJORITY](svms, xtest)),
+            ALL_AVERAGE: lambda svms, xtest: WordClassifier.average_proba(
+                (svms[x].predict_proba(xtest[x]) for x in [MOVEMENT, XY_MOVEMENT, UP, XY_UP, DOWN, XY_DOWN])),
             ALL_WEIGHTED_AVERAGE: lambda svms, xtest: self.weighted_average_proba(
                 [svms[x].predict_proba(xtest[x]) for x in [MOVEMENT, XY_MOVEMENT, UP, XY_UP, DOWN, XY_DOWN]])
         }
@@ -207,7 +220,7 @@ class WordClassifier:
         self.svms = {}
         for label in LEARNING_FROM:
             # self.svms[label] = sklearn.calibration.CalibratedClassifierCV(SVC(), cv=8) #todo implementa grid search
-            self.svms[label] = SVC(probability=True) #todo implementa grid search
+            self.svms[label] = SVC(probability=True)  # todo implementa grid search
             # todo esplora approcci ovo e ovr
 
     def fit(self):
@@ -224,7 +237,6 @@ class WordClassifier:
         if self.check_inconsistency:
             self.check_inconsistencies()
 
-
     def predict(self, svm_name, x_test, mov_weight=MOVEMENT_WEIGHT):
         assert svm_name in self.predict_functions, "Predict function not valid"
         self.mov_weight = mov_weight
@@ -237,11 +249,25 @@ class WordClassifier:
         fun = self.predict_proba_functions[svm_name]
         return fun(self.svms, x_test)
 
-    def verification(self, svm_name, x_test, y_verify, treshold, mov_weight=MOVEMENT_WEIGHT):
+    def verification_proba(self, svm_name, x_test, y_verify, y_true, mov_weight=MOVEMENT_WEIGHT):
         assert svm_name in self.predict_proba_functions, "Predict proba function not valid"
-        assert len(x_test[svm_name]) == len(y_verify), "There must be an y to verify for each instance {} != {}".format(len(x_test), len(y_verify))
+        assert len(x_test[svm_name]) == len(y_verify) == len(
+            y_true), "There must be an y to verify for each instance {} != {}".format(len(x_test), len(y_verify))
         self.mov_weight = mov_weight
-        return [x[self.class_to_index(y)] >= treshold for x, y in zip(self.predict_proba(svm_name, x_test), y_verify)]
+        true_classes = []
+        confidences = []
+        for x, y, t in zip(self.predict_proba(svm_name, x_test), y_verify, y_true):
+            true_classes.append(y == t)
+            confidences.append(x[self.class_to_index(y)])
+        return true_classes, confidences
+
+    def verification(self, svm_name, x_test, y_verify, y_true, treshold, mov_weight=MOVEMENT_WEIGHT):
+        assert svm_name in self.predict_proba_functions, "Predict proba function not valid"
+        assert len(x_test[svm_name]) == len(y_verify), "There must be an y to verify for each instance {} != {}".format(
+            len(x_test), len(y_verify))
+        self.mov_weight = mov_weight
+        return ([a == b for a, b in zip(y_verify, y_true)],
+                [x[self.class_to_index(y)] >= treshold for x, y in zip(self.predict_proba(svm_name, x_test), y_verify)])
 
     def get_traindata(self):
         return self.X_train, self.y_train
@@ -287,50 +313,79 @@ class WordClassifier:
             for i, (a, b) in enumerate(zip(predicted, predicted_proba)):
                 if a != self.prob_to_class(b):
                     counter += 1
-                    inc.append(({"predicted": a}, {self.index_to_class(i): a for i, a in enumerate(b)}, {"class with max proba": self.prob_to_class(b)}, {"correct one":list(self.get_testdata()[1])[i]}))
+                    inc.append(({"predicted": a}, {self.index_to_class(i): a for i, a in enumerate(b)},
+                                {"class with max proba": self.prob_to_class(b)},
+                                {"correct one": list(self.get_testdata()[1])[i]}))
                     # print(a,b,self.prob_to_class((b)))
         chrono.end("found {} inconsistencies".format(counter))
         return inc
 
     def get_testdata_verification(self, balanced):
-        ver_test = {x: [] for x in LEARNING_FROM}
-        y_true = {x: [] for x in LEARNING_FROM}
         all_classes = self.get_classes_()
+        ver_xtest = {x: [] for x in LEARNING_FROM}
+        ver_ytest = []
+        ver_ytrue = []
+        for iy, y in enumerate(self.get_testdata()[1]):
+            if not balanced:
+                for y_test in all_classes:
+                    ver_ytrue.append(y)
+                    ver_ytest.append(y_test)
+                    for series in LEARNING_FROM:
+                        ver_xtest[series].append(self.get_testdata()[0][series][iy])
+            else:
+                for to_add in (y, random.choice(list(filter(lambda x: x != y, all_classes)))):
+                    ver_ytrue.append(y)
+                    ver_ytest.append(to_add)
+                    for series in LEARNING_FROM:
+                        ver_xtest[series].append(self.get_testdata()[0][series][iy])
 
-        # i = ["a", "b", "c", "d", "e"]
-        # e = [1,2,3,4,5]
-        for series_type in LEARNING_FROM:
-            for x, y in zip(self.get_testdata()[0][series_type], self.get_testdata()[1]):
-                # tentativo di accesso autorizzato
-                ver_test[series_type].append((x, y))
-                y_true[series_type].append(y)
-
-                # tentativo di accesso non autorizzato
-                if not balanced:
-                    # se non bilanciato, provo tutti gli altri
-                    for y_test in filter(lambda x: x != y, all_classes):
-                        ver_test[series_type].append((x, y_test))
-                        y_true[series_type].append(y)
-                else:
-                    # se bilanciato, ne scelgo uno a caso
-                    y_test = random.choice(list(filter(lambda x: x != y, all_classes)))
-                    ver_test[series_type].append((x,y_test))
-                    y_true[series_type].append(y)
-
-        # for s1 in LEARNING_FROM:
-        #     print(ver_test[s1], len(ver_test[s1]))
-        #     print(y_true[s1], len(y_true[s1]))
-        #     print()
-
-        return ver_test, y_true[LEARNING_FROM[0]]
+        return ver_xtest, ver_ytest, ver_ytrue
 
 
+import sklearn.metrics
 
 if __name__ == '__main__':
     a = WordClassifier(Utils.DATASET_NAME_0, Utils.ITALIC)
     a.fit()
-    print(a)
-    print()
-    print("Inconsistencies")
-    for b in a.check_inconsistencies():
-        print(json.dumps(b, indent=4))
+    # print(a)
+    # print()
+    # print("Inconsistencies")
+    # for b in a.check_inconsistencies():
+    #     print(json.dumps(b, indent=4))
+
+    # for (j,b),c in a.get_testdata_verification(True):
+    #     print( "{},{} = {}".format(j,b,c))
+    #
+    xtest, ytest, y = a.get_testdata_verification(False)
+    # print (len(xtest[MOVEMENT]), len(ytest), len(y))
+    #
+    # # print(xtest
+    # x = a.verification(MOVEMENT,xtest, y, 0.3)
+    # print(x)
+    # print(sum(1 for a in x if a == True)/ len(x))
+    t, conf = a.verification_proba(MOVEMENT, xtest, ytest, y)
+    for o, p in zip(t, conf):
+        if not o:
+            if p > 0.1:
+                print(o, p)
+    y = [True, True, True, False]
+    scores = [0.99, 0.99, 0.89, 0.90]
+    fpr, tpr, thresholds = sklearn.metrics.roc_curve(t, conf)
+    print("fpr:", list(fpr))
+    print("tpr:", list(tpr))
+    print("thresholds", list(thresholds))
+
+    import matplotlib.pyplot as plt
+
+    plt.figure()
+    lw = 2
+    plt.plot(fpr, tpr, color='darkorange',
+             lw=lw, label='ROC curve (area = %0.2f)' % sklearn.metrics.auc(fpr, tpr))
+    plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
+    plt.xlim([0.0, 1.0])
+    plt.ylim([0.0, 1.05])
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
+    plt.title('Receiver operating characteristic example')
+    plt.legend(loc="lower right")
+    plt.show()
