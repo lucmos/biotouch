@@ -47,14 +47,39 @@ class IdentificationEvaluator:
 
 
 if __name__ == '__main__':
+
     learner=lrn.WordClassifier(Utils.DATASET_NAME_0, Utils.ITALIC)
     learner.fit()
     x, y=learner.get_testdata()
     classesList=learner.get_classes_()
     probs=learner.predict_proba(lrn.MOVEMENT,x)
 
-    print (probs)
-    l = IdentificationEvaluator([[ 0.96697155  ,0.03302845],[ 0.00746219  ,0.99253781],[ 0.00951699  ,0.99048301],[ 0.95638103  ,0.04361897],
+    classes_indexes=[]
+    for a,b in enumerate(classesList):
+        classes_indexes.append(a+1)
+#######################################################################################################################
+    learner2 = lrn.WordClassifier(Utils.DATASET_NAME_0, Utils.ITALIC)
+    learner2.fit()
+    x2, y2 = learner2.get_testdata()
+    classesList2 = learner2.get_classes_()
+    probs2 = learner2.predict_proba(lrn.MOVEMENT, x2)
+
+    classes_indexes2 = []
+    for a, b in enumerate(classesList2):
+        classes_indexes2.append(a + 1)
+########################################################################################################################
+    learner3 = lrn.WordClassifier(Utils.DATASET_NAME_0, Utils.BLOCK_LETTER)
+    learner3.fit()
+    x3, y3 = learner3.get_testdata()
+    classesList3 = learner3.get_classes_()
+    probs3 = learner3.predict_proba(lrn.MOVEMENT, x3)
+
+    classes_indexes3 = []
+    for a, b in enumerate(classesList3):
+        classes_indexes3.append(a + 1)
+
+
+    '''l = IdentificationEvaluator([[ 0.96697155  ,0.03302845],[ 0.00746219  ,0.99253781],[ 0.00951699  ,0.99048301],[ 0.95638103  ,0.04361897],
                                  [ 0.8036171   ,0.1963829 ],[ 0.8036171   ,0.1963829 ],[ 0.8036171   ,0.1963829 ],[ 0.01786314  ,0.98213686],
                                  [ 0.96559608  ,0.03440392],[ 0.96077084  ,0.03922916],[ 0.01264261  ,0.98735739],[ 0.81518927  ,0.18481073],
                                  [ 0.01102044  ,0.98897956],[ 0.95441381  ,0.04558619],[ 0.94432064  ,0.05567936],[ 0.00675033  ,0.99324967],
@@ -68,12 +93,13 @@ if __name__ == '__main__':
                                 "alessandro_spini_was-lx1a_0_ITALIC","alessandro_spini_was-lx1a_0_ITALIC","adriano_ischiboni_was-lx1a_0_ITALIC",
                                 "adriano_ischiboni_was-lx1a_0_ITALIC","alessandro_spini_was-lx1a_0_ITALIC"],
 
-                                ["adriano_ischiboni_was-lx1a_0_ITALIC","alessandro_spini_was-lx1a_0_ITALIC"])
+                                ["adriano_ischiboni_was-lx1a_0_ITALIC","alessandro_spini_was-lx1a_0_ITALIC"])'''
     l1=IdentificationEvaluator(probs, y, classesList)
-    l1.fill_cms_values()
-    luca=sklearn.metrics.classification_report(y,[learner.prob_to_class(j) for j in probs])
-    print(luca)
+    l2=IdentificationEvaluator(probs2, y2, classesList2)
+    l3=IdentificationEvaluator(probs3, y3, classesList3)
+    #l1.fill_cms_values()
+    #luca=sklearn.metrics.classification_report(y,[learner.prob_to_class(j) for j in probs])
+    #print(luca)
 
-    luca1 = sklearn.metrics.classification_report(y, learner.predict(lrn.MOVEMENT, x))
-    print(luca1)
-    #p= pl.Plotter(Utils.DATASET_NAME_0).simplePlot([],[])
+    #p= pl.Plotter(Utils.DATASET_NAME_0).simplePlot(classes_indexes,l1.fill_cms_values())
+    p1=pl.Plotter(Utils.DATASET_NAME_0).simplePlot_multiple([[classes_indexes,l1.fill_cms_values(), "CMC italic1"],[classes_indexes,l2.fill_cms_values(),"CMC italic2"],[classes_indexes,l3.fill_cms_values(),"CMC block letters1"]])
