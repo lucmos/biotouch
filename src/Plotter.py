@@ -57,17 +57,25 @@ class Plotter:
     def __init__(self, dataset_name):
         self.dataset_name=dataset_name
 
-    def simplePlot(self, xassis, yassis):
+    def simplePlot(self, xassis, yassis, title):
         set_default_params()
         ax = plt.subplot(111)
-        t1 = np.arange(0.0, 1.0, 0.01)
-        for n in [1, 2, 3, 4]:
-            plt.plot(t1, t1 ** n, label="n=%d" % (n,))
-
+        plt.plot(xassis,yassis,label=title)
         leg = plt.legend(loc='best', ncol=2, mode="expand", shadow=True, fancybox=True)
         leg.get_frame().set_alpha(0.5)
-
         plt.show()
+
+    def simplePlot_multiple(self, couple_x_y):
+        set_default_params()
+        ax = plt.subplot(111)
+        for i,x in enumerate(couple_x_y):
+            plt.plot(x[0],x[1], label=x[2])
+            #ax.set_ylim(0, 1)
+        ax.set_ylim(0, 1)
+        leg = plt.legend(loc='best', ncol=2, mode="expand", shadow=True, fancybox=True)
+        leg.get_frame().set_alpha(0.5)
+        plt.show()
+
 
 class GifCreator:
 
