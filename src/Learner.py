@@ -130,7 +130,7 @@ class WordClassifier:
         X_train, X_test = WordClassifier.scale_features(xtrain, xtest)
         return X_train, X_test, y_train, y_test
 
-    def __init__(self, dataset_name, handwriting, test_size=0.3125, update_data=False):
+    def __init__(self, dataset_name, handwriting, test_size=0.3125, update_data=False, check_consistency=False):
         self.feature_manager = fm.FeaturesManager(dataset_name, update_data)
         self.features = self.feature_manager.get_features()
         self.classes = self.feature_manager.get_classes()
@@ -140,6 +140,8 @@ class WordClassifier:
         self.X_test = {x: None for x in LEARNING_FROM}
         self.y_train = None
         self.y_test = None
+
+        self.check_inconsistency = check_consistency
 
         random.seed(datetime.now())
         r = random.randint(0, 10000)
@@ -206,6 +208,7 @@ class WordClassifier:
         for label in LEARNING_FROM:
             # self.svms[label] = sklearn.calibration.CalibratedClassifierCV(SVC(), cv=8) #todo implementa grid search
             self.svms[label] = SVC(probability=True) #todo implementa grid search
+            # todo esplora approcci ovo e ovr
 
     def fit(self):
         self._initialize_svm()
@@ -218,7 +221,9 @@ class WordClassifier:
             for l2 in LEARNING_FROM:
                 assert (self.svms[l1].classes_ == self.svms[l2].classes_).all()
         chrono.end()
-        self.check_inconsistencies()
+        if self.check_inconsistency:
+            self.check_inconsistencies()
+
 
     def predict(self, svm_name, x_test, mov_weight=MOVEMENT_WEIGHT):
         assert svm_name in self.predict_functions, "Predict function not valid"
@@ -274,7 +279,7 @@ class WordClassifier:
     def check_inconsistencies(self):
         chrono = Chronom.Chrono("Checking consistency...")
         counter = 0
-        self.inc = []
+        inc = []
         # print(self.get_classes_())
         for svm in SVM_LIST:
             predicted = self.predict(svm, self.get_testdata()[0])
@@ -282,10 +287,43 @@ class WordClassifier:
             for i, (a, b) in enumerate(zip(predicted, predicted_proba)):
                 if a != self.prob_to_class(b):
                     counter += 1
-                    self.inc.append(({"predicted": a}, {self.index_to_class(i): a for i, a in enumerate(b)}, {"class with max proba": self.prob_to_class(b)}, {"correct one":list(self.get_testdata()[1])[i]}))
+                    inc.append(({"predicted": a}, {self.index_to_class(i): a for i, a in enumerate(b)}, {"class with max proba": self.prob_to_class(b)}, {"correct one":list(self.get_testdata()[1])[i]}))
                     # print(a,b,self.prob_to_class((b)))
         chrono.end("found {} inconsistencies".format(counter))
-        return counter
+        return inc
+
+    def get_testdata_verification(self, balanced):
+        ver_test = {x: [] for x in LEARNING_FROM}
+        y_true = {x: [] for x in LEARNING_FROM}
+        all_classes = self.get_classes_()
+
+        # i = ["a", "b", "c", "d", "e"]
+        # e = [1,2,3,4,5]
+        for series_type in LEARNING_FROM:
+            for x, y in zip(self.get_testdata()[0][series_type], self.get_testdata()[1]):
+                # tentativo di accesso autorizzato
+                ver_test[series_type].append((x, y))
+                y_true[series_type].append(y)
+
+                # tentativo di accesso non autorizzato
+                if not balanced:
+                    # se non bilanciato, provo tutti gli altri
+                    for y_test in filter(lambda x: x != y, all_classes):
+                        ver_test[series_type].append((x, y_test))
+                        y_true[series_type].append(y)
+                else:
+                    # se bilanciato, ne scelgo uno a caso
+                    y_test = random.choice(list(filter(lambda x: x != y, all_classes)))
+                    ver_test[series_type].append((x,y_test))
+                    y_true[series_type].append(y)
+
+        # for s1 in LEARNING_FROM:
+        #     print(ver_test[s1], len(ver_test[s1]))
+        #     print(y_true[s1], len(y_true[s1]))
+        #     print()
+
+        return ver_test, y_true[LEARNING_FROM[0]]
+
 
 
 if __name__ == '__main__':
@@ -294,5 +332,5 @@ if __name__ == '__main__':
     print(a)
     print()
     print("Inconsistencies")
-    for b in a.inc:
+    for b in a.check_inconsistencies():
         print(json.dumps(b, indent=4))
