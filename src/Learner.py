@@ -344,6 +344,9 @@ class WordClassifier:
 
 import sklearn.metrics
 
+def compute_frr(tpr):
+    return [1 - x for x in tpr]
+
 if __name__ == '__main__':
     a = WordClassifier(Utils.DATASET_NAME_0, Utils.ITALIC)
     a.fit()
@@ -374,7 +377,7 @@ if __name__ == '__main__':
     print("fpr:", list(fpr))
     print("tpr:", list(tpr))
     print("thresholds", list(thresholds))
-
+    frr = compute_frr(tpr)
     import matplotlib.pyplot as plt
 
     plt.figure()
@@ -387,5 +390,19 @@ if __name__ == '__main__':
     plt.xlabel('False Positive Rate')
     plt.ylabel('True Positive Rate')
     plt.title('Receiver operating characteristic example')
+    plt.legend(loc="lower right")
+    plt.show()
+
+    import src.Plotter
+
+    plt.figure()
+    lw = 2
+    plt.plot(thresholds, frr, color='darkorange', label = "frr")
+    plt.plot(thresholds, fpr, color='navy', label = "fpr")
+    plt.xlim([0.0, 1.0])
+    plt.ylim([0.0, 1.05])
+    plt.xlabel('Thresholds')
+    plt.ylabel('Error rate')
+    plt.title('FRR vs FPR')
     plt.legend(loc="lower right")
     plt.show()

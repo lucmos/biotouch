@@ -22,8 +22,8 @@ Utils.os.putenv("MAGICK_MEMORY_LIMIT", "4294967296")
 import matplotlib as mpl
 
 
-
 def set_white_params():
+    plt.style.use('fivethirtyeight')
 
     mpl.rcParams["figure.facecolor"] = 'white'
     mpl.rcParams["axes.facecolor"] = 'white'
@@ -32,11 +32,18 @@ def set_white_params():
 
     mpl.rcParams["xtick.color"] = 'white'
     mpl.rcParams["ytick.color"] = 'white'
-    plt.style.use('fivethirtyeight')
+
 
 def set_default_params():
     mpl.rcParams.update(mpl.rcParamsDefault)
     plt.style.use('fivethirtyeight')
+
+    mpl.rcParams["figure.facecolor"] = 'white'
+    mpl.rcParams["axes.facecolor"] = 'white'
+    mpl.rcParams["axes.edgecolor"] = 'white'
+    mpl.rcParams["savefig.facecolor"] = 'white'
+
+
 def get_title(info):
     return "{} {} {} - {}".format(
         Utils.prettify_name(info[Utils.NAME]),
