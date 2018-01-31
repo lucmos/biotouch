@@ -22,7 +22,8 @@ Utils.os.putenv("MAGICK_MEMORY_LIMIT", "4294967296")
 import matplotlib as mpl
 
 
-def set_white_params():
+def set_white_chart():
+    mpl.rcParams.update(mpl.rcParamsDefault)
     plt.style.use('fivethirtyeight')
 
     mpl.rcParams["figure.facecolor"] = 'white'
@@ -34,7 +35,7 @@ def set_white_params():
     mpl.rcParams["ytick.color"] = 'white'
 
 
-def set_default_params():
+def set_fivethirtyeight_style():
     mpl.rcParams.update(mpl.rcParamsDefault)
     plt.style.use('fivethirtyeight')
 
@@ -42,6 +43,11 @@ def set_default_params():
     mpl.rcParams["axes.facecolor"] = 'white'
     mpl.rcParams["axes.edgecolor"] = 'white'
     mpl.rcParams["savefig.facecolor"] = 'white'
+
+
+def set_ggplot_style():
+    mpl.rcParams.update(mpl.rcParamsDefault)
+    plt.style.use('ggplot')
 
 
 def get_title(info):
@@ -63,25 +69,88 @@ def get_word_data(dataframe, wordid_userid, user_data, wordid, name, surname, ha
 class Plotter:
     def __init__(self, dataset_name):
         self.dataset_name=dataset_name
+        set_ggplot_style()
 
-    def simplePlot(self, xassis, yassis, title):
-        set_default_params()
-        ax = plt.subplot(111)
-        plt.plot(xassis,yassis,label=title)
-        leg = plt.legend(loc='best', ncol=2, mode="expand", shadow=True, fancybox=True)
-        leg.get_frame().set_alpha(0.5)
-        plt.show()
+        self.results_folder = Utils.BUILD_RESULTS_FOLDER(dataset_name)
 
-    def simplePlot_multiple(self, couple_x_y):
-        set_default_params()
-        ax = plt.subplot(111)
-        for i,x in enumerate(couple_x_y):
-            plt.plot(x[0],x[1], label=x[2])
-            #ax.set_ylim(0, 1)
-        ax.set_ylim(0, 1)
-        leg = plt.legend(loc='best', ncol=2, mode="expand", shadow=True, fancybox=True)
-        leg.get_frame().set_alpha(0.5)
-        plt.show()
+    def _get_path_hand(self, handwriting):
+        path = Utils.BUILD_RESULTS_HAND_FOLDER(self.results_folder, handwriting)
+        Utils.mkdir(path)
+        return path
+
+    def simplePlot(self, path, xaxes, yaxes, colors, labels, lws, linestyles, xlabel, ylabel, title, xlow=-0.005, ylow=-0.005, xhigh=1, yhigh=1.01, legendpos="lower right"):
+        assert len(xaxes) == len(yaxes)
+        assert not colors or len(colors) == len(xaxes), "{}, {}".format(len(colors), len(xaxes))
+        assert not labels or len(labels) == len(xaxes)
+        assert not lws or len(lws) == len(xaxes)
+        assert not linestyles or len(linestyles) == len(xaxes), "{}, {}".format(len(linestyles), len(xaxes))
+
+        plt.figure()
+
+        for i, (x, y) in enumerate(zip(xaxes, yaxes)):
+            plt.plot(x, y,
+                     color=colors[i] if colors else None,
+                     lw=lws[i] if lws else None,
+                     label=labels[i] if labels else None,
+                     linestyle=linestyles[i] if linestyles else None)
+        plt.xlim([xlow, xhigh])
+        plt.ylim([ylow, yhigh])
+        plt.xlabel(xlabel)
+        plt.ylabel(ylabel)
+        plt.title(title)
+        plt.legend(loc=legendpos)
+
+        plt.savefig(path, dpi=400)
+
+    def plotRoc(self, svm_name, fpr, tpr, auc_score, handwriting):
+        xaxes = [fpr] + [[0,1]]
+        yaxes = [tpr] + [[0,1]]
+        colors = ['darkorange', 'navy']
+        labels = ["{} (area = {:.4f})".format(svm_name, auc_score), None]
+        linestyles = [None, "--"]
+
+        self.simplePlot(Utils.BUILD_RESULTS_PATH(self._get_path_hand(handwriting), handwriting, svm_name, "roc"),
+            xaxes, yaxes, colors, labels, None, linestyles, "False Positive Rate", "True Positive Rate", "Receiver Operating Characteristic - {}".format(handwriting.title()))
+
+    def plotRocs(self, svm_name, fpr, tpr, colors, auc_score, handwriting):
+        assert isinstance(svm_name, list)
+        assert isinstance(auc_score, list)
+        xaxes = fpr + [[0, 1]]
+        yaxes = tpr + [[0, 1]]
+        colors = colors + ['navy'] if colors else [None for _ in svm_name] + ["navy"]
+        labels = ["{} (area = {:.4f})".format(svm_name, auc_score) for svm_name, auc_score in zip(svm_name, auc_score)] + [None]
+        linestyles = [None for _ in svm_name] + ["--"]
+        self.simplePlot(Utils.BUILD_RESULTS_PATH(self._get_path_hand(handwriting), handwriting, "_".join(svm_name), "roc"),
+            xaxes, yaxes, colors, labels, None, linestyles, "False Positive Rate", "True Positive Rate", "Receiver Operating Characteristic - {}".format(handwriting.title()))
+
+    def plotFRRvsFPR(self, svm_name, thresholds, frr, fpr, handwriting):
+        xaxes = [thresholds, thresholds]
+        yaxes = [frr, fpr]
+        colors = ['darkorange', 'navy']
+        lws = [2, 2]
+        labels = ["FRR - {}".format(svm_name), "FPR - {}".format(svm_name)]
+        self.simplePlot(Utils.BUILD_RESULTS_PATH(self._get_path_hand(handwriting), handwriting, svm_name, "frrVSfpr"),
+            xaxes, yaxes, colors, labels, lws, None, "Thresholds", "Errors Rate", "FRR vs FPR - {}".format(handwriting.title()), legendpos="upper center")
+
+
+    # def simplerPlot(self, xassis, yassis, title):
+    #     set_fivethirtyeight_style()
+    #     ax = plt.subplot(111)
+    #     plt.plot(xassis,yassis,label=title)
+    #     leg = plt.legend(loc='best', ncol=2, mode="expand", shadow=True, fancybox=True)
+    #     leg.get_frame().set_alpha(0.5)
+    #     plt.show()
+    #
+    # def simplePlot_multiple(self, couple_x_y):
+    #     set_fivethirtyeight_style()
+    #     ax = plt.subplot(111)
+    #     for i,x in enumerate(couple_x_y):
+    #         plt.plot(x[0],x[1], label=x[2])
+    #         #ax.set_ylim(0, 1)
+    #     ax.set_ylim(0, 1)
+    #     leg = plt.legend(loc='best', ncol=2, mode="expand", shadow=True, fancybox=True)
+    #     leg.get_frame().set_alpha(0.5)
+    #     plt.show()
 
 
 class GifCreator:
@@ -108,7 +177,7 @@ class GifCreator:
 
         self.gif_path = Utils.BUILD_GIFS_PATH(dataset_name, self.info[Utils.NAME], self.info[Utils.SURNAME],
                                               self.info[Utils.WORD_NUMBER], self.info[Utils.HANDWRITING], label)
-        set_white_params()
+        set_white_chart()
         self._generate_animation()
 
     @staticmethod
@@ -171,7 +240,7 @@ class ChartCreator:
         self.label = label
         self.height = self.info[Utils.HEIGHT_PIXELS]
         self.width = self.info[Utils.WIDTH_PIXELS]
-        set_white_params()
+        set_white_chart()
         self.title = get_title(self.info)
 
     def plot2dataframe(self, xaxes=Utils.X, yaxes=Utils.Y):

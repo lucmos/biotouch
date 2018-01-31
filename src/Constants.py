@@ -148,10 +148,11 @@ OUTPUT_FOLDER = "outputs"
 CSV_FOLDER = "csv/"
 PICS_FOLDER = "pics/"
 
+import time
 BUILD_DATASET_FOLDER = lambda dataset_name: os.path.join(BASE_FOLDER, dataset_name)
 BUILD_RES_FOLDER = lambda dataset_name: BUILD_DATASET_FOLDER(dataset_name + _RES_SUFFIX)
 BUILD_OUTPUT_FOLDER = lambda dataset_name: os.path.join(ROOT_FOLDER,  OUTPUT_FOLDER, "output_" + dataset_name)
-
+BUILD_RESULTS_FOLDER = lambda dataset_name: os.path.join(BUILD_OUTPUT_FOLDER(dataset_name), time.strftime('%H-%M_%d-%m-%Y'))
 
 BUILD_GENERATED_FOLDER = lambda dataset_name: os.path.join(BUILD_RES_FOLDER(dataset_name), GENERATED_FOLDER)
 BUILD_CSV_FOLDER = lambda dataset_name: os.path.join(BUILD_RES_FOLDER(dataset_name), CSV_FOLDER)
@@ -197,3 +198,7 @@ BUILD_CHART3D_FOLDER_PATH = lambda dataset_name, name, surname, word, handwritin
 BUILD_GIFS_PATH =       lambda dataset_name, name, surname, word, handwriting, label: BUILD_FILE_PATH(BUILD_GIFS_FOLDER_PATH(dataset_name), "word_{}_{}_{}_{}_{}".format(uglify(name),uglify(surname),word,handwriting, label), ANIMATION, GIF_EXTENSION)
 BUILD_CHART2D_PATH =    lambda dataset_name, name, surname, word, handwriting, label: BUILD_FILE_PATH(BUILD_CHART2D_FOLDER_PATH(dataset_name), "word_{}_{}_{}_{}_{}".format(uglify(name),uglify(surname),word,handwriting, label), CHART2D, PNG_EXTENSION)
 BUILD_CHART3D_PATH =    lambda dataset_name, name, surname, word, handwriting,timescaling, label: BUILD_FILE_PATH(BUILD_CHART3D_FOLDER_PATH(dataset_name, name, surname, word, handwriting, label), "word_{}_{}_{}_{}_timescaling{}_{}".format(uglify(name),uglify(surname),word,handwriting, timescaling, label), CHART3D, PNG_EXTENSION)
+
+
+BUILD_RESULTS_HAND_FOLDER = lambda res, hand: os.path.join(res, hand)
+BUILD_RESULTS_PATH = lambda results_folder, handwriting, name, desc: BUILD_FILE_PATH(results_folder, handwriting + "_" + name, desc, PNG_EXTENSION)

@@ -49,6 +49,8 @@ SVM_LIST = [MOVEMENT, UP, DOWN, MAJORITY, AVERAGE, WEIGHTED_AVERAGE,
             XY_MOVEMENT, XY_UP, XY_DOWN, XY_MAJORITY, XY_AVERAGE, XY_WEIGHTED_AVERAGE,
             ALL_MAJORITY, ALL_AVERAGE, ALL_WEIGHTED_AVERAGE]
 
+
+
 MOVEMENT_WEIGHT = 0.75
 
 
@@ -129,6 +131,9 @@ class WordClassifier:
         return X_train, X_test, y_train, y_test
 
     def __init__(self, dataset_name, handwriting, test_size=0.3125, update_data=False, check_consistency=False):
+        self.dataset_name = dataset_name
+        self.handwriting = handwriting
+
         self.feature_manager = fm.FeaturesManager(dataset_name, update_data)
         self.features = self.feature_manager.get_features()
         self.classes = self.feature_manager.get_classes()
@@ -215,6 +220,7 @@ class WordClassifier:
             ALL_WEIGHTED_AVERAGE: lambda svms, xtest: self.weighted_average_proba(
                 [svms[x].predict_proba(xtest[x]) for x in [MOVEMENT, XY_MOVEMENT, UP, XY_UP, DOWN, XY_DOWN]])
         }
+        self.fit()
 
     def _initialize_svm(self):
         self.svms = {}
@@ -251,8 +257,8 @@ class WordClassifier:
 
     def verification_proba(self, svm_name, x_test, y_verify, y_true, mov_weight=MOVEMENT_WEIGHT):
         assert svm_name in self.predict_proba_functions, "Predict proba function not valid"
-        assert len(x_test[svm_name]) == len(y_verify) == len(
-            y_true), "There must be an y to verify for each instance {} != {}".format(len(x_test), len(y_verify))
+        assert len(y_verify) == len(y_true), "There must be an y to verify for each instance {} != {}".format(len(x_test), len(y_verify))
+        assert not(svm_name in LEARNING_FROM) or len(x_test[svm_name]) == len(y_verify)
         self.mov_weight = mov_weight
         true_classes = []
         confidences = []
@@ -342,67 +348,11 @@ class WordClassifier:
         return ver_xtest, ver_ytest, ver_ytrue
 
 
-import sklearn.metrics
-
-def compute_frr(tpr):
-    return [1 - x for x in tpr]
-
 if __name__ == '__main__':
     a = WordClassifier(Utils.DATASET_NAME_0, Utils.ITALIC)
     a.fit()
-    # print(a)
-    # print()
-    # print("Inconsistencies")
-    # for b in a.check_inconsistencies():
-    #     print(json.dumps(b, indent=4))
-
-    # for (j,b),c in a.get_testdata_verification(True):
-    #     print( "{},{} = {}".format(j,b,c))
-    #
-    xtest, ytest, y = a.get_testdata_verification(False)
-    # print (len(xtest[MOVEMENT]), len(ytest), len(y))
-    #
-    # # print(xtest
-    # x = a.verification(MOVEMENT,xtest, y, 0.3)
-    # print(x)
-    # print(sum(1 for a in x if a == True)/ len(x))
-    t, conf = a.verification_proba(MOVEMENT, xtest, ytest, y)
-    for o, p in zip(t, conf):
-        if not o:
-            if p > 0.1:
-                print(o, p)
-    y = [True, True, True, False]
-    scores = [0.99, 0.99, 0.89, 0.90]
-    fpr, tpr, thresholds = sklearn.metrics.roc_curve(t, conf)
-    print("fpr:", list(fpr))
-    print("tpr:", list(tpr))
-    print("thresholds", list(thresholds))
-    frr = compute_frr(tpr)
-    import matplotlib.pyplot as plt
-
-    plt.figure()
-    lw = 2
-    plt.plot(fpr, tpr, color='darkorange',
-             lw=lw, label='ROC curve (area = %0.2f)' % sklearn.metrics.auc(fpr, tpr))
-    plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
-    plt.xlim([0.0, 1.0])
-    plt.ylim([0.0, 1.05])
-    plt.xlabel('False Positive Rate')
-    plt.ylabel('True Positive Rate')
-    plt.title('Receiver operating characteristic example')
-    plt.legend(loc="lower right")
-    plt.show()
-
-    import src.Plotter
-
-    plt.figure()
-    lw = 2
-    plt.plot(thresholds, frr, color='darkorange', label = "frr")
-    plt.plot(thresholds, fpr, color='navy', label = "fpr")
-    plt.xlim([0.0, 1.0])
-    plt.ylim([0.0, 1.05])
-    plt.xlabel('Thresholds')
-    plt.ylabel('Error rate')
-    plt.title('FRR vs FPR')
-    plt.legend(loc="lower right")
-    plt.show()
+    print(a)
+    print()
+    print("Inconsistencies")
+    for b in a.check_inconsistencies():
+        print(json.dumps(b, indent=4))
