@@ -54,7 +54,7 @@ class VerificationEvaluator:
             fprs.append(fpr)
             tprs.append(tpr)
             aucs.append(sklearn.metrics.auc(fpr, tpr))
-        return names, fprs, tprs, ts, aucs
+        return svm_names, fprs, tprs, ts, aucs
 
     def plots_info_weights(self, name, b, ws):
         names = []
