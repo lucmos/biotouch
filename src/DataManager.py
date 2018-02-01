@@ -232,8 +232,6 @@ class DataManager:
 if __name__ == "__main__":
     d = DataManager(Utils.DATASET_NAME_0, update_data=False)
 
-# todo metodo che checka se già ci sono e non le ricrea. Anzi, metodo per creare, il check lo fanno loro
-
     # a = Utils.get_wordidfrom_wordnumber_name_surname(d[Utils.WORDID_USERID], d[Utils.USERID_USERDATA], "Rita", "Battilocchi" , Utils.BLOCK_LETTER, 31)
     # print(Utils.get_infos(d[Utils.WORDID_USERID], d[Utils.USERID_USERDATA], a))
     d._generate_example_charts()

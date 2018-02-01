@@ -230,8 +230,8 @@ class WordClassifier:
     def _initialize_svm(self):
         self.svms = {}
         for label in LEARNING_FROM:
-            # self.svms[label] = sklearn.calibration.CalibratedClassifierCV(SVC(), cv=8) #todo implementa grid search
-            # self.svms[label] = SVC(probability=True)  # todo implementa grid search
+            # self.svms[label] = sklearn.calibration.CalibratedClassifierCV(SVC(), cv=8)
+            # self.svms[label] = SVC(probability=True)
             self.svms[label] = GridSearchCV(SVC(probability=True), TUNED_PARAMETERS, cv=CV, n_jobs=-1)
 
             # todo esplora approcci ovo e ovr
