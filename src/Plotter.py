@@ -3,6 +3,7 @@ import numpy as np
 import os
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+from matplotlib.ticker import MaxNLocator
 from mpl_toolkits.mplot3d import axes3d
 
 import src.Chronometer as chronometer
@@ -78,7 +79,7 @@ class Plotter:
         Utils.mkdir(path)
         return path
 
-    def simplePlot(self, path, xaxes, yaxes, colors, labels, lws, linestyles, xlabel, ylabel, title, xlow=-0.005, ylow=-0.005, xhigh=1, yhigh=1.01, legendpos="lower right"):
+    def simplePlot(self, path, xaxes, yaxes, colors, labels, lws, linestyles, xlabel, ylabel, title, xlow=-0.005, ylow=-0.005, xhigh=1, yhigh=1.01, legendpos="lower right", yscale=True, xscale=True, integer_x=False):
         assert len(xaxes) == len(yaxes)
         assert not colors or len(colors) == len(xaxes), "{}, {}".format(len(colors), len(xaxes))
         assert not labels or len(labels) == len(xaxes)
@@ -93,14 +94,20 @@ class Plotter:
                      lw=lws[i] if lws else None,
                      label=labels[i] if labels else None,
                      linestyle=linestyles[i] if linestyles else None)
-        plt.xlim([xlow, xhigh])
-        plt.ylim([ylow, yhigh])
+        if xscale:
+            plt.xlim([xlow, xhigh])
+        if yscale:
+            plt.ylim([ylow, yhigh])
+        if integer_x:
+            plt.axes().xaxis.set_major_locator(MaxNLocator(integer=True))
+
         plt.xlabel(xlabel)
         plt.ylabel(ylabel)
         plt.title(title)
         plt.legend(loc=legendpos)
 
         plt.savefig(path, dpi=400)
+        # plt.show()
 
     def plotRoc(self, svm_name, fpr, tpr, auc_score, handwriting):
         xaxes = [fpr] + [[0,1]]
@@ -112,16 +119,36 @@ class Plotter:
         self.simplePlot(Utils.BUILD_RESULTS_PATH(self._get_path_hand(handwriting), handwriting, svm_name, "roc"),
             xaxes, yaxes, colors, labels, None, linestyles, "False Positive Rate", "True Positive Rate", "Receiver Operating Characteristic - {}".format(handwriting.title()))
 
-    def plotRocs(self, svm_name, fpr, tpr, colors, auc_score, handwriting):
+    def plotRocs(self, svm_name, fpr, tpr, auc_score, handwriting):
         assert isinstance(svm_name, list)
         assert isinstance(auc_score, list)
         xaxes = fpr + [[0, 1]]
         yaxes = tpr + [[0, 1]]
-        colors = colors + ['navy'] if colors else [None for _ in svm_name] + ["navy"]
+        colors = [None for _ in svm_name] + ["navy"]
         labels = ["{} (area = {:.4f})".format(svm_name, auc_score) for svm_name, auc_score in zip(svm_name, auc_score)] + [None]
         linestyles = [None for _ in svm_name] + ["--"]
         self.simplePlot(Utils.BUILD_RESULTS_PATH(self._get_path_hand(handwriting), handwriting, "_".join(svm_name), "roc"),
             xaxes, yaxes, colors, labels, None, linestyles, "False Positive Rate", "True Positive Rate", "Receiver Operating Characteristic - {}".format(handwriting.title()))
+
+    def plotCMCs(self, svm_name, rank, cmcvalues, handwriting):
+        assert isinstance(svm_name, list)
+        labels = ["{} (rr = {:.4f})".format(s, r[1]) for s, r in zip(svm_name, cmcvalues)]
+        self.simplePlot(Utils.BUILD_RESULTS_PATH(self._get_path_hand(handwriting), handwriting, "_".join(svm_name), "cmc"),
+            rank, cmcvalues, None, labels, None, None, "Rank", "Cms Values", "Cumulative Match Curve  - {}".format(handwriting.title()),
+                        xscale=False,
+                        yscale=False,
+                        integer_x=True)
+
+    def plotCMC(self, svm_name, rank, cmc_values, handwriting):
+        xaxes = [rank]
+        yaxes = [cmc_values]
+        colors = ['darkorange']
+        labels = ["{} (rr = {:.4f})".format(svm_name, cmc_values[1])]
+        self.simplePlot(Utils.BUILD_RESULTS_PATH(self._get_path_hand(handwriting), handwriting, svm_name, "cmc"),
+            xaxes, yaxes, colors, labels, None, None, "Rank", "Cms Values", "Cumulative Match Curve  - {}".format(handwriting.title()),
+                        xscale=False,
+                        yscale=False,
+                        integer_x=True)
 
     def plotFRRvsFPR(self, svm_name, thresholds, frr, fpr, handwriting):
         xaxes = [thresholds, thresholds]
@@ -131,26 +158,6 @@ class Plotter:
         labels = ["FRR - {}".format(svm_name), "FPR - {}".format(svm_name)]
         self.simplePlot(Utils.BUILD_RESULTS_PATH(self._get_path_hand(handwriting), handwriting, svm_name, "frrVSfpr"),
             xaxes, yaxes, colors, labels, lws, None, "Thresholds", "Errors Rate", "FRR vs FPR - {}".format(handwriting.title()), legendpos="upper center")
-
-
-    # def simplerPlot(self, xassis, yassis, title):
-    #     set_fivethirtyeight_style()
-    #     ax = plt.subplot(111)
-    #     plt.plot(xassis,yassis,label=title)
-    #     leg = plt.legend(loc='best', ncol=2, mode="expand", shadow=True, fancybox=True)
-    #     leg.get_frame().set_alpha(0.5)
-    #     plt.show()
-    #
-    # def simplePlot_multiple(self, couple_x_y):
-    #     set_fivethirtyeight_style()
-    #     ax = plt.subplot(111)
-    #     for i,x in enumerate(couple_x_y):
-    #         plt.plot(x[0],x[1], label=x[2])
-    #         #ax.set_ylim(0, 1)
-    #     ax.set_ylim(0, 1)
-    #     leg = plt.legend(loc='best', ncol=2, mode="expand", shadow=True, fancybox=True)
-    #     leg.get_frame().set_alpha(0.5)
-    #     plt.show()
 
 
 class GifCreator:

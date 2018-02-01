@@ -15,6 +15,7 @@ SVM_LIST_SHIFT = [lr.XY_MOVEMENT, lr.XY_UP, lr.XY_DOWN, lr.XY_MAJORITY, lr.XY_AV
 SVM_LIST_COMP1 = [lr.MOVEMENT, lr.XY_MOVEMENT]
 SVM_LIST_COMP2 = [lr.MOVEMENT, lr.ALL_MAJORITY, lr.ALL_AVERAGE, lr.ALL_WEIGHTED_AVERAGE]
 
+
 class VerificationEvaluator:
 
     @staticmethod
@@ -40,18 +41,16 @@ class VerificationEvaluator:
         svm_names = []
         fprs = []
         tprs = []
-        colors = []
         aucs = []
         for svm_name in SVM_LIST_NOSHIFT:
             svm_names.append(svm_name)
             fpr, tpr, t = self.compute_fpr_tpr_thresholds(svm_name, True)
             fprs.append(fpr)
             tprs.append(tpr)
-            colors.append(None)
             aucs.append(sklearn.metrics.auc(fpr, tpr))
             p.Plotter(Utils.DATASET_NAME_0).plotFRRvsFPR(svm_name, t, self.compute_fnr(tpr), fpr, classifier.handwriting)
 
-        p.Plotter(Utils.DATASET_NAME_0).plotRocs(svm_names, fprs, tprs, colors, aucs, classifier.handwriting)
+        p.Plotter(Utils.DATASET_NAME_0).plotRocs(svm_names, fprs, tprs, aucs, classifier.handwriting)
 
 
 
