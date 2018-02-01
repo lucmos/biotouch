@@ -19,6 +19,8 @@ warnings.filterwarnings("ignore", category=matplotlib.cbook.mplDeprecation)
 
 Utils.os.putenv("MAGICK_MEMORY_LIMIT", "4294967296")
 
+IDENTIFICATION = "Identification"
+VERIFICATION = "Verification"
 
 import matplotlib as mpl
 
@@ -74,8 +76,8 @@ class Plotter:
 
         self.results_folder = Utils.BUILD_RESULTS_FOLDER(dataset_name)
 
-    def _get_path_hand(self, handwriting):
-        path = Utils.BUILD_RESULTS_HAND_FOLDER(self.results_folder, handwriting)
+    def _get_path_hand(self, modality, handwriting):
+        path = Utils.BUILD_RESULTS_HAND_FOLDER(self.results_folder, modality, handwriting)
         Utils.mkdir(path)
         return path
 
@@ -119,7 +121,7 @@ class Plotter:
         labels = ["{} (area = {:.4f})".format(svm_name, auc_score), None]
         linestyles = [None, "--"]
 
-        self.simplePlot(Utils.BUILD_RESULTS_PATH(self._get_path_hand(handwriting), handwriting, svm_name, self.get_desc("roc", balanced)),
+        self.simplePlot(Utils.BUILD_RESULTS_PATH(self._get_path_hand(VERIFICATION, handwriting), handwriting, svm_name, self.get_desc("roc", balanced)),
             xaxes, yaxes, colors, labels, None, linestyles, "False Positive Rate", "True Positive Rate", "Receiver Operating Characteristic - {}".format(Utils.prettify_name(handwriting)))
 
     def plotRocs(self, svm_name, fpr, tpr, auc_score, handwriting, balanced):
@@ -130,7 +132,7 @@ class Plotter:
         colors = [None for _ in svm_name] + ["navy"]
         labels = ["{} (area = {:.4f})".format(svm_name, auc_score) for svm_name, auc_score in zip(svm_name, auc_score)] + [None]
         linestyles = [None for _ in svm_name] + ["--"]
-        self.simplePlot(Utils.BUILD_RESULTS_PATH(self._get_path_hand(handwriting), handwriting, "_".join(svm_name),  self.get_desc("roc", balanced)),
+        self.simplePlot(Utils.BUILD_RESULTS_PATH(self._get_path_hand(VERIFICATION, handwriting), handwriting, "_".join(svm_name),  self.get_desc("roc", balanced)),
             xaxes, yaxes, colors, labels, None, linestyles, "False Positive Rate", "True Positive Rate", "Receiver Operating Characteristic - {}".format(Utils.prettify_name(handwriting)))
 
 
@@ -140,7 +142,7 @@ class Plotter:
         colors = ['darkorange', 'navy']
         lws = [2, 2]
         labels = ["FRR - {}".format(svm_name), "FPR - {}".format(svm_name)]
-        self.simplePlot(Utils.BUILD_RESULTS_PATH(self._get_path_hand(handwriting), handwriting, svm_name,  self.get_desc("frrVSfpr", balanced)),
+        self.simplePlot(Utils.BUILD_RESULTS_PATH(self._get_path_hand(VERIFICATION, handwriting), handwriting, svm_name,  self.get_desc("frrVSfpr", balanced)),
             xaxes, yaxes, colors, labels, lws, None, "Thresholds", "Errors Rate", "FRR vs FPR - {}".format(Utils.prettify_name(handwriting)), legendpos="upper center")
 
 
@@ -148,7 +150,7 @@ class Plotter:
     def plotCMCs(self, svm_name, rank, cmcvalues, handwriting):
         assert isinstance(svm_name, list)
         labels = ["{} (rr = {:.4f})".format(s, r[1]) for s, r in zip(svm_name, cmcvalues)]
-        self.simplePlot(Utils.BUILD_RESULTS_PATH(self._get_path_hand(handwriting), handwriting, "_".join(svm_name), "cmc"),
+        self.simplePlot(Utils.BUILD_RESULTS_PATH(self._get_path_hand(IDENTIFICATION, handwriting), handwriting, "_".join(svm_name), "cmc"),
             rank, cmcvalues, None, labels, None, None, "Rank", "Cms Values", "Cumulative Match Curve  - {}".format(Utils.prettify_name(handwriting)),
                         xscale=False,
                         yscale=False,
@@ -159,7 +161,7 @@ class Plotter:
         yaxes = [cmc_values]
         colors = ['darkorange']
         labels = ["{} (rr = {:.4f})".format(svm_name, cmc_values[1])]
-        self.simplePlot(Utils.BUILD_RESULTS_PATH(self._get_path_hand(handwriting), handwriting, svm_name, "cmc"),
+        self.simplePlot(Utils.BUILD_RESULTS_PATH(self._get_path_hand(IDENTIFICATION, handwriting), handwriting, svm_name, "cmc"),
             xaxes, yaxes, colors, labels, None, None, "Rank", "Cms Values", "Cumulative Match Curve  - {}".format(handwriting.title()),
                         xscale=False,
                         yscale=False,

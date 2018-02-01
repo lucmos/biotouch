@@ -200,5 +200,5 @@ BUILD_CHART2D_PATH =    lambda dataset_name, name, surname, word, handwriting, l
 BUILD_CHART3D_PATH =    lambda dataset_name, name, surname, word, handwriting,timescaling, label: BUILD_FILE_PATH(BUILD_CHART3D_FOLDER_PATH(dataset_name, name, surname, word, handwriting, label), "word_{}_{}_{}_{}_timescaling{}_{}".format(uglify(name),uglify(surname),word,handwriting, timescaling, label), CHART3D, PNG_EXTENSION)
 
 
-BUILD_RESULTS_HAND_FOLDER = lambda res, hand: os.path.join(res, hand)
+BUILD_RESULTS_HAND_FOLDER = lambda res, modality, hand: os.path.join(res, modality, hand)
 BUILD_RESULTS_PATH = lambda results_folder, handwriting, name, desc: BUILD_FILE_PATH(results_folder, handwriting + "_" + name, desc, PNG_EXTENSION)
