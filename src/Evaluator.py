@@ -78,7 +78,7 @@ class IdentificationEvaluator:
     def cms_curve(self, svm_name, mov_weight=MOVEMENT_WEIGHT):
         x_test, y_test = self.classifier.get_testdata()
         classes = self.classifier.get_classes_()
-        y_estimated = self.classifier.predict_proba(svm_name, x_test, mov_weight) #todo, gestisci peso weighted avg
+        y_estimated = self.classifier.predict_proba(svm_name, x_test, mov_weight)
 
         cms_values = []
         for i in range(0, len(classes)):
