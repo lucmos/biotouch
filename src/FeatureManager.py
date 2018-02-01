@@ -25,7 +25,7 @@ class FeaturesManager:
     @staticmethod
     def extract_features_from_dataframe(dataframe: pandas.DataFrame, wordid_userid_mapping):
         return tsfresh.extract_relevant_features(dataframe, wordid_userid_mapping,
-                                                 column_id=Utils.WORD_ID, column_sort=Utils.TIME, n_jobs=3)
+                                                 column_id=Utils.WORD_ID, column_sort=Utils.TIME, n_jobs=4)
 
     def __init__(self, dataset_name, update_data=False, update_features=False):
         update_features = update_features or update_data
@@ -49,9 +49,10 @@ class FeaturesManager:
         self.data_frames = dm.DataManager(self.dataset_name, update_data).get_dataframes()
         if not update_features and FeaturesManager._check_saved_pickles(self.dataset_name):
             self._read_pickles()
+            return
         else:
             self._extract_features_from_dataframes()
-            self._save_features()
+            self._load_features(False, False)
 
     def _read_pickles(self):
         chrono = Chronom.Chrono("Reading features...")
@@ -62,12 +63,18 @@ class FeaturesManager:
     def _extract_features_from_dataframes(self):
         for label in Utils.TIMED_POINTS_SERIES_TYPE:
             chrono = Chronom.Chrono("Extracting features from {}...".format(label), True)
-            self.data_features[label] = self.extract_features_from_dataframe(self.data_frames[label],
-                                                                             self.data_frames[Utils.WORDID_USERID])
+            local_features = {label: self.extract_features_from_dataframe(self.data_frames[label],
+                                                                          self.data_frames[Utils.WORDID_USERID])}
             chrono.end()
+            self._save_feature(local_features)
+            del local_features
 
     def _save_features(self, to_csv=True):
         Utils.save_dataframes(self.dataset_name, self.data_features, Utils.FEATURE, "Saving features...",
+                              to_csv, Utils.TIMED_POINTS_SERIES_TYPE, self.data_frames[Utils.WORDID_USERID])
+
+    def _save_feature(self, dict_to_save, to_csv=True):
+        Utils.save_dataframes(self.dataset_name, dict_to_save, Utils.FEATURE, "Saving features...",
                               to_csv, Utils.TIMED_POINTS_SERIES_TYPE, self.data_frames[Utils.WORDID_USERID])
 
 
