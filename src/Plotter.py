@@ -172,6 +172,7 @@ class GifCreator:
     def __init__(self, dataset_name, dataframes, wordid_userid_dataframe, user_data_dataframe, word_id=None, name=None,
                  surname=None, handwriting=None, word_number=None,
                  label=Utils.MOVEMENT_POINTS, frames=120, after_delay=1000):
+        set_white_chart()
         self.word_dataframe, word_id = get_word_data(dataframes[label], wordid_userid_dataframe, user_data_dataframe, word_id,
                                             name, surname, handwriting, word_number)
         self.info = Utils.get_infos(wordid_userid_dataframe, user_data_dataframe, word_id)
@@ -191,7 +192,6 @@ class GifCreator:
 
         self.gif_path = Utils.BUILD_GIFS_PATH(dataset_name, self.info[Utils.NAME], self.info[Utils.SURNAME],
                                               self.info[Utils.WORD_NUMBER], self.info[Utils.HANDWRITING], label)
-        set_white_chart()
         self._generate_animation()
 
     @staticmethod
@@ -243,6 +243,7 @@ class ChartCreator:
 
     def __init__(self, dataset_name, dataframe, wordid_userid_dataframe, user_data_dataframe,
                  word_id=None, name=None, surname=None, handwriting=None, word_number=None, label=Utils.MOVEMENT_POINTS):
+        set_white_chart()
         self.word_dataframe, word_id = get_word_data(dataframe[label], wordid_userid_dataframe, user_data_dataframe, word_id,
                                             name, surname, handwriting, word_number)
         self.info = Utils.get_infos(wordid_userid_dataframe, user_data_dataframe, word_id)
@@ -254,7 +255,6 @@ class ChartCreator:
         self.label = label
         self.height = self.info[Utils.HEIGHT_PIXELS]
         self.width = self.info[Utils.WIDTH_PIXELS]
-        set_white_chart()
         self.title = get_title(self.info)
 
     def plot2dataframe(self, xaxes=Utils.X, yaxes=Utils.Y):
