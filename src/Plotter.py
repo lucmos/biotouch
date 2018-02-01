@@ -112,7 +112,7 @@ class Plotter:
         plt.legend(loc=legendpos)
 
         plt.savefig(path, dpi=400)
-        plt.show()
+        # plt.show()
 
     def plotRoc(self, svm_name, fpr, tpr, auc_score, handwriting, balanced):
         xaxes = [fpr] + [[0,1]]

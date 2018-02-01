@@ -5,6 +5,7 @@ from datetime import datetime
 from statistics import mean
 
 import numpy as np
+from sklearn.model_selection import GridSearchCV
 from sklearn.svm import SVC
 
 logging.basicConfig(level=logging.ERROR)
@@ -51,6 +52,11 @@ SVM_LIST = [MOVEMENT, UP, DOWN, MAJORITY, AVERAGE, WEIGHTED_AVERAGE,
 
 MOVEMENT_WEIGHT = 0.75
 
+
+# SVM TUNING
+TUNED_PARAMETERS = [{'kernel': ['rbf'], 'gamma': [0, 1e-1, 1e-2, 1e-3, 1e-4, 1e-5, 1e-6],
+                     'C': [0.1, 1, 10, 100, 500, 1000, 2500, 5000, 7500, 10000]}]
+CV = 5
 
 class WordClassifier:
 
@@ -220,11 +226,14 @@ class WordClassifier:
         }
         self.fit()
 
+
     def _initialize_svm(self):
         self.svms = {}
         for label in LEARNING_FROM:
             # self.svms[label] = sklearn.calibration.CalibratedClassifierCV(SVC(), cv=8) #todo implementa grid search
-            self.svms[label] = SVC(probability=True)  # todo implementa grid search
+            # self.svms[label] = SVC(probability=True)  # todo implementa grid search
+            self.svms[label] = GridSearchCV(SVC(probability=True), TUNED_PARAMETERS, cv=CV, n_jobs=-1)
+
             # todo esplora approcci ovo e ovr
 
     def fit(self):
