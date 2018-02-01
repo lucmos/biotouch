@@ -79,6 +79,9 @@ class Plotter:
         Utils.mkdir(path)
         return path
 
+    def get_desc(self, desc, balanced):
+        return  "{}_{}".format("balanced" if balanced else "notbalanced", desc)
+
     def simplePlot(self, path, xaxes, yaxes, colors, labels, lws, linestyles, xlabel, ylabel, title, xlow=-0.005, ylow=-0.005, xhigh=1, yhigh=1.01, legendpos="lower right", yscale=True, xscale=True, integer_x=False):
         assert len(xaxes) == len(yaxes)
         assert not colors or len(colors) == len(xaxes), "{}, {}".format(len(colors), len(xaxes))
@@ -107,19 +110,19 @@ class Plotter:
         plt.legend(loc=legendpos)
 
         plt.savefig(path, dpi=400)
-        # plt.show()
+        plt.show()
 
-    def plotRoc(self, svm_name, fpr, tpr, auc_score, handwriting):
+    def plotRoc(self, svm_name, fpr, tpr, auc_score, handwriting, balanced):
         xaxes = [fpr] + [[0,1]]
         yaxes = [tpr] + [[0,1]]
         colors = ['darkorange', 'navy']
         labels = ["{} (area = {:.4f})".format(svm_name, auc_score), None]
         linestyles = [None, "--"]
 
-        self.simplePlot(Utils.BUILD_RESULTS_PATH(self._get_path_hand(handwriting), handwriting, svm_name, "roc"),
-            xaxes, yaxes, colors, labels, None, linestyles, "False Positive Rate", "True Positive Rate", "Receiver Operating Characteristic - {}".format(handwriting.title()))
+        self.simplePlot(Utils.BUILD_RESULTS_PATH(self._get_path_hand(handwriting), handwriting, svm_name, self.get_desc("roc", balanced)),
+            xaxes, yaxes, colors, labels, None, linestyles, "False Positive Rate", "True Positive Rate", "Receiver Operating Characteristic - {}".format(Utils.prettify_name(handwriting)))
 
-    def plotRocs(self, svm_name, fpr, tpr, auc_score, handwriting):
+    def plotRocs(self, svm_name, fpr, tpr, auc_score, handwriting, balanced):
         assert isinstance(svm_name, list)
         assert isinstance(auc_score, list)
         xaxes = fpr + [[0, 1]]
@@ -127,14 +130,26 @@ class Plotter:
         colors = [None for _ in svm_name] + ["navy"]
         labels = ["{} (area = {:.4f})".format(svm_name, auc_score) for svm_name, auc_score in zip(svm_name, auc_score)] + [None]
         linestyles = [None for _ in svm_name] + ["--"]
-        self.simplePlot(Utils.BUILD_RESULTS_PATH(self._get_path_hand(handwriting), handwriting, "_".join(svm_name), "roc"),
-            xaxes, yaxes, colors, labels, None, linestyles, "False Positive Rate", "True Positive Rate", "Receiver Operating Characteristic - {}".format(handwriting.title()))
+        self.simplePlot(Utils.BUILD_RESULTS_PATH(self._get_path_hand(handwriting), handwriting, "_".join(svm_name),  self.get_desc("roc", balanced)),
+            xaxes, yaxes, colors, labels, None, linestyles, "False Positive Rate", "True Positive Rate", "Receiver Operating Characteristic - {}".format(Utils.prettify_name(handwriting)))
+
+
+    def plotFRRvsFPR(self, svm_name, thresholds, frr, fpr, handwriting, balanced):
+        xaxes = [thresholds, thresholds]
+        yaxes = [frr, fpr]
+        colors = ['darkorange', 'navy']
+        lws = [2, 2]
+        labels = ["FRR - {}".format(svm_name), "FPR - {}".format(svm_name)]
+        self.simplePlot(Utils.BUILD_RESULTS_PATH(self._get_path_hand(handwriting), handwriting, svm_name,  self.get_desc("frrVSfpr", balanced)),
+            xaxes, yaxes, colors, labels, lws, None, "Thresholds", "Errors Rate", "FRR vs FPR - {}".format(Utils.prettify_name(handwriting)), legendpos="upper center")
+
+
 
     def plotCMCs(self, svm_name, rank, cmcvalues, handwriting):
         assert isinstance(svm_name, list)
         labels = ["{} (rr = {:.4f})".format(s, r[1]) for s, r in zip(svm_name, cmcvalues)]
         self.simplePlot(Utils.BUILD_RESULTS_PATH(self._get_path_hand(handwriting), handwriting, "_".join(svm_name), "cmc"),
-            rank, cmcvalues, None, labels, None, None, "Rank", "Cms Values", "Cumulative Match Curve  - {}".format(handwriting.title()),
+            rank, cmcvalues, None, labels, None, None, "Rank", "Cms Values", "Cumulative Match Curve  - {}".format(Utils.prettify_name(handwriting)),
                         xscale=False,
                         yscale=False,
                         integer_x=True)
@@ -149,16 +164,6 @@ class Plotter:
                         xscale=False,
                         yscale=False,
                         integer_x=True)
-
-    def plotFRRvsFPR(self, svm_name, thresholds, frr, fpr, handwriting):
-        xaxes = [thresholds, thresholds]
-        yaxes = [frr, fpr]
-        colors = ['darkorange', 'navy']
-        lws = [2, 2]
-        labels = ["FRR - {}".format(svm_name), "FPR - {}".format(svm_name)]
-        self.simplePlot(Utils.BUILD_RESULTS_PATH(self._get_path_hand(handwriting), handwriting, svm_name, "frrVSfpr"),
-            xaxes, yaxes, colors, labels, lws, None, "Thresholds", "Errors Rate", "FRR vs FPR - {}".format(handwriting.title()), legendpos="upper center")
-
 
 class GifCreator:
 

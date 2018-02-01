@@ -49,8 +49,6 @@ SVM_LIST = [MOVEMENT, UP, DOWN, MAJORITY, AVERAGE, WEIGHTED_AVERAGE,
             XY_MOVEMENT, XY_UP, XY_DOWN, XY_MAJORITY, XY_AVERAGE, XY_WEIGHTED_AVERAGE,
             ALL_MAJORITY, ALL_AVERAGE, ALL_WEIGHTED_AVERAGE]
 
-
-
 MOVEMENT_WEIGHT = 0.75
 
 
@@ -130,7 +128,7 @@ class WordClassifier:
         X_train, X_test = WordClassifier.scale_features(xtrain, xtest)
         return X_train, X_test, y_train, y_test
 
-    def __init__(self, dataset_name, handwriting, test_size=0.3125, update_data=False, check_consistency=False):
+    def __init__(self, dataset_name, handwriting, test_size=0.3125, update_data=False, check_consistency=False, weight=MOVEMENT_WEIGHT):
         self.dataset_name = dataset_name
         self.handwriting = handwriting
 
@@ -160,7 +158,7 @@ class WordClassifier:
                 self.y_test = d
 
         self.svms = {}
-        self.mov_weight = MOVEMENT_WEIGHT
+        self.mov_weight = weight
 
         self.predict_functions = {
             MOVEMENT: lambda svms, xtest: svms[MOVEMENT].predict(xtest[MOVEMENT]),
@@ -243,37 +241,37 @@ class WordClassifier:
         if self.check_inconsistency:
             self.check_inconsistencies()
 
-    def predict(self, svm_name, x_test, mov_weight=MOVEMENT_WEIGHT):
+    def predict(self, svm_name, x_test, mov_weight):
         assert svm_name in self.predict_functions, "Predict function not valid"
         self.mov_weight = mov_weight
         fun = self.predict_functions[svm_name]
         return fun(self.svms, x_test)
 
-    def predict_proba(self, svm_name, x_test, mov_weight=MOVEMENT_WEIGHT):
+    def predict_proba(self, svm_name, x_test, mov_weight):
         assert svm_name in self.predict_proba_functions, "Predict proba function not valid"
         self.mov_weight = mov_weight
         fun = self.predict_proba_functions[svm_name]
         return fun(self.svms, x_test)
 
-    def verification_proba(self, svm_name, x_test, y_verify, y_true, mov_weight=MOVEMENT_WEIGHT):
-        assert svm_name in self.predict_proba_functions, "Predict proba function not valid"
+    def verification_proba(self, svm_name, x_test, y_verify, y_true, mov_weight):
+        assert svm_name in self.predict_proba_functions, "Predict proba function not valid {}".format(svm_name)
         assert len(y_verify) == len(y_true), "There must be an y to verify for each instance {} != {}".format(len(x_test), len(y_verify))
         assert not(svm_name in LEARNING_FROM) or len(x_test[svm_name]) == len(y_verify)
         self.mov_weight = mov_weight
         true_classes = []
         confidences = []
-        for x, y, t in zip(self.predict_proba(svm_name, x_test), y_verify, y_true):
+        for x, y, t in zip(self.predict_proba(svm_name, x_test, mov_weight), y_verify, y_true):
             true_classes.append(y == t)
             confidences.append(x[self.class_to_index(y)])
         return true_classes, confidences
 
-    def verification(self, svm_name, x_test, y_verify, y_true, treshold, mov_weight=MOVEMENT_WEIGHT):
+    def verification(self, svm_name, x_test, y_verify, y_true, treshold, mov_weight):
         assert svm_name in self.predict_proba_functions, "Predict proba function not valid"
         assert len(x_test[svm_name]) == len(y_verify), "There must be an y to verify for each instance {} != {}".format(
             len(x_test), len(y_verify))
         self.mov_weight = mov_weight
         return ([a == b for a, b in zip(y_verify, y_true)],
-                [x[self.class_to_index(y)] >= treshold for x, y in zip(self.predict_proba(svm_name, x_test), y_verify)])
+                [x[self.class_to_index(y)] >= treshold for x, y in zip(self.predict_proba(svm_name, x_test, mov_weight), y_verify)])
 
     def get_traindata(self):
         return self.X_train, self.y_train
