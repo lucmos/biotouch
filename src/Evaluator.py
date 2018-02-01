@@ -6,6 +6,7 @@ import src.Utils as Utils
 import numpy as np
 
 import src.Plotter as plotter
+import src.Chronometer as cr
 
 MOVEMENT_WEIGHT = lr.MOVEMENT_WEIGHT
 
@@ -135,6 +136,7 @@ if __name__ == '__main__':
     for handwriting in [Utils.ITALIC, Utils.BLOCK_LETTER]:
         classifier = lr.WordClassifier(Utils.DATASET_NAME_0, handwriting)
 
+        chrono = cr.Chrono("Generating verification outputs...")
         ver = VerificationEvaluator(classifier)
         for balanced in [True, False]:
             names, fprs, tprs, ts, aucs = ver.plots_info_weights(lr.WEIGHTED_AVERAGE, balanced, np.arange(0, 1.01, 0.2))
@@ -148,8 +150,9 @@ if __name__ == '__main__':
                 name, fpr, tpr, t, auc = ver.plot_info(svm, balanced)
                 p.plotRoc(name, fpr, tpr, auc, handwriting, balanced)
                 p.plotFRRvsFPR(name, t, ver.compute_fnr(tpr), fpr, handwriting, balanced)
+        chrono.end()
 
-
+        chrono = cr.Chrono("Generating identification outputs...")
         ide = IdentificationEvaluator(classifier)
         svm_names, ranks, values = ide.plots_info_weights(lr.WEIGHTED_AVERAGE, np.arange(0, 1.01, 0.2))
         p.plotCMCs(svm_names, ranks, values, handwriting)
@@ -161,3 +164,4 @@ if __name__ == '__main__':
         for svm in SVM_LIST:
             svm_name, rank, value = ide.plot_info(svm)
             p.plotCMC(svm_name, rank, value, handwriting)
+        chrono.end()

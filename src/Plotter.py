@@ -72,8 +72,6 @@ def get_word_data(dataframe, wordid_userid, user_data, wordid, name, surname, ha
 class Plotter:
     def __init__(self, dataset_name):
         self.dataset_name=dataset_name
-        set_ggplot_style()
-
         self.results_folder = Utils.BUILD_RESULTS_FOLDER(dataset_name)
 
     def _get_path_hand(self, modality, handwriting):
@@ -90,6 +88,8 @@ class Plotter:
         assert not labels or len(labels) == len(xaxes)
         assert not lws or len(lws) == len(xaxes)
         assert not linestyles or len(linestyles) == len(xaxes), "{}, {}".format(len(linestyles), len(xaxes))
+
+        set_ggplot_style()
 
         fig = plt.figure()
 
@@ -243,7 +243,6 @@ class ChartCreator:
 
     def __init__(self, dataset_name, dataframe, wordid_userid_dataframe, user_data_dataframe,
                  word_id=None, name=None, surname=None, handwriting=None, word_number=None, label=Utils.MOVEMENT_POINTS):
-        set_white_chart()
         self.word_dataframe, word_id = get_word_data(dataframe[label], wordid_userid_dataframe, user_data_dataframe, word_id,
                                             name, surname, handwriting, word_number)
         self.info = Utils.get_infos(wordid_userid_dataframe, user_data_dataframe, word_id)
@@ -258,6 +257,7 @@ class ChartCreator:
         self.title = get_title(self.info)
 
     def plot2dataframe(self, xaxes=Utils.X, yaxes=Utils.Y):
+        set_white_chart()
         path = Utils.BUILD_CHART2D_PATH(self.dataset_name, self.info[Utils.NAME], self.info[Utils.SURNAME],
                                         self.info[Utils.WORD_NUMBER], self.info[Utils.HANDWRITING], self.label)
         chrono = chronometer.Chrono("Plotting 2D Chart for: {}...".format(self.title))
@@ -289,6 +289,7 @@ class ChartCreator:
         chrono.end()
 
     def plot3dataframe(self, scaling_rates=None):
+        set_white_chart()
         chrono = chronometer.Chrono("Plotting 3D Charts for: {}...".format(self.title))
         maxv = max(self.word_dataframe[Utils.TIME])
         if not scaling_rates:

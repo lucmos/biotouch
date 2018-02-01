@@ -134,7 +134,7 @@ class WordClassifier:
         X_train, X_test = WordClassifier.scale_features(xtrain, xtest)
         return X_train, X_test, y_train, y_test
 
-    def __init__(self, dataset_name, handwriting, test_size=0.3125, update_data=False, check_consistency=False, weight=MOVEMENT_WEIGHT):
+    def __init__(self, dataset_name, handwriting, test_size=0.3125, update_data=False, check_consistency=False, weight=MOVEMENT_WEIGHT, autofit=True):
         self.dataset_name = dataset_name
         self.handwriting = handwriting
 
@@ -224,15 +224,16 @@ class WordClassifier:
             ALL_WEIGHTED_AVERAGE: lambda svms, xtest: self.weighted_average_proba(
                 [svms[x].predict_proba(xtest[x]) for x in [MOVEMENT, XY_MOVEMENT, UP, XY_UP, DOWN, XY_DOWN]])
         }
-        self.fit()
+        if autofit:
+            self.fit()
 
 
     def _initialize_svm(self):
         self.svms = {}
         for label in LEARNING_FROM:
             # self.svms[label] = sklearn.calibration.CalibratedClassifierCV(SVC(), cv=8)
-            # self.svms[label] = SVC(probability=True)
-            self.svms[label] = GridSearchCV(SVC(probability=True), TUNED_PARAMETERS, cv=CV, n_jobs=-1)
+            self.svms[label] = SVC(probability=True)
+            # self.svms[label] = GridSearchCV(SVC(probability=True), TUNED_PARAMETERS, cv=CV, n_jobs=-1)
 
             # todo esplora approcci ovo e ovr
 
