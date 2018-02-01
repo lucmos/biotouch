@@ -54,8 +54,8 @@ MOVEMENT_WEIGHT = 0.75
 
 
 # SVM TUNING
-TUNED_PARAMETERS = [{'kernel': ['rbf'], 'gamma': [0, 1e-1, 1e-2, 1e-3, 1e-4, 1e-5, 1e-6],
-                     'C': [0.1, 1, 10, 100, 500, 1000, 2500, 5000, 7500, 10000]}]
+TUNED_PARAMETERS = [{'kernel': ['rbf'], 'gamma': ['auto', 0, 1e-1, 1e-2, 1e-3, 1e-4, 1e-5, 1e-6],
+                     'C': [0.001, 0.1, 1, 10, 100, 500, 1000, 5000, 10000]}]
 CV = 5
 
 class WordClassifier:
@@ -232,8 +232,8 @@ class WordClassifier:
         self.svms = {}
         for label in LEARNING_FROM:
             # self.svms[label] = sklearn.calibration.CalibratedClassifierCV(SVC(), cv=8)
-            self.svms[label] = SVC(probability=True)
-            # self.svms[label] = GridSearchCV(SVC(probability=True), TUNED_PARAMETERS, cv=CV, n_jobs=-1)
+            # self.svms[label] = SVC(probability=True)
+            self.svms[label] = GridSearchCV(SVC(probability=True), TUNED_PARAMETERS, cv=CV, n_jobs=-1)
 
             # todo esplora approcci ovo e ovr
 
