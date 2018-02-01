@@ -91,7 +91,7 @@ class Plotter:
         assert not lws or len(lws) == len(xaxes)
         assert not linestyles or len(linestyles) == len(xaxes), "{}, {}".format(len(linestyles), len(xaxes))
 
-        plt.figure()
+        fig = plt.figure()
 
         for i, (x, y) in enumerate(zip(xaxes, yaxes)):
             plt.plot(x, y,
@@ -110,9 +110,9 @@ class Plotter:
         plt.ylabel(ylabel)
         plt.title(title)
         plt.legend(loc=legendpos)
-
         plt.savefig(path, dpi=400)
         # plt.show()
+        plt.close(fig)
 
     def plotRoc(self, svm_name, fpr, tpr, auc_score, handwriting, balanced):
         xaxes = [fpr] + [[0,1]]

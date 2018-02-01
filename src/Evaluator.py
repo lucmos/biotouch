@@ -146,6 +146,8 @@ if __name__ == '__main__':
 
             for svm in SVM_LIST:
                 name, fpr, tpr, t, auc = ver.plot_info(svm, balanced)
+                p.plotRoc(name, fpr, tpr, auc, handwriting, balanced)
+                p.plotFRRvsFPR(name, t, ver.compute_fnr(tpr), fpr, handwriting, balanced)
 
 
         ide = IdentificationEvaluator(classifier)
