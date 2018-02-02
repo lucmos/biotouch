@@ -114,17 +114,17 @@ class Plotter:
         # plt.show()
         plt.close(fig)
 
-    def plotRoc(self, svm_name, fpr, tpr, auc_score, handwriting, balanced):
+    def plotRoc(self, svm_name, fpr, tpr, auc_score, handwriting, balanced, pathname):
         xaxes = [fpr] + [[0,1]]
         yaxes = [tpr] + [[0,1]]
         colors = ['darkorange', 'navy']
         labels = ["{} (area = {:.4f})".format(svm_name, auc_score), None]
         linestyles = [None, "--"]
 
-        self.simplePlot(Utils.BUILD_RESULTS_PATH(self._get_path_hand(VERIFICATION, handwriting), handwriting, svm_name, self.get_desc("roc", balanced)),
+        self.simplePlot(Utils.BUILD_RESULTS_PATH(self._get_path_hand(VERIFICATION, handwriting), handwriting, pathname, self.get_desc("roc", balanced)),
             xaxes, yaxes, colors, labels, None, linestyles, "False Positive Rate", "True Positive Rate", "Receiver Operating Characteristic - {}".format(Utils.prettify_name(handwriting)))
 
-    def plotRocs(self, svm_name, fpr, tpr, auc_score, handwriting, balanced):
+    def plotRocs(self, svm_name, fpr, tpr, auc_score, handwriting, balanced, pathname):
         assert isinstance(svm_name, list)
         assert isinstance(auc_score, list)
         xaxes = fpr + [[0, 1]]
@@ -132,36 +132,36 @@ class Plotter:
         colors = [None for _ in svm_name] + ["navy"]
         labels = ["{} (area = {:.4f})".format(svm_name, auc_score) for svm_name, auc_score in zip(svm_name, auc_score)] + [None]
         linestyles = [None for _ in svm_name] + ["--"]
-        self.simplePlot(Utils.BUILD_RESULTS_PATH(self._get_path_hand(VERIFICATION, handwriting), handwriting, "_".join(svm_name),  self.get_desc("roc", balanced)),
+        self.simplePlot(Utils.BUILD_RESULTS_PATH(self._get_path_hand(VERIFICATION, handwriting), handwriting, pathname,  self.get_desc("roc", balanced)),
             xaxes, yaxes, colors, labels, None, linestyles, "False Positive Rate", "True Positive Rate", "Receiver Operating Characteristic - {}".format(Utils.prettify_name(handwriting)))
 
 
-    def plotFRRvsFPR(self, svm_name, thresholds, frr, fpr, handwriting, balanced):
+    def plotFRRvsFPR(self, svm_name, thresholds, frr, fpr, handwriting, balanced, pathname):
         xaxes = [thresholds, thresholds]
         yaxes = [frr, fpr]
         colors = ['darkorange', 'navy']
         lws = [2, 2]
         labels = ["FRR - {}".format(svm_name), "FPR - {}".format(svm_name)]
-        self.simplePlot(Utils.BUILD_RESULTS_PATH(self._get_path_hand(VERIFICATION, handwriting), handwriting, svm_name,  self.get_desc("frrVSfpr", balanced)),
+        self.simplePlot(Utils.BUILD_RESULTS_PATH(self._get_path_hand(VERIFICATION, handwriting), handwriting, pathname,  self.get_desc("frrVSfpr", balanced)),
             xaxes, yaxes, colors, labels, lws, None, "Thresholds", "Errors Rate", "FRR vs FPR - {}".format(Utils.prettify_name(handwriting)), legendpos="upper center")
 
 
 
-    def plotCMCs(self, svm_name, rank, cmcvalues, handwriting):
+    def plotCMCs(self, svm_name, rank, cmcvalues, handwriting, pathname):
         assert isinstance(svm_name, list)
         labels = ["{} (rr = {:.4f})".format(s, r[1]) for s, r in zip(svm_name, cmcvalues)]
-        self.simplePlot(Utils.BUILD_RESULTS_PATH(self._get_path_hand(IDENTIFICATION, handwriting), handwriting, "_".join(svm_name), "cmc"),
+        self.simplePlot(Utils.BUILD_RESULTS_PATH(self._get_path_hand(IDENTIFICATION, handwriting), handwriting, pathname, "cmc"),
             rank, cmcvalues, None, labels, None, None, "Rank", "Cms Values", "Cumulative Match Curve - {}".format(Utils.prettify_name(handwriting)),
                         xscale=False,
                         yscale=False,
                         integer_x=True)
 
-    def plotCMC(self, svm_name, rank, cmc_values, handwriting):
+    def plotCMC(self, svm_name, rank, cmc_values, handwriting, pathname):
         xaxes = [rank]
         yaxes = [cmc_values]
         colors = ['darkorange']
         labels = ["{} (rr = {:.4f})".format(svm_name, cmc_values[1])]
-        self.simplePlot(Utils.BUILD_RESULTS_PATH(self._get_path_hand(IDENTIFICATION, handwriting), handwriting, svm_name, "cmc"),
+        self.simplePlot(Utils.BUILD_RESULTS_PATH(self._get_path_hand(IDENTIFICATION, handwriting), handwriting, pathname, "cmc"),
             xaxes, yaxes, colors, labels, None, None, "Rank", "Cms Values", "Cumulative Match Curve - {}".format(handwriting.title()),
                         xscale=False,
                         yscale=False,

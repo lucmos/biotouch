@@ -10,11 +10,13 @@ import src.Chronometer as cr
 
 MOVEMENT_WEIGHT = lr.MOVEMENT_WEIGHT
 
-def generate_svm_name(svm_name,  w=MOVEMENT_WEIGHT):
+
+def generate_svm_name(svm_name, w=MOVEMENT_WEIGHT):
     name = svm_name
     if svm_name in [lr.WEIGHTED_AVERAGE, lr.XY_WEIGHTED_AVERAGE, lr.ALL_WEIGHTED_AVERAGE]:
         name += str(w)
     return name
+
 
 class VerificationEvaluator:
     def __init__(self, classifier):
@@ -38,7 +40,7 @@ class VerificationEvaluator:
         return fpr, tpr, thresholds
 
     def plot_info(self, svm_name, b, w=MOVEMENT_WEIGHT):
-        fpr, tpr, t = self.compute_fpr_tpr_thresholds(svm_name, b,  w)
+        fpr, tpr, t = self.compute_fpr_tpr_thresholds(svm_name, b, w)
         return generate_svm_name(svm_name, w), fpr, tpr, t, sklearn.metrics.auc(fpr, tpr)
 
     def plots_info_names(self, names, b, w=MOVEMENT_WEIGHT):
@@ -73,7 +75,7 @@ class VerificationEvaluator:
 
 
 class IdentificationEvaluator:
-    def __init__(self, classifier : lr.WordClassifier):
+    def __init__(self, classifier: lr.WordClassifier):
         self.classifier = classifier
 
     def cms_curve(self, svm_name, mov_weight=MOVEMENT_WEIGHT):
@@ -90,11 +92,11 @@ class IdentificationEvaluator:
                     cms_val_i += 1
 
             cms_values.append(cms_val_i / float(len(y_test)))
-        return list(range(0, len(classes)+1)), [0] + cms_values
+        return list(range(0, len(classes) + 1)), [0] + cms_values
 
     def plot_info(self, name, w=MOVEMENT_WEIGHT):
         rank, value = self.cms_curve(name, w)
-        return generate_svm_name(name, w),rank,value
+        return generate_svm_name(name, w), rank, value
 
     def plots_info_names(self, names, w=MOVEMENT_WEIGHT):
         svm_names = []
@@ -113,7 +115,7 @@ class IdentificationEvaluator:
         values = []
         for w in ws:
             svm_names.append(generate_svm_name(name, w))
-            rank, value =  self.cms_curve(name, w)
+            rank, value = self.cms_curve(name, w)
             ranks.append(rank)
             values.append(value)
         return svm_names, ranks, values
@@ -122,12 +124,15 @@ class IdentificationEvaluator:
 SVM_LIST = lr.SVM_LIST
 
 SVM_LIST_NOSHIFT = [lr.MOVEMENT, lr.UP, lr.DOWN, lr.MAJORITY, lr.AVERAGE, lr.WEIGHTED_AVERAGE]
-SVM_LIST_SHIFT = [lr.XY_MOVEMENT, lr.XY_UP, lr.XY_DOWN, lr.XY_MAJORITY, lr.XY_AVERAGE, lr.XY_WEIGHTED_AVERAGE,]
+SVM_LIST_SHIFT = [lr.XY_MOVEMENT, lr.XY_UP, lr.XY_DOWN, lr.XY_MAJORITY, lr.XY_AVERAGE, lr.XY_WEIGHTED_AVERAGE, ]
 
 SVM_LIST_COMP1 = [lr.MOVEMENT, lr.XY_MOVEMENT]
 SVM_LIST_COMP2 = [lr.MOVEMENT, lr.ALL_MAJORITY, lr.ALL_AVERAGE, lr.ALL_WEIGHTED_AVERAGE]
 
-TO_DO_TOGHETER = [SVM_LIST_NOSHIFT, SVM_LIST_SHIFT, SVM_LIST_COMP1, SVM_LIST_COMP2]
+TO_DO_TOGHETER = [(SVM_LIST_NOSHIFT, "setnoshift"),
+                  (SVM_LIST_SHIFT, "setshift"),
+                  (SVM_LIST_COMP1, "origshift"),
+                  (SVM_LIST_COMP2, "setall")]
 
 # todo: ottimizza evitando la ripetizione di calcoli
 if __name__ == '__main__':
@@ -140,28 +145,28 @@ if __name__ == '__main__':
         ver = VerificationEvaluator(classifier)
         for balanced in [True, False]:
             names, fprs, tprs, ts, aucs = ver.plots_info_weights(lr.WEIGHTED_AVERAGE, balanced, np.arange(0, 1.01, 0.2))
-            p.plotRocs(names, fprs, tprs, aucs, handwriting, balanced)
+            p.plotRocs(names, fprs, tprs, aucs, handwriting, balanced, "weights")
 
-            for svm_list in TO_DO_TOGHETER:
+            for svm_list, name in TO_DO_TOGHETER:
                 names, fprs, tprs, ts, aucs = ver.plots_info_names(svm_list, balanced)
-                p.plotRocs(names, fprs, tprs, aucs, handwriting, balanced)
+                p.plotRocs(names, fprs, tprs, aucs, handwriting, balanced, name)
 
             for svm in SVM_LIST:
                 name, fpr, tpr, t, auc = ver.plot_info(svm, balanced)
-                p.plotRoc(name, fpr, tpr, auc, handwriting, balanced)
-                p.plotFRRvsFPR(name, t, ver.compute_fnr(tpr), fpr, handwriting, balanced)
+                p.plotRoc(name, fpr, tpr, auc, handwriting, balanced, svm)
+                p.plotFRRvsFPR(name, t, ver.compute_fnr(tpr), fpr, handwriting, balanced, svm)
         chrono.end()
 
         chrono = cr.Chrono("Generating identification outputs...")
         ide = IdentificationEvaluator(classifier)
         svm_names, ranks, values = ide.plots_info_weights(lr.WEIGHTED_AVERAGE, np.arange(0, 1.01, 0.2))
-        p.plotCMCs(svm_names, ranks, values, handwriting)
+        p.plotCMCs(svm_names, ranks, values, handwriting, "weights")
 
-        for svm_list in TO_DO_TOGHETER:
+        for svm_list, name in TO_DO_TOGHETER:
             svm_names, ranks, values = ide.plots_info_names(svm_list)
-            p.plotCMCs(svm_names, ranks, values, handwriting)
+            p.plotCMCs(svm_names, ranks, values, handwriting, name)
 
         for svm in SVM_LIST:
             svm_name, rank, value = ide.plot_info(svm)
-            p.plotCMC(svm_name, rank, value, handwriting)
+            p.plotCMC(svm_name, rank, value, handwriting, svm)
         chrono.end()
