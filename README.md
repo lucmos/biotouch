@@ -1,7 +1,7 @@
 # Biotouch
 This system is able to recognize users from their writing style on a touchscreen.
 
-The dataset has been gathered trhought the use of the Biotouch [android application](https://github.com/LucaMoschella/Biotouch)
+The dataset has been gathered through the use of the Biotouch [android application](https://github.com/LucaMoschella/Biotouch)
 
 ![](outputs/output_Biotouch/pics/animation/word_rita_battilocchi_5_ITALIC_movementPoints_animation.gif)
 ![](outputs/output_Biotouch/pics/chart3D/charts_rita_battilocchi_5_ITALIC_movementPoints/animated.gif) 
