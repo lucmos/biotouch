@@ -162,7 +162,7 @@ class Plotter:
         colors = ['darkorange']
         labels = ["{} (rr = {:.4f})".format(svm_name, cmc_values[1])]
         self.simplePlot(Utils.BUILD_RESULTS_PATH(self._get_path_hand(IDENTIFICATION, handwriting), handwriting, pathname, "cmc"),
-            xaxes, yaxes, colors, labels, None, None, "Rank", "Cms Values", "Cumulative Match Curve - {}".format(handwriting.title()),
+            xaxes, yaxes, colors, labels, None, None, "Rank", "Cms Values", "Cumulative Match Curve - {}".format(Utils.prettify_name(handwriting)),
                         xscale=False,
                         yscale=False,
                         integer_x=True)
